@@ -1,6 +1,6 @@
-import logging
-from writer.writer import Writer
-from evaluator.evaluator import Evaluator
+from src.patterns.actor_critic.evaluate.evaluator import Evaluator
+from src.patterns.actor_critic.write.writer import Writer
+from src.config.logging import logger 
 
 class Router:
     def __init__(self, writer: Writer, evaluator: Evaluator) -> None:
@@ -13,7 +13,7 @@ class Router:
         self.writer = writer
         self.evaluator = evaluator
 
-    def route(self, input_data: str, cycle: int) -> (str, str):
+    def route(self, input_data: str, cycle: int):
         """
         Routes the data through the Writer and Evaluator, depending on the current cycle.
 
@@ -29,5 +29,5 @@ class Router:
             evaluation_status = self.evaluator.evaluate(processed_data, input_data)
             return processed_data, evaluation_status
         except Exception as e:
-            logging.error(f"Error in routing: {e}")
+            logger.error(f"Error in routing: {e}")
             return "", "error"

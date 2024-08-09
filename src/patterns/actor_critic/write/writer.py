@@ -1,5 +1,5 @@
-import logging
-from llm.mock_llm import mock_llm_response
+from src.patterns.actor_critic.llm.generate import mock_llm_response
+from src.config.logging import logger 
 
 class Writer:
     def process(self, input_data: str, task: str) -> str:
@@ -17,8 +17,8 @@ class Writer:
                 output_data = mock_llm_response(f"Revise the following blog: {input_data}")
             else:
                 output_data = input_data
-            logging.info(f"Writer ({task}): {output_data}")
+            logger.info(f"Writer ({task}): {output_data}")
             return output_data
         except Exception as e:
-            logging.error(f"Error in Writer process: {e}")
+            logger.error(f"Error in Writer process: {e}")
             return ""

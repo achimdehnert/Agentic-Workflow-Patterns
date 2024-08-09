@@ -1,4 +1,4 @@
-import logging
+from src.config.logging import logger 
 
 class Evaluator:
     def evaluate(self, input_data: str, original_data: str) -> str:
@@ -14,8 +14,8 @@ class Evaluator:
                 status = "approved"
             else:
                 status = "rejected"
-            logging.info(f"Evaluator: {status}")
+            logger.info(f"Evaluator: {status}")
             return status
         except Exception as e:
-            logging.error(f"Error in Evaluator evaluate: {e}")
+            logger.error(f"Error in Evaluator evaluate: {e}")
             return "error"
