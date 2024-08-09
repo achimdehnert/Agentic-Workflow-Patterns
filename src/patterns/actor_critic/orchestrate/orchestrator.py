@@ -1,6 +1,6 @@
-import logging
-from state_manager.state_manager import StateManager
-from router.router import Router
+from src.patterns.actor_critic.manage.state_manager import StateManager
+from src.patterns.actor_critic.route.router import Router
+from src.config.logging import logger 
 
 class Orchestrator:
     def __init__(self, state_manager: StateManager, router: Router) -> None:
@@ -22,20 +22,20 @@ class Orchestrator:
         """
         try:
             current_data = self.state_manager.state["data"] or "Write a blog post about AI advancements"
-            logging.info(f"Cycle {self.state_manager.state['cycles'] + 1}: Input data: {current_data}")
+            logger.info(f"Cycle {self.state_manager.state['cycles'] + 1}: Input data: {current_data}")
             
             # Route data through Writer and Evaluator
             processed_data, status = self.router.route(current_data, self.state_manager.state['cycles'])
-            logging.info(f"Cycle {self.state_manager.state['cycles'] + 1}: Processed data: {processed_data}, Status: {status}")
+            logger.info(f"Cycle {self.state_manager.state['cycles'] + 1}: Processed data: {processed_data}, Status: {status}")
             
             # Update state
             self.state_manager.update_state(processed_data, status)
 
             if self.state_manager.should_exit() or status == "approved":
-                logging.info("Exiting due to either maximum cycles reached or content approved.")
+                logger.info("Exiting due to either maximum cycles reached or content approved.")
                 return False
             return True
 
         except Exception as e:
-            logging.error(f"An error occurred during the orchestration cycle: {e}")
+            logger.error(f"An error occurred during the orchestration cycle: {e}")
             return False
