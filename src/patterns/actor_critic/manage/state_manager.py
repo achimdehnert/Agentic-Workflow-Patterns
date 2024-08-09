@@ -1,8 +1,10 @@
+from src.config.logging import logger
+from datetime import datetime 
+from typing import Dict
+from typing import Any
 import json
 import os
-from datetime import datetime
-from typing import Dict, Any
-import logging
+
 
 STATE_FILE = "state.json"
 MAX_CYCLES = 2
@@ -30,7 +32,7 @@ class StateManager:
             else:
                 return {"cycles": 0, "data": None, "status": "new"}
         except Exception as e:
-            logging.error(f"Error loading state: {e}")
+            logger.error(f"Error loading state: {e}")
             return {"cycles": 0, "data": None, "status": "new"}
 
     def save_state(self) -> None:
@@ -41,7 +43,7 @@ class StateManager:
             with open(self.state_file, "w") as file:
                 json.dump(self.state, file, indent=4)
         except Exception as e:
-            logging.error(f"Error saving state: {e}")
+            logger.error(f"Error saving state: {e}")
 
     def update_state(self, new_data: str, status: str) -> None:
         """
@@ -57,7 +59,7 @@ class StateManager:
             self.state["timestamp"] = datetime.now().isoformat()
             self.save_state()
         except Exception as e:
-            logging.error(f"Error updating state: {e}")
+            logger.error(f"Error updating state: {e}")
 
     def should_exit(self) -> bool:
         """
