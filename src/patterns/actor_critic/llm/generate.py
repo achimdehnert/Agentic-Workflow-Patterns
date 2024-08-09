@@ -1,8 +1,6 @@
-def mock_llm_response(input_data: str) -> str:
-    """
-    Mock response from an LLM for testing purposes.
+from src.config.logging import logger
+from src.config.setup import config
 
-    :param input_data: The input string to the LLM.
-    :return: A mocked response string.
-    """
-    return f"LLM Response to: {input_data}"
+
+class LLM():
+    pass
