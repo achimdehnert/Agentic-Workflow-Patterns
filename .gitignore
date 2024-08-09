@@ -6,6 +6,18 @@ __pycache__/
 # C extensions
 *.so
 
+# Venv 
+.agentic-workflow-patterns
+.agentic-workflow-patterns/
+
+# credentials 
+credentials
+credentials/
+
+# .DS_Store
+.DS_Store
+.DS_Store/
+
 # Distribution / packaging
 .Python
 build/
