@@ -1,9 +1,9 @@
 import logging
 import os
 
+
 def custom_path_filter(path):
-    # Define the project root name
-    project_root = "VertexAIDocExplorer"
+    project_root = "Agentic-Workflow-Patterns"
     
     # Find the index of the project root in the path
     idx = path.find(project_root)
@@ -11,6 +11,7 @@ def custom_path_filter(path):
         # Extract the portion of the path after the project root
         path = path[idx+len(project_root):]
     return path
+
 
 class CustomLogRecord(logging.LogRecord):
     def __init__(self, *args, **kwargs):
@@ -38,5 +39,6 @@ def setup_logger(log_filename="app.log", log_dir="logs"):
 
     # Return the configured logger
     return logging.getLogger()
+
 
 logger = setup_logger()

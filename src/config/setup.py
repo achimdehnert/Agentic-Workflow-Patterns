@@ -29,7 +29,6 @@ class _Config:
         self.__config = self._load_config(config_path)
         self.PROJECT_ID = self.__config['project_id']
         self.REGION = self.__config['region']
-        self.BUCKET = self.__config['bucket']
         self.CREDENTIALS_PATH = self.__config['credentials_json']
         self._set_google_credentials(self.CREDENTIALS_PATH)
         self.TEXT_GEN_MODEL_NAME = self.__config['text_gen_model_name']
