@@ -6,7 +6,6 @@ from vertexai.generative_models import HarmCategory
 from vertexai.generative_models import Part
 from src.config.logging import logger
 from src.config.setup import config
-from string import Template
 from typing import Optional
 from typing import List
 from typing import Dict 
