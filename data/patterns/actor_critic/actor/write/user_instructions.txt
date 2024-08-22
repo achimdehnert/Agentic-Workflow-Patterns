@@ -1,0 +1,2 @@
+Write a one-page academic article on {} and its significance in training large language models, suitable for graduate students and AI researchers. 
+Balance technical depth with clarity.

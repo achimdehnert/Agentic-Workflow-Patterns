@@ -24,3 +24,7 @@ $ pip install -r requirements.txt
 
 to disable pycache 
 export PYTHONDONTWRITEBYTECODE=1
+
+
+
+export PYTHONPATH=$PYTHONPATH:.
