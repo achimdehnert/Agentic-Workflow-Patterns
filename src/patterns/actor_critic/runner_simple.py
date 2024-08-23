@@ -2,6 +2,8 @@ from src.config.logging import logger
 from collections import OrderedDict
 from src.patterns.actor_critic.generate.generator import generate_draft
 from src.patterns.actor_critic.generate.generator import review_draft
+from src.patterns.actor_critic.generate.generator import revise_draft
+from src.patterns.actor_critic.generate.generator import revise_review
 
 
 history = OrderedDict()
@@ -62,15 +64,23 @@ def history_to_markdown(history: OrderedDict) -> str:
     
     return ''.join(markdown)
 
+history_md = None
 
 for cycle in range(NUM_CYCLES):
     if cycle == 0:
         initial_draft = generate_draft(topic=topic)
-        history["Initial Draft"] = initial_draft
+        history["Initial Draft v{cycle}"] = initial_draft
         intial_review = review_draft(initial_draft)
         history["Initial Review"] = intial_review
+        history_md = history_to_markdown(history)
     else:
-        pass
+        revised_draft = revise_draft(history=history_md)
+        
+        history['Revised Draft v{cycle}'] = revised_draft
+        history_md = history_to_markdown(history)
+        revised_review = revise_review(history=history_md)
+        history['Revised Review v{cycle}'] = revised_review 
+
 
 history = history_to_markdown(history)
 print(history)
