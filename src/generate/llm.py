@@ -111,12 +111,12 @@ def load_and_fill_template(template_path: str, topic: str) -> str:
     try:
         with open(template_path, 'r') as file:
             template_content = file.read()
-            logger.info(f"Loaded template content: {template_content}")
+            # logger.info(f"Loaded template content: {template_content}")
             
             # Replace all occurrences of '{}' with the topic
             filled_template = template_content.replace("{}", topic)
             
-            logger.info(f"Filled template content: {filled_template}")
+            # logger.info(f"Filled template content: {filled_template}")
             return filled_template
     except FileNotFoundError as e:
         logger.error(f"Template file not found: {e}")
@@ -140,12 +140,12 @@ def load_and_fill_template2(template_path: str, article: str) -> str:
     try:
         with open(template_path, 'r') as file:
             template_content = file.read()
-            logger.info(f"Loaded template content: {template_content}")
+            #logger.info(f"Loaded template content: {template_content}")
             
             # Replace all occurrences of '{}' with the topic
             filled_template = template_content.replace("{}", article)
             
-            logger.info(f"Filled template content: {filled_template}")
+            #logger.info(f"Filled template content: {filled_template}")
             return filled_template
     except FileNotFoundError as e:
         logger.error(f"Template file not found: {e}")

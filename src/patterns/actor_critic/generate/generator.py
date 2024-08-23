@@ -86,7 +86,7 @@ def review_draft(article: str) -> dict:
 
 if __name__ == "__main__":
     try:
-        article = generate_draft('perplexity')
+        article = generate_draft('fscore')
         logger.info("Generated Article: %s", article)
         print("Generated Article:")
         print(json.dumps(article, indent=4))
