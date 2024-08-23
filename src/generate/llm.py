@@ -114,7 +114,7 @@ def load_and_fill_template(template_path: str, topic: str) -> str:
             # logger.info(f"Loaded template content: {template_content}")
             
             # Replace all occurrences of '{}' with the topic
-            filled_template = template_content.replace("{}", topic)
+            filled_template = template_content.replace("{topic}", topic)
             
             # logger.info(f"Filled template content: {filled_template}")
             return filled_template
@@ -143,7 +143,7 @@ def load_and_fill_template2(template_path: str, article: str) -> str:
             #logger.info(f"Loaded template content: {template_content}")
             
             # Replace all occurrences of '{}' with the topic
-            filled_template = template_content.replace("{}", article)
+            filled_template = template_content.replace("{article}", article)
             
             #logger.info(f"Filled template content: {filled_template}")
             return filled_template
@@ -173,7 +173,7 @@ def load_and_fill_template3(template_path: str, history: str) -> str:
             #logger.info(f"Loaded template content: {template_content}")
             
             # Replace all occurrences of '{}' with the topic
-            filled_template = template_content.replace("{}", history)
+            filled_template = template_content.replace("{history}", history)
             
             #logger.info(f"Filled template content: {filled_template}")
             return filled_template
