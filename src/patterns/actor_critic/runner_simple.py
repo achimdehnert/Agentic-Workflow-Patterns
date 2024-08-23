@@ -58,7 +58,7 @@ def history_to_markdown(history: OrderedDict) -> str:
             markdown.append(f"```\n{dict_to_markdown(value)}\n```")
         else:
             markdown.append(f"```\n{value}\n```")
-        markdown.append("\n")  # Add a new line between entries
+        markdown.append("\n")  
     
     return ''.join(markdown)
 

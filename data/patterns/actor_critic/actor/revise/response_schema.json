@@ -1,15 +1,15 @@
 {
-    "type": "object",
-    "properties": {
-      "topic": {
-        "type": "string"
-      },
-      "article": {
-        "type": "string"
-      }, 
-      "edits": {
-        "type": "string"
-      }
+  "type": "object",
+  "properties": {
+    "topic": {
+      "type": "string"
     },
-    "required": ["topic", "article", "edits"]
-  }
+    "article": {
+      "type": "string"
+    }, 
+    "edits": {
+      "type": "string"
+    }
+  },
+  "required": ["topic", "article", "edits"]
+}

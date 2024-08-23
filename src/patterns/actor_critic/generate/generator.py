@@ -2,6 +2,7 @@ from vertexai.generative_models import GenerativeModel
 from src.generate.llm import (
     load_and_fill_template,
     load_and_fill_template2,
+    load_and_fill_template3,
     load_template,
     generate_response,
     load_json,
@@ -84,8 +85,41 @@ def review_draft(article: str) -> dict:
         raise
 
 
-def revise_draft(article):
-    return 'revised'
+def revise_draft(history):
+    logger.info('start revise for draft')
+    system_instruction = load_template('./data/patterns/actor_critic/actor/revise/system_instructions.txt')
+    user_instruction = load_and_fill_template3(
+        './data/patterns/actor_critic/actor/revise/user_instructions.txt', history=history
+    )
+    response_schema = load_json('./data/patterns/actor_critic/actor/revise/response_schema.json')
+    if response_schema is None:
+        raise ValueError("Response schema could not be loaded.")
+
+    model = GenerativeModel(config.TEXT_GEN_MODEL_NAME, system_instruction=system_instruction)
+    contents = [user_instruction]
+    response = generate_response(model, contents, response_schema)
+    logger.info("Revise draft successful.")
+    return response
+
+
+
+
+
+def revise_review(history):
+    logger.info('start revise for review')
+    system_instruction = load_template('./data/patterns/actor_critic/critic/revise/system_instructions.txt')
+    user_instruction = load_and_fill_template3(
+        './data/patterns/actor_critic/critic/revise/user_instructions.txt', history=history
+    )
+    response_schema = load_json('./data/patterns/actor_critic/critic/revise/response_schema.json')
+    if response_schema is None:
+        raise ValueError("Response schema could not be loaded.")
+
+    model = GenerativeModel(config.TEXT_GEN_MODEL_NAME, system_instruction=system_instruction)
+    contents = [user_instruction]
+    response = generate_response(model, contents, response_schema)
+    logger.info("Revise review successful.")
+    return response
 
 
 if __name__ == "__main__":
