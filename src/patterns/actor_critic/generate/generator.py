@@ -6,7 +6,7 @@ from src.config.logging import logger
 from src.config.setup import config
 
 
-def generate_draft() -> None:
+def generate_draft(topic: str) -> None:
     """
     Generate and save content using a generative model based on a given topic.
 
@@ -15,7 +15,6 @@ def generate_draft() -> None:
     """
     try:
         logger.info("Starting LLM extraction")
-        topic = "perplexity"
         system_instruction = load_and_fill_template('./data/patterns/actor_critic/actor/write/system_instructions.txt', topic)
         print(system_instruction)
         user_instruction = load_and_fill_template('./data/patterns/actor_critic/actor/write/user_instructions.txt', topic)
@@ -32,7 +31,16 @@ def generate_draft() -> None:
         raise
 
 def review_draft() -> None:
-    pass
+    system_instruction = load_and_fill_template('./data/patterns/actor_critic/actor/write/system_instructions.txt', topic)
+    user_instruction = load_and_fill_template('./data/patterns/actor_critic/actor/write/user_instructions.txt', topic)
+    response_schema = load_json('./data/patterns/actor_critic/actor/write/response_schema.json')
+    if response_schema is None:
+        raise ValueError("Response schema could not be loaded.")
+    
+    model = GenerativeModel(config.TEXT_GEN_MODEL_NAME, system_instruction=system_instruction)
+    contents = [user_instruction]
+    response = generate_response(model, contents, response_schema)
+    print(response['article'])
 
 if __name__ == "__main__":
     pass
