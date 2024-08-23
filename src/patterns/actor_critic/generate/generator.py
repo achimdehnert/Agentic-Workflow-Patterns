@@ -84,6 +84,10 @@ def review_draft(article: str) -> dict:
         raise
 
 
+def revise_draft(article):
+    return 'revised'
+
+
 if __name__ == "__main__":
     try:
         article = generate_draft('fscore')

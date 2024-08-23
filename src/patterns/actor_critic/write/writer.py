@@ -1,4 +1,5 @@
-from src.patterns.actor_critic.llm.generate import mock_llm_response
+from src.patterns.actor_critic.generate.generator import generate_draft 
+from src.patterns.actor_critic.generate.generator import revise_draft
 from src.config.logging import logger 
 
 class Writer:
@@ -11,12 +12,10 @@ class Writer:
         :return: The processed data.
         """
         try:
-            if task == "blog":
-                output_data = mock_llm_response(f"Create a blog post on: {input_data}")
+            if task == "draft":
+                output_data = generate_draft(f"Create a blog post on: {input_data}")
             elif task == "revise":
-                output_data = mock_llm_response(f"Revise the following blog: {input_data}")
-            else:
-                output_data = input_data
+                output_data = revise_draft(f"Revise the following blog: {input_data}")
             logger.info(f"Writer ({task}): {output_data}")
             return output_data
         except Exception as e:
