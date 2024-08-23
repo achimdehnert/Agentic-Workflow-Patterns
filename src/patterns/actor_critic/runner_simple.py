@@ -7,8 +7,6 @@ from src.patterns.actor_critic.generate.generator import review_draft
 history = OrderedDict()
 
 
-
-
 NUM_CYCLES = 2 
 
 
@@ -40,6 +38,7 @@ def dict_to_markdown(data: dict, indent_level: int = 0) -> str:
             markdown.append(f"{indent}- **{key.capitalize()}**: {value}\n")
 
     return ''.join(markdown)
+
 
 def history_to_markdown(history: OrderedDict) -> str:
     """
