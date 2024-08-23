@@ -27,12 +27,12 @@ def generate_draft(topic: str) -> str:
     try:
         logger.info("Starting LLM extraction for topic: %s", topic)
         system_instruction = load_and_fill_template(
-            './data/patterns/actor_critic/actor/write/system_instructions.txt', topic
+            './data/patterns/actor_critic/actor/draft/system_instructions.txt', topic
         )
         user_instruction = load_and_fill_template(
-            './data/patterns/actor_critic/actor/write/user_instructions.txt', topic
+            './data/patterns/actor_critic/actor/draft/user_instructions.txt', topic
         )
-        response_schema = load_json('./data/patterns/actor_critic/actor/write/response_schema.json')
+        response_schema = load_json('./data/patterns/actor_critic/actor/draft/response_schema.json')
 
         if response_schema is None:
             raise ValueError("Response schema could not be loaded.")
