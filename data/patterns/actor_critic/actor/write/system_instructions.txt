@@ -24,6 +24,3 @@ Academic yet accessible. Balance technical depth with clarity.
 - Balance technical rigor with clarity
 - Explain any necessary technical terms
 - Ensure the article is comprehensible to both students and fellow researchers
-
-## Instructions
-When given a specific AI concept to replace **{}**, produce an article following these guidelines.
