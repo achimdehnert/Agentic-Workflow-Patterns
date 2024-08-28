@@ -1,11 +1,9 @@
-from src.patterns.actor_critic.generate.generator import generate_draft
-from src.patterns.actor_critic.generate.generator import revise_review
-from src.patterns.actor_critic.generate.generator import review_draft
-from src.patterns.actor_critic.generate.generator import revise_draft
+import os
+import json
+from src.patterns.actor_critic.generate.generator import generate_draft, review_draft, revise_draft, revise_review
 from src.config.logging import logger
 from collections import OrderedDict
-from typing import Dict
-from typing import Any 
+from typing import Dict, Any
 
 
 class HistoryManager:
@@ -40,9 +38,9 @@ class HistoryManager:
         for key, value in self.history.items():
             markdown.append(f"### {key}\n")
             if isinstance(value, dict):
-                markdown.append(f"```\n{self.dict_to_markdown(value)}\n```")
+                markdown.append(f"\n{self.dict_to_markdown(value)}\n")
             else:
-                markdown.append(f"```\n{value}\n```")
+                markdown.append(f"\n{value}\n")
             markdown.append("\n")  
 
         return ''.join(markdown)
@@ -83,11 +81,12 @@ class HistoryManager:
 
 class DraftManager:
     """
-    Handles the creation, review, and revision of drafts.
+    Handles the creation, review, and revision of drafts, including saving them to files.
     """
 
     def __init__(self, topic: str):
         self.topic = topic
+        self.base_path = "./data/patterns/actor_critic/output"
 
     def generate_initial_draft(self) -> str:
         """
@@ -97,7 +96,9 @@ class DraftManager:
             str: The generated draft.
         """
         try:
-            return generate_draft(topic=self.topic)
+            draft = generate_draft(topic=self.topic)
+            self.save_to_file(draft, "draft", 0)
+            return draft
         except Exception as e:
             logger.error(f"Failed to generate initial draft: {e}")
             raise
@@ -113,41 +114,74 @@ class DraftManager:
             str: The review of the draft.
         """
         try:
-            return review_draft(draft)
+            review = review_draft(draft)
+            self.save_to_file(review, "feedback", 0)
+            return review
         except Exception as e:
             logger.error(f"Failed to review draft: {e}")
             raise
 
-    def revise_draft(self, history: str) -> str:
+    def revise_draft(self, history: str, version: int) -> str:
         """
         Revise the draft based on the history.
         
         Args:
             history (str): The history in Markdown format.
+            version (int): The version number of the draft.
         
         Returns:
             str: The revised draft.
         """
         try:
-            return revise_draft(history=history)
+            revised_draft = revise_draft(history=history)
+            self.save_to_file(revised_draft, "draft", version)
+            return revised_draft
         except Exception as e:
             logger.error(f"Failed to revise draft: {e}")
             raise
 
-    def revise_review(self, history: str) -> str:
+    def revise_review(self, history: str, version: int) -> str:
         """
         Revise the review based on the history.
         
         Args:
             history (str): The history in Markdown format.
+            version (int): The version number of the review.
         
         Returns:
             str: The revised review.
         """
         try:
-            return revise_review(history=history)
+            revised_review = revise_review(history=history)
+            self.save_to_file(revised_review, "feedback", version)
+            return revised_review
         except Exception as e:
             logger.error(f"Failed to revise review: {e}")
+            raise
+
+    def save_to_file(self, content: Any, content_type: str, version: int) -> None:
+        """
+        Save content to a file under the specified directory and name it with the given version.
+        
+        Args:
+            content (Any): The content to save. If it is a dict, it will be converted to a string.
+            content_type (str): The type of content, either 'draft' or 'feedback'.
+            version (int): The version number of the content.
+        """
+        try:
+            directory = os.path.join(self.base_path, content_type)
+            os.makedirs(directory, exist_ok=True)
+            file_path = os.path.join(directory, f"v{version}.txt")
+
+            if isinstance(content, dict):
+                content = json.dumps(content, indent=4)  # Convert dict to a formatted string
+
+            with open(file_path, "w") as file:
+                file.write(content)
+
+            logger.info(f"Saved {content_type} v{version} to {file_path}")
+        except Exception as e:
+            logger.error(f"Failed to save {content_type} v{version}: {e}")
             raise
 
 
@@ -197,10 +231,10 @@ class ActorCriticPipeline:
         Args:
             cycle (int): The current cycle number.
         """
-        revised_draft = self.draft_manager.revise_draft(self.history_manager.history_md)
+        revised_draft = self.draft_manager.revise_draft(self.history_manager.history_md, cycle)
         self.history_manager.add_entry(f"Revised Draft v{cycle}", revised_draft)
         
-        revised_review = self.draft_manager.revise_review(self.history_manager.history_md)
+        revised_review = self.draft_manager.revise_review(self.history_manager.history_md, cycle)
         self.history_manager.add_entry(f"Revised Review v{cycle}", revised_review)
 
 
