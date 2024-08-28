@@ -1,13 +1,8 @@
 from vertexai.generative_models import GenerativeModel
-from src.generate.llm import (
-    load_and_fill_template,
-    load_and_fill_template2,
-    load_and_fill_template3,
-    load_template,
-    generate_response,
-    load_json,
-)
+from src.llm.model import generate_response
+from src.llm.model import load_template
 from src.config.logging import logger
+from src.llm.model import load_json
 from src.config.setup import config
 import json
 
