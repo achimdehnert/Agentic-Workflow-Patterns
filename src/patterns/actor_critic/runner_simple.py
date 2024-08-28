@@ -1,10 +1,14 @@
-import os
-import json
-from src.patterns.actor_critic.generate.generator import generate_draft, review_draft, revise_draft, revise_review
+
+from patterns.actor_critic.generator import generate_draft
+from patterns.actor_critic.generator import revise_review
+from patterns.actor_critic.generator import review_draft
+from patterns.actor_critic.generator import revise_draft
 from src.config.logging import logger
 from collections import OrderedDict
-from typing import Dict, Any
-
+from typing import Dict
+from typing import Any
+import json
+import os
 
 class HistoryManager:
     """

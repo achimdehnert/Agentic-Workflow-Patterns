@@ -1,5 +1,5 @@
-from src.patterns.actor_critic.generate.generator import generate_draft 
-from src.patterns.actor_critic.generate.generator import revise_draft
+from patterns.actor_critic.generator import generate_draft 
+from patterns.actor_critic.generator import revise_draft
 from src.config.logging import logger 
 
 class Writer:
