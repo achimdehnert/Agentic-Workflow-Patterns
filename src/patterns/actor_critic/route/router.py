@@ -1,4 +1,4 @@
-from src.patterns.actor_critic.evaluate.evaluator import Evaluator
+from patterns.actor_critic.critic import Evaluator
 from src.patterns.actor_critic.write.writer import Writer
 from src.config.logging import logger 
 
