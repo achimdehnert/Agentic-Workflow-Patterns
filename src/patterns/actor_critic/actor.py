@@ -1,4 +1,7 @@
+from src.patterns.actor_critic.generate import generate_draft
+from src.patterns.actor_critic.generate import revise_draft
 from src.config.logging import logger
+from typing import Any 
 import json  
 import os 
 
@@ -45,4 +48,29 @@ class Actor:
             return revised_draft
         except Exception as e:
             logger.error(f"Failed to revise draft: {e}")
+            raise
+
+    def save_to_file(self, content: Any, content_type: str, version: int) -> None:
+        """
+        Save content to a file under the specified directory and name it with the given version.
+
+        Args:
+            content (Any): The content to save. If it is a dict, it will be converted to a string.
+            content_type (str): The type of content, either 'draft' or 'feedback'.
+            version (int): The version number of the content.
+        """
+        try:
+            directory = os.path.join(self.base_path, content_type)
+            os.makedirs(directory, exist_ok=True)
+            file_path = os.path.join(directory, f"v{version}.txt")
+
+            if isinstance(content, dict):
+                content = json.dumps(content, indent=4)  # Convert dict to a formatted string
+
+            with open(file_path, "w") as file:
+                file.write(content)
+
+            logger.info(f"Saved {content_type} v{version} to {file_path}")
+        except Exception as e:
+            logger.error(f"Failed to save {content_type} v{version}: {e}")
             raise

@@ -1,6 +1,7 @@
 from vertexai.generative_models import GenerativeModel
+from src.prompt.template import load_and_fill_template
+from src.prompt.template import load_template
 from src.llm.model import generate_response
-from src.llm.model import load_template
 from src.config.logging import logger
 from src.llm.model import load_json
 from src.config.setup import config
@@ -61,7 +62,7 @@ def review_draft(article: str) -> dict:
     try:
         logger.info("Starting review process for the generated article.")
         system_instruction = load_template('./data/patterns/actor_critic/critic/review/system_instructions.txt')
-        user_instruction = load_and_fill_template2(
+        user_instruction = load_and_fill_template(
             './data/patterns/actor_critic/critic/review/user_instructions.txt', article=article
         )
         response_schema = load_json('./data/patterns/actor_critic/critic/review/response_schema.json')
@@ -83,7 +84,7 @@ def review_draft(article: str) -> dict:
 def revise_draft(history):
     logger.info('start revise for draft')
     system_instruction = load_template('./data/patterns/actor_critic/actor/revise/system_instructions.txt')
-    user_instruction = load_and_fill_template3(
+    user_instruction = load_and_fill_template(
         './data/patterns/actor_critic/actor/revise/user_instructions.txt', history=history
     )
     response_schema = load_json('./data/patterns/actor_critic/actor/revise/response_schema.json')
@@ -103,7 +104,7 @@ def revise_draft(history):
 def revise_review(history):
     logger.info('start revise for review')
     system_instruction = load_template('./data/patterns/actor_critic/critic/revise/system_instructions.txt')
-    user_instruction = load_and_fill_template3(
+    user_instruction = load_and_fill_template(
         './data/patterns/actor_critic/critic/revise/user_instructions.txt', history=history
     )
     response_schema = load_json('./data/patterns/actor_critic/critic/revise/response_schema.json')
