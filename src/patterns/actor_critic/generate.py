@@ -24,10 +24,10 @@ def generate_draft(topic: str) -> str:
     try:
         logger.info("Starting LLM extraction for topic: %s", topic)
         system_instruction = load_and_fill_template(
-            './data/patterns/actor_critic/actor/draft/system_instructions.txt', topic
+            './data/patterns/actor_critic/actor/draft/system_instructions.txt', topic=topic
         )
         user_instruction = load_and_fill_template(
-            './data/patterns/actor_critic/actor/draft/user_instructions.txt', topic
+            './data/patterns/actor_critic/actor/draft/user_instructions.txt', topic=topic
         )
         response_schema = load_json('./data/patterns/actor_critic/actor/draft/response_schema.json')
 
