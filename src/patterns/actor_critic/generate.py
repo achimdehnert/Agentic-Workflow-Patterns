@@ -3,7 +3,7 @@ from src.prompt.template import load_and_fill_template
 from src.prompt.template import load_template
 from src.llm.model import generate_response
 from src.config.logging import logger
-from src.llm.model import load_json
+from src.utils.io import load_json
 from src.config.setup import config
 import json
 
