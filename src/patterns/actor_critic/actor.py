@@ -26,3 +26,23 @@ class Actor:
         except Exception as e:
             logger.error(f"Failed to generate initial draft: {e}")
             raise
+
+
+    def revise_draft(self, history: str, version: int) -> str:
+        """
+        Revise the draft based on the history.
+        
+        Args:
+            history (str): The history in Markdown format.
+            version (int): The version number of the draft.
+        
+        Returns:
+            str: The revised draft.
+        """
+        try:
+            revised_draft = revise_draft(history=history)
+            self.save_to_file(revised_draft, "draft", version)
+            return revised_draft
+        except Exception as e:
+            logger.error(f"Failed to revise draft: {e}")
+            raise
