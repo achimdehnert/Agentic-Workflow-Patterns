@@ -1,7 +1,26 @@
 from src.config.logging import logger
-
+from src.utils.io import load_yaml
+from typing import Dict, Any
 
 class TemplateManager:
+    def __init__(self, config_path: str):
+        self.config = load_yaml(config_path)
+
+    def create_template(self, role: str, action: str) -> Dict[str, str]:
+        try:
+            template_config = self.config[role][action]
+            return {
+                'system': self.load_template(template_config['system_instructions']),
+                'user': self.load_template(template_config['user_instructions']),
+                'schema': load_yaml(template_config['response_schema'])
+            }
+        except KeyError as e:
+            logger.error(f"Invalid role or action in template configuration: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Error creating template: {e}")
+            raise
+
     @staticmethod
     def load_template(template_path: str) -> str:
         try:
@@ -20,16 +39,8 @@ class TemplateManager:
             filled_template = template_content
             for key, value in kwargs.items():
                 placeholder = f"{{{key}}}"
-                filled_template = filled_template.replace(placeholder, value)
+                filled_template = filled_template.replace(placeholder, str(value))
             return filled_template
         except Exception as e:
             logger.error(f"Error filling template: {e}")
-            raise
-
-    def load_and_fill_template(self, template_path: str, **kwargs) -> str:
-        try:
-            template_content = self.load_template(template_path)
-            return self.fill_template(template_content, **kwargs)
-        except Exception as e:
-            logger.error(f"Error loading and filling template: {e}")
             raise

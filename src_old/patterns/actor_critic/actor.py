@@ -1,76 +1,54 @@
-from src.patterns.actor_critic.actor import generate_draft
-from src.patterns.actor_critic.actor import revise_draft
+from src.llm.generate import ResponseGenerator
+from src.prompt.manage import TemplateManager
+from src.utils.io import save_to_disk
 from src.config.logging import logger
-from typing import Any 
-import json  
-import os 
+from abc import ABC, abstractmethod
 
+class ContentGenerator(ABC):
+    @abstractmethod
+    def generate(self, **kwargs) -> str:
+        pass
+
+class DraftGenerator(ContentGenerator):
+    def generate(self, template_manager: TemplateManager, response_generator: ResponseGenerator, topic: str) -> str:
+        template = template_manager.create_template('actor', 'draft')
+        system_instruction = template_manager.fill_template(template['system'], topic=topic)
+        user_instruction = template_manager.fill_template(template['user'], topic=topic)
+        return response_generator.generate_response(system_instruction, [user_instruction], template['schema'])
+
+class RevisionGenerator(ContentGenerator):
+    def generate(self, template_manager: TemplateManager, response_generator: ResponseGenerator, history: str) -> str:
+        template = template_manager.create_template('actor', 'revise')
+        system_instruction = template['system']
+        user_instruction = template_manager.fill_template(template['user'], history=history)
+        return response_generator.generate_response(system_instruction, [user_instruction], template['schema'])
 
 class Actor:
-    """
-    Handles the creation, review, and revision of drafts, including saving them to files.
-    """
-
-    def __init__(self, topic: str):
+    def __init__(self, topic: str, base_path: str, config_path: str):
         self.topic = topic
-        self.base_path = "./data/patterns/actor_critic/output"
+        self.base_path = base_path
+        self.response_generator = ResponseGenerator()
+        self.template_manager = TemplateManager(config_path)
+
+    def _generate_content(self, generator: ContentGenerator, **kwargs) -> str:
+        return generator.generate(template_manager=self.template_manager, 
+                                  response_generator=self.response_generator, 
+                                  **kwargs)
 
     def generate_initial_draft(self) -> str:
-        """
-        Generate the initial draft for the given topic.
-        
-        Returns:
-            str: The generated draft.
-        """
         try:
-            draft = generate_draft(topic=self.topic)
-            self.save_to_file(draft, "draft", 0)
-            return draft
+            draft = self._generate_content(DraftGenerator(), topic=self.topic)
+            save_to_disk(draft, "draft", 0, self.base_path)
+            return draft['article']
         except Exception as e:
-            logger.error(f"Failed to generate initial draft: {e}")
+            logger.error(f"Error generating initial draft: {e}")
             raise
-
 
     def revise_draft(self, history: str, version: int) -> str:
-        """
-        Revise the draft based on the history.
-        
-        Args:
-            history (str): The history in Markdown format.
-            version (int): The version number of the draft.
-        
-        Returns:
-            str: The revised draft.
-        """
         try:
-            revised_draft = revise_draft(history=history)
-            self.save_to_file(revised_draft, "draft", version)
-            return revised_draft
+            revised_draft = self._generate_content(RevisionGenerator(), history=history)
+            save_to_disk(revised_draft, "draft", version, self.base_path)
+            return revised_draft['article']
         except Exception as e:
-            logger.error(f"Failed to revise draft: {e}")
-            raise
-
-    def save_to_file(self, content: Any, content_type: str, version: int) -> None:
-        """
-        Save content to a file under the specified directory and name it with the given version.
-
-        Args:
-            content (Any): The content to save. If it is a dict, it will be converted to a string.
-            content_type (str): The type of content, either 'draft' or 'feedback'.
-            version (int): The version number of the content.
-        """
-        try:
-            directory = os.path.join(self.base_path, content_type)
-            os.makedirs(directory, exist_ok=True)
-            file_path = os.path.join(directory, f"v{version}.txt")
-
-            if isinstance(content, dict):
-                content = json.dumps(content, indent=4)  # Convert dict to a formatted string
-
-            with open(file_path, "w") as file:
-                file.write(content)
-
-            logger.info(f"Saved {content_type} v{version} to {file_path}")
-        except Exception as e:
-            logger.error(f"Failed to save {content_type} v{version}: {e}")
+            logger.error(f"Error revising draft: {e}")
             raise

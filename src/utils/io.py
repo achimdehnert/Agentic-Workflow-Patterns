@@ -65,26 +65,28 @@ def load_json(filename: str) -> Optional[Dict[str, Any]]:
         raise
 
 
-def save_to_disk(content: Any, content_type: str, version: int, output_path: str) -> None:
+def save_to_disk(self, content: Any, content_type: str, version: int) -> None:
     """
-    Save the given content to a YAML file with a specified version at the provided output path.
-
+    Save content to a file under the specified directory and name it with the given version.
+    
     Args:
-        content (Any): The content to be saved.
-        content_type (str): The type/category of the content, used for directory naming.
-        version (int): The version number for the file.
-        output_path (str): The base output path where the file should be saved.
+        content (Any): The content to save. If it is a dict, it will be converted to a string.
+        content_type (str): The type of content, either 'draft' or 'feedback'.
+        version (int): The version number of the content.
 
     Raises:
         Exception: For any errors that occur during saving.
     """
     try:
-        directory = os.path.join(output_path, content_type)
+        directory = os.path.join(self.base_path, content_type)
         os.makedirs(directory, exist_ok=True)
-        file_path = os.path.join(directory, f"v{version}.yaml")
+        file_path = os.path.join(directory, f"v{version}.txt")
+
+        if isinstance(content, dict):
+            content = json.dumps(content, indent=4)  # Convert dict to a formatted string
 
         with open(file_path, "w") as file:
-            yaml.dump(content, file)
+            file.write(content)
 
         logger.info(f"Saved {content_type} v{version} to {file_path}")
     except Exception as e:
