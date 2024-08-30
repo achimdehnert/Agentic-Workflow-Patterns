@@ -1,10 +1,10 @@
 from src.config.logging import logger
-from src.utils.io import load_yaml
-from typing import Dict, Any
+from src.utils.io import load_json
+from typing import Dict
 
 class TemplateManager:
     def __init__(self, config_path: str):
-        self.config = load_yaml(config_path)
+        self.config = load_json(config_path)
 
     def create_template(self, role: str, action: str) -> Dict[str, str]:
         try:
@@ -12,7 +12,7 @@ class TemplateManager:
             return {
                 'system': self.load_template(template_config['system_instructions']),
                 'user': self.load_template(template_config['user_instructions']),
-                'schema': load_yaml(template_config['response_schema'])
+                'schema': self.load_template(template_config['response_schema'])
             }
         except KeyError as e:
             logger.error(f"Invalid role or action in template configuration: {e}")
