@@ -5,6 +5,8 @@ import yaml
 import os
 
 
+CONFIG_PATH = './config/setup.yml'
+
 class _Config:
     _instance = None
 
@@ -15,7 +17,7 @@ class _Config:
             cls._instance.__initialized = False
         return cls._instance
     
-    def __init__(self, config_path: str = "./config/config.yml"):
+    def __init__(self, config_path: str = CONFIG_PATH):
         """
         Initialize the Config class.
 

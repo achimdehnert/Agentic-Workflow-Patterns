@@ -1,14 +1,14 @@
-from patterns.actor_critic.manage import HistoryManager
+from src.patterns.actor_critic.manage import StateManager
 from src.patterns.actor_critic.critic import Critic
 from src.patterns.actor_critic.actor import Actor
 from src.config.logging import logger
 
 
-class ActorCriticPipeline:
+class Pipeline:
     def __init__(self, topic: str, num_cycles: int):
         self.topic = topic
         self.num_cycles = num_cycles
-        self.history_manager = HistoryManager()
+        self.history_manager = StateManager()
         self.actor = Actor(topic)
         self.critic = Critic(topic)
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     try:
         topic = 'perplexity'
         num_cycles = 2
-        pipeline = ActorCriticPipeline(topic=topic, num_cycles=num_cycles)
+        pipeline = Pipeline(topic=topic, num_cycles=num_cycles)
         final_history = pipeline.run()
         logger.info("Actor-Critic pipeline completed successfully.")
         print(final_history)
