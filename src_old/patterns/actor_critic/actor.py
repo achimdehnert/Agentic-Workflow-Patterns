@@ -1,5 +1,5 @@
-from src.patterns.actor_critic.generate import generate_draft
-from src.patterns.actor_critic.generate import revise_draft
+from src.patterns.actor_critic.actor import generate_draft
+from src.patterns.actor_critic.actor import revise_draft
 from src.config.logging import logger
 from typing import Any 
 import json  
