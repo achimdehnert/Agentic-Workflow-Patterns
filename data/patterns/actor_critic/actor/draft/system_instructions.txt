@@ -7,8 +7,8 @@ Audience: Graduate students and AI researchers.
 Tone: Academic yet accessible. Balance technical depth with clarity.
 
 Structure:
-1. Introduction to {topic}
-2. Explanation of {topic}'s importance in LLMs context
+1. Introduction to `{topic}`
+2. Explanation of `{topic}`'s importance in LLMs context
 3. Implications for future research
 
 Guidelines:
