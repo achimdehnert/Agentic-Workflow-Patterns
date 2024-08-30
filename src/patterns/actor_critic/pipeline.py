@@ -34,20 +34,20 @@ class Pipeline:
         self.state_manager = StateManager()
         self.actor = Actor(topic, CONFIG_PATH, OUTPUT_DIR)
         self.critic = Critic(topic, CONFIG_PATH, OUTPUT_DIR)
-        logger.info(f"Pipeline initialized with topic: {topic}, num_cycles: {num_cycles}, config_path: {CONFIG_PATH}, output_dir: {OUTPUT_DIR}")
+        logger.info(f"Pipeline initialized with topic: '{topic}', num_cycles: {num_cycles}, config_path: '{CONFIG_PATH}', output_dir: '{OUTPUT_DIR}'")
 
     def run(self) -> str:
         """
         Runs the pipeline for the specified number of cycles.
 
         Returns:
-            str: The final history in markdown format.
+            str: The final state in markdown format.
         """
         try:
             for cycle in range(self.num_cycles):
                 self._run_cycle(cycle)
             logger.info("Pipeline completed all cycles successfully.")
-            return self.state_manager._to_markdown()
+            return self.state_manager.to_markdown()
         except Exception as e:
             logger.error(f"Error in Pipeline.run: {e}")
             raise
@@ -67,7 +67,7 @@ class Pipeline:
                 self._run_revised_cycle(cycle)
             logger.info(f"Completed cycle {cycle + 1}")
         except Exception as e:
-            logger.error(f"Error in Pipeline._run_cycle (cycle {cycle}): {e}")
+            logger.error(f"Error in Pipeline._run_cycle (cycle {cycle + 1}): {e}")
             raise
 
     def _run_initial_cycle(self) -> None:
@@ -93,14 +93,14 @@ class Pipeline:
             cycle (int): The current cycle number.
         """
         try:
-            logger.info(f"Running revised cycle {cycle}")
-            revised_draft = self.actor.revise_draft(self.state_manager._to_markdown(), cycle)
+            logger.info(f"Running revised cycle {cycle + 1}")
+            revised_draft = self.actor.revise_draft(self.state_manager.to_markdown(), cycle)
             self.state_manager.add_entry(f"Revised Draft v{cycle}", revised_draft)
 
-            revised_review = self.critic.revise_review(self.state_manager._to_markdown(), cycle)
+            revised_review = self.critic.revise_review(self.state_manager.to_markdown(), cycle)
             self.state_manager.add_entry(f"Revised Review v{cycle}", revised_review)
         except Exception as e:
-            logger.error(f"Error in Pipeline._run_revised_cycle (cycle {cycle}): {e}")
+            logger.error(f"Error in Pipeline._run_revised_cycle (cycle {cycle + 1}): {e}")
             raise
 
 
@@ -110,8 +110,8 @@ if __name__ == "__main__":
         num_cycles: int = 2
 
         pipeline = Pipeline(topic=topic, num_cycles=num_cycles)
-        final_history: str = pipeline.run()
+        final_state: str = pipeline.run()
         logger.info("Actor-Critic pipeline completed successfully.")
-        print(final_history)
+        print(final_state)
     except Exception as e:
         logger.error(f"Pipeline execution failed: {e}")
