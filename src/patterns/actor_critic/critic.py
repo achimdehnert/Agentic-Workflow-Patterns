@@ -1,32 +1,44 @@
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
+from src.utils.io import save_to_disk
 from src.config.logging import logger
-from src.utils.io import save_to_file
-import yaml
+from abc import ABC, abstractmethod
 
+class ReviewGenerator(ABC):
+    @abstractmethod
+    def generate(self, **kwargs) -> str:
+        pass
+
+class DraftReviewGenerator(ReviewGenerator):
+    def generate(self, template_manager: TemplateManager, response_generator: ResponseGenerator, draft: str) -> str:
+        template = template_manager.create_template('critic', 'review')
+        system_instruction = template['system']
+        user_instruction = template_manager.fill_template(template['user'], article=draft)
+        return response_generator.generate_response(system_instruction, [user_instruction], template['schema'])
+
+class ReviewRevisionGenerator(ReviewGenerator):
+    def generate(self, template_manager: TemplateManager, response_generator: ResponseGenerator, history: str) -> str:
+        template = template_manager.create_template('critic', 'revise')
+        system_instruction = template['system']
+        user_instruction = template_manager.fill_template(template['user'], history=history)
+        return response_generator.generate_response(system_instruction, [user_instruction], template['schema'])
 
 class Critic:
-    def __init__(self, topic: str):
+    def __init__(self, topic: str, base_path: str, config_path: str):
         self.topic = topic
+        self.base_path = base_path
         self.response_generator = ResponseGenerator()
-        self.template_manager = TemplateManager()
+        self.template_manager = TemplateManager(config_path)
+
+    def _generate_review(self, generator: ReviewGenerator, **kwargs) -> str:
+        return generator.generate(template_manager=self.template_manager, 
+                                  response_generator=self.response_generator, 
+                                  **kwargs)
 
     def review_draft(self, draft: str) -> str:
         try:
-            system_instruction = self.template_manager.load_template(
-                './data/patterns/actor_critic/critic/review/system_instructions.txt'
-            )
-            user_instruction = self.template_manager.load_and_fill_template(
-                './data/patterns/actor_critic/critic/review/user_instructions.txt', 
-                article=draft
-            )
-            with open('./data/patterns/actor_critic/critic/review/response_schema.json', 'r') as f:
-                response_schema = yaml.safe_load(f)
-
-            review = self.response_generator.generate_response(
-                system_instruction, [user_instruction], response_schema
-            )
-            save_to_file(review, "feedback", 0)
+            review = self._generate_review(DraftReviewGenerator(), draft=draft)
+            save_to_disk(review, "feedback", 0, self.base_path)
             return review
         except Exception as e:
             logger.error(f"Error reviewing draft: {e}")
@@ -34,20 +46,8 @@ class Critic:
 
     def revise_review(self, history: str, version: int) -> str:
         try:
-            system_instruction = self.template_manager.load_template(
-                './data/patterns/actor_critic/critic/revise/system_instructions.txt'
-            )
-            user_instruction = self.template_manager.load_and_fill_template(
-                './data/patterns/actor_critic/critic/revise/user_instructions.txt', 
-                history=history
-            )
-            with open('./data/patterns/actor_critic/critic/revise/response_schema.yaml', 'r') as f:
-                response_schema = yaml.safe_load(f)
-
-            revised_review = self.response_generator.generate_response(
-                system_instruction, [user_instruction], response_schema
-            )
-            save_to_file(revised_review, "feedback", version)
+            revised_review = self._generate_review(ReviewRevisionGenerator(), history=history)
+            save_to_disk(revised_review, "feedback", version, self.base_path)
             return revised_review
         except Exception as e:
             logger.error(f"Error revising review: {e}")
