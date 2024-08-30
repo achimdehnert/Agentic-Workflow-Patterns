@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod
 class ContentGenerator(ABC):
     @abstractmethod
     def generate(self, **kwargs) -> str:
-        pass
+        raise NotImplementedError("Subclasses must implement the `generate` method")
 
 
 class DraftGenerator(ContentGenerator):

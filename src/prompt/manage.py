@@ -1,8 +1,8 @@
 from src.config.logging import logger
 from src.utils.io import load_json
 from src.utils.io import load_yaml
-
 from typing import Dict
+
 
 class TemplateManager:
     def __init__(self, config_path: str):
