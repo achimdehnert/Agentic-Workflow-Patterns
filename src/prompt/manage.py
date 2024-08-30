@@ -5,10 +5,37 @@ from typing import Dict
 
 
 class TemplateManager:
-    def __init__(self, config_path: str):
-        self.config = load_yaml(config_path)
+    """
+    Manages the creation and manipulation of templates based on a provided configuration file.
+
+    Attributes:
+        config (dict): The configuration loaded from a YAML file that specifies the templates for different roles and actions.
+    """
+
+    def __init__(self, config_path: str) -> None:
+        """
+        Initializes the TemplateManager with a given configuration path.
+
+        Args:
+            config_path (str): The path to the YAML configuration file.
+        """
+        self.config: Dict[str, Dict[str, Dict[str, str]]] = load_yaml(config_path)
 
     def create_template(self, role: str, action: str) -> Dict[str, str]:
+        """
+        Creates a template based on the provided role and action.
+
+        Args:
+            role (str): The role for which the template is to be created.
+            action (str): The action associated with the role.
+
+        Returns:
+            Dict[str, str]: A dictionary containing the system instructions, user instructions, and response schema.
+
+        Raises:
+            KeyError: If the role or action does not exist in the configuration.
+            Exception: For any other errors encountered during template creation.
+        """
         try:
             template_config = self.config[role][action]
             return {
@@ -25,6 +52,19 @@ class TemplateManager:
 
     @staticmethod
     def load_template(template_path: str) -> str:
+        """
+        Loads a template from a given file path.
+
+        Args:
+            template_path (str): The path to the template file.
+
+        Returns:
+            str: The content of the template file.
+
+        Raises:
+            FileNotFoundError: If the template file is not found.
+            Exception: For any other errors encountered during file reading.
+        """
         try:
             with open(template_path, 'r') as file:
                 return file.read()
@@ -36,7 +76,20 @@ class TemplateManager:
             raise
 
     @staticmethod
-    def fill_template(template_content: str, **kwargs) -> str:
+    def fill_template(template_content: str, **kwargs: str) -> str:
+        """
+        Fills a template with provided keyword arguments.
+
+        Args:
+            template_content (str): The content of the template to be filled.
+            **kwargs (str): Key-value pairs where the key is the placeholder in the template and the value is the content to replace it with.
+
+        Returns:
+            str: The filled template content.
+
+        Raises:
+            Exception: For any errors encountered during the template filling process.
+        """
         try:
             filled_template = template_content
             for key, value in kwargs.items():
