@@ -20,7 +20,7 @@ class Actor:
                 './data/patterns/actor_critic/actor/draft/user_instructions.txt', 
                 topic=self.topic
             )
-            with open('./data/patterns/actor_critic/actor/draft/response_schema.yaml', 'r') as f:
+            with open('./data/patterns/actor_critic/actor/draft/response_schema.json', 'r') as f:
                 response_schema = yaml.safe_load(f)
 
             draft = self.response_generator.generate_response(

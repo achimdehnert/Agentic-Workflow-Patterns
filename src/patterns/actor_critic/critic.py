@@ -20,7 +20,7 @@ class Critic:
                 './data/patterns/actor_critic/critic/review/user_instructions.txt', 
                 article=draft
             )
-            with open('./data/patterns/actor_critic/critic/review/response_schema.yaml', 'r') as f:
+            with open('./data/patterns/actor_critic/critic/review/response_schema.json', 'r') as f:
                 response_schema = yaml.safe_load(f)
 
             review = self.response_generator.generate_response(
