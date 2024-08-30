@@ -1,4 +1,4 @@
-from src.patterns.actor_critic.history_manager import HistoryManager
+from patterns.actor_critic.manage import HistoryManager
 from src.patterns.actor_critic.critic import Critic
 from src.patterns.actor_critic.actor import Actor
 from src.config.logging import logger

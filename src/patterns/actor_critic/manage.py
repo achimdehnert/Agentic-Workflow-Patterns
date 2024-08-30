@@ -4,7 +4,7 @@ from typing import Dict
 from typing import Any 
 
 
-class HistoryManager:
+class StateManager:
     def __init__(self):
         self.history = OrderedDict()
         self.history_md = None
@@ -40,7 +40,7 @@ class HistoryManager:
             for key, value in data.items():
                 if isinstance(value, dict):
                     markdown.append(f"{indent}- **{key.capitalize()}**:\n")
-                    markdown.append(HistoryManager.dict_to_markdown(value, indent_level + 2))
+                    markdown.append(StateManager.dict_to_markdown(value, indent_level + 2))
                 else:
                     markdown.append(f"{indent}- **{key.capitalize()}**: {value}\n")
             return ''.join(markdown)
