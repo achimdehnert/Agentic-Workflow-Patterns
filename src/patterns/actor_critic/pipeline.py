@@ -47,7 +47,7 @@ class Pipeline:
             for cycle in range(self.num_cycles):
                 self._run_cycle(cycle)
             logger.info("Pipeline completed all cycles successfully.")
-            return self.state_manager.to_markdown()
+            return self.state_manager._to_markdown()
         except Exception as e:
             logger.error(f"Error in Pipeline.run: {e}")
             raise
@@ -94,10 +94,10 @@ class Pipeline:
         """
         try:
             logger.info(f"Running revised cycle {cycle}")
-            revised_draft = self.actor.revise_draft(self.state_manager.to_markdown(), cycle)
+            revised_draft = self.actor.revise_draft(self.state_manager._to_markdown(), cycle)
             self.state_manager.add_entry(f"Revised Draft v{cycle}", revised_draft)
 
-            revised_review = self.critic.revise_review(self.state_manager.to_markdown(), cycle)
+            revised_review = self.critic.revise_review(self.state_manager._to_markdown(), cycle)
             self.state_manager.add_entry(f"Revised Review v{cycle}", revised_review)
         except Exception as e:
             logger.error(f"Error in Pipeline._run_revised_cycle (cycle {cycle}): {e}")

@@ -6,7 +6,7 @@ actor:
   revise:
     system_instructions: './data/patterns/actor_critic/actor/revise/system_instructions.txt'
     user_instructions: './data/patterns/actor_critic/actor/revise/user_instructions.txt'
-    response_schema: './data/patterns/actor_critic/actor/revise/response_schema.yaml'
+    response_schema: './data/patterns/actor_critic/actor/revise/response_schema.json'
 
 critic:
   review:
@@ -16,4 +16,4 @@ critic:
   revise:
     system_instructions: './data/patterns/actor_critic/critic/revise/system_instructions.txt'
     user_instructions: './data/patterns/actor_critic/critic/revise/user_instructions.txt'
-    response_schema: './data/patterns/actor_critic/critic/revise/response_schema.yaml'
+    response_schema: './data/patterns/actor_critic/critic/revise/response_schema.json'

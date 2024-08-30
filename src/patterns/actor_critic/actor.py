@@ -44,9 +44,8 @@ class Actor:
     def generate_initial_draft(self) -> str:
         try:
             draft = self._generate_content(DraftGenerator(), topic=self.topic)
-            print('ffonar')
             save_to_disk(draft, "draft", 0, self.output_path)
-            return draft['article']
+            return draft
         except Exception as e:
             logger.error(f"Error generating initial draft: {e}")
             raise
@@ -55,7 +54,7 @@ class Actor:
         try:
             revised_draft = self._generate_content(RevisionGenerator(), history=history)
             save_to_disk(revised_draft, "draft", version, self.output_path)
-            return revised_draft['article']
+            return revised_draft
         except Exception as e:
             logger.error(f"Error revising draft: {e}")
             raise
