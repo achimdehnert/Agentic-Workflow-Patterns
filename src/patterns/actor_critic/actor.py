@@ -28,11 +28,13 @@ class RevisionGenerator(ContentGenerator):
 
 
 class Actor:
-    def __init__(self, topic: str, base_path: str, config_path: str):
+    def __init__(self, topic: str, config_path: str, output_path: str,):
         self.topic = topic
-        self.base_path = base_path
-        self.response_generator = ResponseGenerator()
+        self.output_path = output_path
+
         self.template_manager = TemplateManager(config_path)
+        self.response_generator = ResponseGenerator()
+        
 
     def _generate_content(self, generator: ContentGenerator, **kwargs) -> str:
         return generator.generate(template_manager=self.template_manager, 
@@ -52,7 +54,7 @@ class Actor:
     def revise_draft(self, history: str, version: int) -> str:
         try:
             revised_draft = self._generate_content(RevisionGenerator(), history=history)
-            save_to_disk(revised_draft, "draft", version, self.base_path)
+            save_to_disk(revised_draft, "draft", version, self.output_path)
             return revised_draft['article']
         except Exception as e:
             logger.error(f"Error revising draft: {e}")
