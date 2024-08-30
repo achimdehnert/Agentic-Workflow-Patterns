@@ -88,7 +88,7 @@ def save_to_disk(content: Any, content_type: str, version: int, output_path: str
     try:
         directory = os.path.join(output_path, content_type)
         os.makedirs(directory, exist_ok=True)
-        file_path = os.path.join(directory, f"v{version}.txt")
+        file_path = os.path.join(directory, f"v{version}.json")
 
         if isinstance(content, dict):
             content = json.dumps(content, indent=4)  # Convert dict to a formatted string
