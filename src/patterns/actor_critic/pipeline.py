@@ -9,8 +9,8 @@ class Pipeline:
         self.topic = topic
         self.num_cycles = num_cycles
         self.history_manager = StateManager()
-        self.actor = Actor(topic)
-        self.critic = Critic(topic)
+        self.actor = Actor(topic, './data/patterns/actor_critic/output', './config/patterns/actor_critic.yml')
+        self.critic = Critic(topic, './data/patterns/actor_critic/output', './config/patterns/actor_critic.yml')
 
     def run(self) -> str:
         try:
@@ -23,12 +23,15 @@ class Pipeline:
 
     def _run_cycle(self, cycle: int) -> None:
         if cycle == 0:
+            print('here')
             self._run_initial_cycle()
         else:
             self._run_revised_cycle(cycle)
 
     def _run_initial_cycle(self) -> None:
+        print('bar')
         initial_draft = self.actor.generate_initial_draft()
+        print('bar3')
         self.history_manager.add_entry("Initial Draft v0", initial_draft)
 
         initial_review = self.critic.review_draft(initial_draft)

@@ -16,9 +16,11 @@ class ResponseGenerator:
     def generate_response(self, system_instruction: str, contents: List[str], response_schema: Dict[str, Any]) -> Any:
         try:
             model = self.model_factory.create_model(config.TEXT_GEN_MODEL_NAME, system_instruction)
+            print(model)
             response = model.generate_content(contents, 
                                               generation_config=self.generation_strategy.create_generation_config(response_schema), 
                                               safety_settings=self.generation_strategy.create_safety_settings())
+            print('RR = {response}')
             return yaml.safe_load(response.text.strip())
         except yaml.YAMLError as e:
             logger.error(f"Error parsing YAML response: {e}")

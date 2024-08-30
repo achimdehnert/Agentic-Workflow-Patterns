@@ -20,16 +20,15 @@ class GenerationStrategy(ABC):
 
 class DefaultGenerationStrategy(GenerationStrategy):
     def create_generation_config(self, response_schema: Dict[str, Any]) -> GenerationConfig:
+        print(type(response_schema))
         try:
-            return GenerationConfig(
-                temperature=0.0,
-                top_p=0.0,
-                top_k=1,
-                candidate_count=1,
-                max_output_tokens=8192,
-                response_mime_type="application/json",
-                response_schema=response_schema
-            )
+            return GenerationConfig(temperature=0.0, 
+                                    top_p=0.0, 
+                                    top_k=1, 
+                                    candidate_count=1, 
+                                    max_output_tokens=8192, 
+                                    response_mime_type="application/json", 
+                                    response_schema=response_schema)
         except Exception as e:
             logger.error(f"Error creating generation configuration: {e}")
             raise
