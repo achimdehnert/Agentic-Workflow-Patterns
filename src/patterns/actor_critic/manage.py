@@ -40,13 +40,13 @@ class StateManager:
 
         try:
             self._state[key] = value
-            self._state_md = self._to_markdown()
+            self._state_md = self.to_markdown()
             logger.info(f"Entry added to state: {key} = {value}")
         except Exception as e:
             logger.error(f"Error adding entry to state: {e}")
             raise
 
-    def _to_markdown(self) -> str:
+    def to_markdown(self) -> str:
         """
         Convert the current state to a Markdown formatted string.
 
