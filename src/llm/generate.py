@@ -1,4 +1,4 @@
-from src.llm.generate import GenerationStrategyFactory
+from src.llm.strategy import GenerationStrategyFactory
 from src.llm.factory import ModelFactoryProvider
 from src.config.logging import logger
 from src.config.setup import config

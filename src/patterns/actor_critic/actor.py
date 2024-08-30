@@ -1,5 +1,5 @@
-from src.llm.response_generator import ResponseGenerator
-from src.prompt.template_manager import TemplateManager
+from src.llm.generate import ResponseGenerator
+from src.prompt.manage import TemplateManager
 from src.utils.io import save_to_file
 from src.config.logging import logger
 import yaml
@@ -7,7 +7,7 @@ import yaml
 class Actor:
     def __init__(self, topic: str):
         self.topic = topic
-        self.response_generator = ResponseGenerator("text-bison-32k")
+        self.response_generator = ResponseGenerator()
         self.template_manager = TemplateManager()
 
     def generate_initial_draft(self) -> str:

@@ -8,7 +8,7 @@ import yaml
 class Critic:
     def __init__(self, topic: str):
         self.topic = topic
-        self.response_generator = ResponseGenerator("text-bison-32k")
+        self.response_generator = ResponseGenerator()
         self.template_manager = TemplateManager()
 
     def review_draft(self, draft: str) -> str:
