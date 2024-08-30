@@ -47,7 +47,6 @@ class DefaultGenerationStrategy(GenerationStrategy):
             logger.error(f"Error creating safety settings: {e}")
             raise
 
-
 # Factory method pattern
 class GenerationStrategyFactory:
     @staticmethod

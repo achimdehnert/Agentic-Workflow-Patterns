@@ -7,7 +7,7 @@ from abc import ABC
 class ModelFactory(ABC):
     @abstractmethod
     def create_model(self, model_name: str, system_instruction: str) -> GenerativeModel:
-        raise NotImplementedError
+        raise NotImplementedError("Subclasses must implement the `create_model` method")
 
 class VertexAIModelFactory(ModelFactory):
     def create_model(self, model_name: str, system_instruction: str) -> GenerativeModel:
@@ -16,6 +16,7 @@ class VertexAIModelFactory(ModelFactory):
         except Exception as e:
             logger.error(f"Error creating GenerativeModel: {e}")
             raise
+
 
 # Singleton pattern
 class ModelFactoryProvider:
