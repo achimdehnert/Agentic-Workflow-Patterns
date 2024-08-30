@@ -24,9 +24,9 @@ class ReviewRevisionGenerator(ReviewGenerator):
         return response_generator.generate_response(system_instruction, [user_instruction], template['schema'])
 
 class Critic:
-    def __init__(self, topic: str, base_path: str, config_path: str):
+    def __init__(self, topic: str, config_path: str, output_path: str):
         self.topic = topic
-        self.base_path = base_path
+        self.base_path = output_path
         self.response_generator = ResponseGenerator()
         self.template_manager = TemplateManager(config_path)
 

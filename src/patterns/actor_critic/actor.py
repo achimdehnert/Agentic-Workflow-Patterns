@@ -45,7 +45,7 @@ class Actor:
         try:
             draft = self._generate_content(DraftGenerator(), topic=self.topic)
             print('ffonar')
-            save_to_disk(draft, "draft", 0, self.base_path)
+            save_to_disk(draft, "draft", 0, self.output_path)
             return draft['article']
         except Exception as e:
             logger.error(f"Error generating initial draft: {e}")

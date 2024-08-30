@@ -65,7 +65,7 @@ def load_json(filename: str) -> Optional[Dict[str, Any]]:
         raise
 
 
-def save_to_disk(self, content: Any, content_type: str, version: int, output_path: str) -> None:
+def save_to_disk(content: Any, content_type: str, version: int, output_path: str) -> None:
     """
     Save the given content to a file with a specified version in the appropriate directory.
 
@@ -86,7 +86,7 @@ def save_to_disk(self, content: Any, content_type: str, version: int, output_pat
                    and re-raised.
     """
     try:
-        directory = os.path.join(self.base_path, content_type)
+        directory = os.path.join(output_path, content_type)
         os.makedirs(directory, exist_ok=True)
         file_path = os.path.join(directory, f"v{version}.txt")
 
