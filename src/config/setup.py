@@ -1,16 +1,40 @@
 from src.config.logging import logger
-from typing import Dict
-from typing import Any
+from typing import Dict, Any
 import yaml
 import os
 
-
 CONFIG_PATH = './config/setup.yml'
 
+
 class _Config:
+    """
+    Singleton class to manage application configuration.
+
+    Attributes:
+    -----------
+    PROJECT_ID : str
+        The project ID from the configuration file.
+    REGION : str
+        The region from the configuration file.
+    CREDENTIALS_PATH : str
+        The path to the Google credentials JSON file.
+    TEXT_GEN_MODEL_NAME : str
+        The name of the text generation model.
+
+    Methods:
+    --------
+    _load_config(config_path: str) -> Dict[str, Any]:
+        Load the YAML configuration from the given path.
+    _set_google_credentials(credentials_path: str) -> None:
+        Set the Google application credentials environment variable.
+    """
+
     _instance = None
 
     def __new__(cls, *args, **kwargs):
+        """
+        Ensure that only one instance of the _Config class is created (Singleton pattern).
+        """
         if not cls._instance:
             cls._instance = super(_Config, cls).__new__(cls)
             # The following line ensures that the __init__ method is only called once.
@@ -19,10 +43,12 @@ class _Config:
     
     def __init__(self, config_path: str = CONFIG_PATH):
         """
-        Initialize the Config class.
+        Initialize the _Config class by loading the configuration.
 
-        Args:
-        - config_path (str): Path to the YAML configuration file.
+        Parameters:
+        -----------
+        config_path : str
+            Path to the YAML configuration file.
         """
         if self.__initialized:
             return
@@ -31,36 +57,49 @@ class _Config:
         self.__config = self._load_config(config_path)
         self.PROJECT_ID = self.__config['project_id']
         self.REGION = self.__config['region']
+        self.TEXT_GEN_MODEL_NAME = self.__config['text_gen_model_name']
         self.CREDENTIALS_PATH = self.__config['credentials_json']
         self._set_google_credentials(self.CREDENTIALS_PATH)
-        self.TEXT_GEN_MODEL_NAME = self.__config['text_gen_model_name']
 
     @staticmethod
     def _load_config(config_path: str) -> Dict[str, Any]:
         """
         Load the YAML configuration from the given path.
 
-        Args:
-        - config_path (str): Path to the YAML configuration file.
+        Parameters:
+        -----------
+        config_path : str
+            Path to the YAML configuration file.
 
         Returns:
-        - dict: Loaded configuration data.
+        --------
+        Dict[str, Any]
+            Loaded configuration data.
+
+        Raises:
+        -------
+        Exception
+            If the configuration file fails to load, logs the error.
         """
         try:
             with open(config_path, 'r') as file:
                 return yaml.safe_load(file)
         except Exception as e:
             logger.error(f"Failed to load the configuration file. Error: {e}")
+            raise
 
     @staticmethod
     def _set_google_credentials(credentials_path: str) -> None:
         """
         Set the Google application credentials environment variable.
 
-        Args:
-        - credentials_path (str): Path to the Google credentials file.
+        Parameters:
+        -----------
+        credentials_path : str
+            Path to the Google credentials file.
         """
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path
 
 
+# Create a single instance of the _Config class.
 config = _Config()
