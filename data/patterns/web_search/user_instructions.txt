@@ -1,1 +1,1 @@
-Perform Google search for the given {{query}}
+Perform Google search for the given `{query}`

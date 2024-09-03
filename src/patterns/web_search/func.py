@@ -60,6 +60,7 @@ def perform_search(search_query: str, search_tool: Tool) -> GenerationResponse:
         template = template_manager.create_template('tools', 'search')
         system_instruction = template['system']
         user_instruction = template_manager.fill_template(template['user'], query=search_query)
+      
         return response_generator.generate_response(system_instruction, [user_instruction], tools=[search_tool])
     except Exception as e:
         logger.error(f"Failed to generate search data: {e}")
@@ -95,7 +96,7 @@ def run_search(args):
 
 
 if __name__ == "__main__":
-    prompt = "Perform a search for 'perplexity metric' on Google."  
+    prompt = "what is perplexity wrt LLMs?"  
    
 
 
@@ -103,6 +104,7 @@ if __name__ == "__main__":
 
 
     search_tool = Tool(function_declarations=[create_search_function_declaration()])
+    print(search_tool)
     response = perform_search(prompt, search_tool)
     function_args = extract_function_args(response)
     logger.info(function_args)

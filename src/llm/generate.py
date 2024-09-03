@@ -1,3 +1,4 @@
+from vertexai.generative_models import GenerationResponse
 from src.llm.strategy import GenerationStrategyFactory
 from src.llm.factory import ModelFactoryProvider
 from src.config.logging import logger
@@ -12,7 +13,7 @@ class ResponseGenerator:
     """
     A class to handle the generation of responses using different generation strategies
     and model factories. The strategy and model used can be customized by specifying
-    the `strategy_type` and `model_name` in the configuration.
+    the `strategy_type` in the configuration.
 
     Attributes:
         model_factory: An instance of ModelFactoryProvider to create model instances.
@@ -30,7 +31,7 @@ class ResponseGenerator:
         self.generation_strategy = GenerationStrategyFactory.get_strategy(strategy_type)
         logger.info(f"Generation strategy '{strategy_type}' selected.")
 
-    def generate_response(self, system_instruction: str, contents: List[str], response_schema: Optional[Dict[str, Any]] = None, tools: List[Any] = None) -> str:
+    def generate_response(self, system_instruction: str, contents: List[str], response_schema: Optional[Dict[str, Any]] = None, tools: List[Any] = None) -> GenerationResponse:
         """
         Generates a response based on the provided system instruction, contents, response schema, and tools.
 
@@ -41,7 +42,7 @@ class ResponseGenerator:
             tools (List[Any]): A list of tools to be passed to the model for content generation. Defaults to None.
 
         Returns:
-            str: The generated response text.
+            GenerationResponse: The generated response object.
 
         Raises:
             Exception: If there is an error during the response generation process.
@@ -63,7 +64,7 @@ class ResponseGenerator:
                 tools=tools
             )
             logger.info("Response generated successfully.")
-            return response.text.strip()
+            return response 
         except Exception as e:
             logger.error(f"Error generating response: {e}")
             raise

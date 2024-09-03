@@ -3,45 +3,45 @@
 ## Result #1
 **Position**: 1
 
-**Title**: [Perplexity - a Hugging Face Space by evaluate-metric](https://huggingface.co/spaces/evaluate-metric/perplexity)
+**Title**: [Query Definition & Meaning](https://www.merriam-webster.com/dictionary/query)
 
-**Snippet**: Perplexity (PPL) is one of the most common metrics for evaluating language models. It is defined as the exponentiated average negative log-likelihood of a ...
+**Snippet**: ask, question, interrogate, query, inquire mean to address a person in order to gain information. ask implies no more than the putting of a ...
 
 ----------------------------------------------------------------------------------------------------
 
 ## Result #2
 **Position**: 2
 
-**Title**: [Perplexity of Language Models](https://medium.com/@priyankads/perplexity-of-language-models-41160427ed72)
+**Title**: [QUERY Definition & Meaning](https://www.dictionary.com/browse/query)
 
-**Snippet**: Perplexity is an evaluation metric that measures the quality of language models. In this post, we will discuss what perplexity is and how it is calculated.
+**Snippet**: verb (used with object). , que·ried, que·ry·ing. to ask or inquire about: No one queried his presence. to question as doubtful or obscure: to query a statement.
 
 ----------------------------------------------------------------------------------------------------
 
 ## Result #3
 **Position**: 3
 
-**Title**: [Perplexity](https://en.wikipedia.org/wiki/Perplexity)
+**Title**: [What is a query? | Definition from TechTarget](https://www.techtarget.com/searchdatamanagement/definition/query)
 
-**Snippet**: In information theory, perplexity is a measure of uncertainty in the value of a sample from a discrete probability distribution.
+**Snippet**: In a database context, a query is a request for information or data made by a user and written in a specific format. The format is determined by the query ...
 
 ----------------------------------------------------------------------------------------------------
 
 ## Result #4
 **Position**: 4
 
-**Title**: [Two minutes NLP — Perplexity explained with simple ...](https://medium.com/nlplanet/two-minutes-nlp-perplexity-explained-with-simple-probabilities-6cdc46884584)
+**Title**: [Query - Definition, Meaning & Synonyms](https://www.vocabulary.com/dictionary/query)
 
-**Snippet**: The perplexity metric in NLP is a way to capture the degree of 'uncertainty' a model has in predicting (ie assigning probabilities to) text.
+**Snippet**: A query is a question, or the search for a piece of information. The Latin root quaere means "to ask" and it's the basis of ...
 
 ----------------------------------------------------------------------------------------------------
 
 ## Result #5
 **Position**: 5
 
-**Title**: [Decoding Perplexity and its significance in LLMs](https://blog.uptrain.ai/decoding-perplexity-and-its-significance-in-llms/)
+**Title**: [QUERY function - Google Docs Editors Help](https://support.google.com/docs/answer/3093343?hl=en)
 
-**Snippet**: Perplexity is a crucial metric for evaluating the performance of language models in tasks like machine translation, speech recognition, and text generation.
+**Snippet**: QUERY function runs a Google Visualization API Query Language query across data. Sample Usage: QUERY(A2:E6,"select avg(A) pivot B")
 
 ----------------------------------------------------------------------------------------------------
 

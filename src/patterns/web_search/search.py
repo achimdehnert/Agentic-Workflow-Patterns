@@ -7,7 +7,7 @@ from typing import Any
 import requests
 
 # Static paths
-CREDENTIALS_PATH = './credentials/key.yaml'
+CREDENTIALS_PATH = './credentials/key.yml'
 SEARCH_RESULTS_OUTPUT_PATH = './data/patterns/web_search/output/top_search_results.md'
 
 
