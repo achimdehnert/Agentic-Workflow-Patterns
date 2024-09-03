@@ -8,7 +8,7 @@ import requests
 
 # Static paths
 CREDENTIALS_PATH = './credentials/key.yaml'
-SEARCH_RESULTS_OUTPUT_PATH = './output/top_search_results.md'
+SEARCH_RESULTS_OUTPUT_PATH = './data/patterns/web_search/output/top_search_results.md'
 
 
 class SerpAPIClient:
