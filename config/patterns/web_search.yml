@@ -1,0 +1,4 @@
+tools:
+  search:
+    system_instructions: './data/patterns/actor_critic/actor/draft/system_instructions.txt'
+    user_instructions: './data/patterns/actor_critic/actor/draft/user_instructions.txt'

@@ -1,7 +1,7 @@
 from src.config.logging import logger
 from src.utils.io import load_json
 from src.utils.io import load_yaml
-from typing import Dict
+from typing import Dict, Optional
 
 
 class TemplateManager:
@@ -19,9 +19,9 @@ class TemplateManager:
         Args:
             config_path (str): The path to the YAML configuration file.
         """
-        self.config: Dict[str, Dict[str, Dict[str, str]]] = load_yaml(config_path)
+        self.config: Dict[str, Dict[str, Dict[str, Optional[str]]]] = load_yaml(config_path)
 
-    def create_template(self, role: str, action: str) -> Dict[str, str]:
+    def create_template(self, role: str, action: str) -> Dict[str, Optional[str]]:
         """
         Creates a template based on the provided role and action.
 
@@ -30,7 +30,7 @@ class TemplateManager:
             action (str): The action associated with the role.
 
         Returns:
-            Dict[str, str]: A dictionary containing the system instructions, user instructions, and response schema.
+            Dict[str, Optional[str]]: A dictionary containing the system instructions, user instructions, and response schema (if available).
 
         Raises:
             KeyError: If the role or action does not exist in the configuration.
@@ -41,7 +41,7 @@ class TemplateManager:
             return {
                 'system': self.load_template(template_config['system_instructions']),
                 'user': self.load_template(template_config['user_instructions']),
-                'schema': load_json(template_config['response_schema'])
+                'schema': self.load_schema(template_config.get('response_schema'))
             }
         except KeyError as e:
             logger.error(f"Invalid role or action in template configuration: {e}")
@@ -73,6 +73,32 @@ class TemplateManager:
             raise
         except Exception as e:
             logger.error(f"Error loading template: {e}")
+            raise
+
+    @staticmethod
+    def load_schema(schema_path: Optional[str]) -> Optional[Dict]:
+        """
+        Loads a JSON schema from a given file path, if the path is provided.
+
+        Args:
+            schema_path (Optional[str]): The path to the JSON schema file, or None.
+
+        Returns:
+            Optional[Dict]: The content of the schema file, or None if the schema_path is None.
+
+        Raises:
+            FileNotFoundError: If the schema file is not found.
+            Exception: For any other errors encountered during file reading.
+        """
+        if schema_path is None:
+            return None
+        try:
+            return load_json(schema_path)
+        except FileNotFoundError as e:
+            logger.error(f"Schema file not found: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Error loading schema: {e}")
             raise
 
     @staticmethod

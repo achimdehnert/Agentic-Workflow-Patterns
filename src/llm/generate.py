@@ -2,6 +2,7 @@ from src.llm.strategy import GenerationStrategyFactory
 from src.llm.factory import ModelFactoryProvider
 from src.config.logging import logger
 from src.config.setup import config
+from typing import Optional 
 from typing import List
 from typing import Dict 
 from typing import Any 
@@ -29,14 +30,15 @@ class ResponseGenerator:
         self.generation_strategy = GenerationStrategyFactory.get_strategy(strategy_type)
         logger.info(f"Generation strategy '{strategy_type}' selected.")
 
-    def generate_response(self, system_instruction: str, contents: List[str], response_schema: Dict[str, Any]) -> str:
+    def generate_response(self, system_instruction: str, contents: List[str], response_schema: Optional[Dict[str, Any]] = None, tools: List[Any] = None) -> str:
         """
-        Generates a response based on the provided system instruction, contents, and response schema.
+        Generates a response based on the provided system instruction, contents, response schema, and tools.
 
         Args:
             system_instruction (str): The instruction or prompt provided to the model.
             contents (List[str]): A list of content strings that will be used as input for response generation.
-            response_schema (Dict[str, Any]): A schema that defines the structure and constraints of the generated response.
+            response_schema (Optional[Dict[str, Any]]): A schema that defines the structure and constraints of the generated response. Defaults to None.
+            tools (List[Any]): A list of tools to be passed to the model for content generation. Defaults to None.
 
         Returns:
             str: The generated response text.
@@ -51,12 +53,15 @@ class ResponseGenerator:
             model = self.model_factory.create_model(config.TEXT_GEN_MODEL_NAME, system_instruction)
             logger.info("Model created successfully.")
             
-            generation_config = self.generation_strategy.create_generation_config(response_schema)
+            generation_config = self.generation_strategy.create_generation_config(response_schema) if response_schema else None
             safety_settings = self.generation_strategy.create_safety_settings()
             
-            response = model.generate_content(contents, 
-                                              generation_config=generation_config, 
-                                              safety_settings=safety_settings)
+            response = model.generate_content(
+                contents, 
+                generation_config=generation_config, 
+                safety_settings=safety_settings,
+                tools=tools
+            )
             logger.info("Response generated successfully.")
             return response.text.strip()
         except Exception as e:

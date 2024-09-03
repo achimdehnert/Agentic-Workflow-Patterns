@@ -2,7 +2,6 @@ from src.patterns.actor_critic.manage import StateManager
 from src.patterns.actor_critic.critic import Critic
 from src.patterns.actor_critic.actor import Actor
 from src.config.logging import logger
-from typing import Optional
 
 # Static configuration variables
 CONFIG_PATH: str = './config/patterns/actor_critic.yml'
