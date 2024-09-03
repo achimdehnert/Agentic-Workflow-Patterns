@@ -2,10 +2,11 @@ from src.config.logging import logger
 from src.utils.io import load_yaml
 from typing import Union, Tuple, Dict, Any
 import requests
+import json 
 
 # Static paths
 CREDENTIALS_PATH = './credentials/key.yml'
-SEARCH_RESULTS_OUTPUT_PATH = './data/patterns/web_search/output/top_search_results.md'
+SEARCH_RESULTS_OUTPUT_PATH = './data/patterns/web_search/output/search/top_search_results.json'
 
 
 class SerpAPIClient:
@@ -104,33 +105,38 @@ def log_top_search_results(results: Dict[str, Any], top_n: int = 5) -> None:
         logger.info('-' * 100)
 
 
-def save_top_search_results_to_markdown(results: Dict[str, Any], output_path: str, top_n: int = 5) -> None:
+def save_top_search_results_to_json(results: Dict[str, Any], output_path: str, top_n: int = 5) -> None:
     """
-    Save the top N search results to a Markdown file in a formatted manner.
+    Save the top N search results to a JSON file in a formatted manner.
 
     Parameters:
     -----------
     results : Dict[str, Any]
         The search results returned from the SERP API.
     output_path : str
-        The file path where the Markdown file will be saved.
+        The file path where the JSON file will be saved.
     top_n : int, optional
         The number of top search results to save (default is 5).
     """
-    with open(output_path, 'w') as md_file:
-        md_file.write(f"# Top {top_n} Search Results\n\n")
-        for i, result in enumerate(results.get('organic_results', [])[:top_n], start=1):
-            md_file.write(f"## Result #{i}\n")
-            md_file.write(f"**Position**: {result.get('position')}\n\n")
-            md_file.write(f"**Title**: [{result.get('title')}]({result.get('link')})\n\n")
-            md_file.write(f"**Snippet**: {result.get('snippet')}\n\n")
-            md_file.write(f"{'-' * 100}\n\n")
+    top_results = []
+    for i, result in enumerate(results.get('organic_results', [])[:top_n], start=1):
+        top_results.append({
+            "Position": result.get('position'),
+            "Title": result.get('title'),
+            "Link": result.get('link'),
+            "Snippet": result.get('snippet')
+        })
+
+    with open(output_path, 'w') as json_file:
+        json.dump({"Top Results": top_results}, json_file, indent=4)
+
+    logger.info(f"Top {top_n} search results saved to {output_path}")
 
 
 def run(search_query: str, location: str):
     """
     Main function to execute the Google search using SERP API, log the top results,
-    and save them to a Markdown file.
+    and save them to a JSON file.
 
     Parameters:
     -----------
@@ -154,12 +160,13 @@ def run(search_query: str, location: str):
         # Log the top search results
         log_top_search_results(results)
 
-        # Save the top search results to a Markdown file
-        save_top_search_results_to_markdown(results, SEARCH_RESULTS_OUTPUT_PATH)
+        # Save the top search results to a JSON file
+        save_top_search_results_to_json(results, SEARCH_RESULTS_OUTPUT_PATH)
     else:
         # Handle the error response
         status_code, error_message = results
         logger.error(f"Search failed with status code {status_code}: {error_message}")
+
 
 
 if __name__ == "__main__":
