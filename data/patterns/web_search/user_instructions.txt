@@ -1,0 +1,1 @@
+Perform Google search for the given {{query}}
