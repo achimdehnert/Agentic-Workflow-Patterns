@@ -3,7 +3,12 @@ from src.utils.io import load_yaml
 from typing import Union
 from typing import Tuple
 from typing import Dict 
+from typing import Any 
 import requests
+
+# Static paths
+CREDENTIALS_PATH = './credentials/key.yaml'
+SEARCH_RESULTS_OUTPUT_PATH = './output/top_search_results.md'
 
 
 class SerpAPIClient:
@@ -122,17 +127,19 @@ def save_top_search_results_to_markdown(results: Dict[str, Any], output_path: st
             md_file.write(f"{'-' * 100}\n\n")
 
 
-def run():
+def run(search_query: str):
     """
-    Main function to execute the Google search using SERP API, log the top results, 
+    Main function to execute the Google search using SERP API, log the top results,
     and save them to a Markdown file.
+
+    Parameters:
+    -----------
+    search_query : str
+        The search query to be executed using the SERP API.
     """
-    credentials_path = './credentials/key.yaml'
-    search_query = "perplexity metric"
-    markdown_output_path = "./output/top_search_results.md"
 
     # Load the API key
-    api_key = load_api_key(credentials_path)
+    api_key = load_api_key(CREDENTIALS_PATH)
 
     # Initialize the SERP API client
     serp_client = SerpAPIClient(api_key)
@@ -146,7 +153,7 @@ def run():
         log_top_search_results(results)
 
         # Save the top search results to a Markdown file
-        save_top_search_results_to_markdown(results, markdown_output_path)
+        save_top_search_results_to_markdown(results, SEARCH_RESULTS_OUTPUT_PATH)
     else:
         # Handle the error response
         status_code, error_message = results
@@ -154,4 +161,5 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    search_query = "perplexity metric"
+    run(search_query)
