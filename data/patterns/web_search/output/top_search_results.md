@@ -3,45 +3,45 @@
 ## Result #1
 **Position**: 1
 
-**Title**: [Query Definition & Meaning](https://www.merriam-webster.com/dictionary/query)
+**Title**: [THE 5 BEST Greek Restaurants in Frisco (Updated 2024)](https://www.tripadvisor.com/Restaurants-g55870-c23-Frisco_Texas.html)
 
-**Snippet**: ask, question, interrogate, query, inquire mean to address a person in order to gain information. ask implies no more than the putting of a ...
+**Snippet**: Greek Restaurants in Frisco · 1. Fadi's Mediterranean Grill. (121). Closed Now · 2. Little Greek Fresh Grill. (8). Closed Now · 3. Zoes ...
 
 ----------------------------------------------------------------------------------------------------
 
 ## Result #2
 **Position**: 2
 
-**Title**: [QUERY Definition & Meaning](https://www.dictionary.com/browse/query)
+**Title**: [Greek Restaurant Frisco | Greek Food In Frisco TX](https://www.visitfrisco.com/restaurants/cuisine-types/greek/)
 
-**Snippet**: verb (used with object). , que·ried, que·ry·ing. to ask or inquire about: No one queried his presence. to question as doubtful or obscure: to query a statement.
+**Snippet**: Whether you're craving kolokythokeftedes, tzatziki, baklava or gyros, Frisco's Greek restaurants are sure to satisfy your órexi (appetite)!
 
 ----------------------------------------------------------------------------------------------------
 
 ## Result #3
 **Position**: 3
 
-**Title**: [What is a query? | Definition from TechTarget](https://www.techtarget.com/searchdatamanagement/definition/query)
+**Title**: [HOME | Platiagreek - Frisco](https://www.platiagreek.com/)
 
-**Snippet**: In a database context, a query is a request for information or data made by a user and written in a specific format. The format is determined by the query ...
+**Snippet**: Platia Catering can make entertaining a little easier. We specialize in authentic Greek appetizers, entrées,. and desserts your guests will love!
 
 ----------------------------------------------------------------------------------------------------
 
 ## Result #4
 **Position**: 4
 
-**Title**: [Query - Definition, Meaning & Synonyms](https://www.vocabulary.com/dictionary/query)
+**Title**: [THE BEST 10 Greek Restaurants in FRISCO, TX](https://www.yelp.com/search?cflt=greek&find_loc=Frisco%2C+TX)
 
-**Snippet**: A query is a question, or the search for a piece of information. The Latin root quaere means "to ask" and it's the basis of ...
+**Snippet**: Top 10 Best Greek Near Frisco, Texas - With Real Reviews · 1. Platia Greek Kouzina · 2. Spitz - Frisco · 3. Little Greek Fresh Grill · 4. The Great Greek ...
 
 ----------------------------------------------------------------------------------------------------
 
 ## Result #5
 **Position**: 5
 
-**Title**: [QUERY function - Google Docs Editors Help](https://support.google.com/docs/answer/3093343?hl=en)
+**Title**: [Frisco Best Authentic Greek Food Restaurants](https://www.zizikis.com/frisco-best-authentic-greek-food-restaurants/)
 
-**Snippet**: QUERY function runs a Google Visualization API Query Language query across data. Sample Usage: QUERY(A2:E6,"select avg(A) pivot B")
+**Snippet**: Ziziki's truly delivers on the promise of offering authentic Greek dining near Frisco TX. From house-made hummus dip, pita bread, Spanakopita, Dolmades and ...
 
 ----------------------------------------------------------------------------------------------------
 

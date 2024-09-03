@@ -1,46 +1,44 @@
 from vertexai.preview.generative_models import FunctionDeclaration
 from vertexai.preview.generative_models import GenerationResponse
-from vertexai.preview.generative_models import GenerativeModel
 from vertexai.preview.generative_models import Tool
 from src.patterns.web_search.search import run
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
 from src.config.logging import logger
-from typing import Optional 
-from typing import Dict
-from typing import Any
+from typing import Optional, Dict, Any
 
 
 response_generator = ResponseGenerator()
-
 template_manager = TemplateManager('./config/patterns/web_search.yml')
 
 
 def create_search_function_declaration() -> FunctionDeclaration:
     """
-    Creates a function declaration for performing a web search.
+    Creates a function declaration for performing a web search with optional location parameter.
     
     Returns:
         FunctionDeclaration: A declaration that specifies the structure of the search function.
     """
     return FunctionDeclaration(
         name="web_search",
-        description="Perform Google  Search using SERP API",
+        description="Perform Google Search using SERP API",
         parameters={
             "type": "object",
             "properties": {
                 "query": {"type": "string", "description": "Search query"},
+                "location": {"type": "string", "description": "Geographic location for localized search results", "default": ""},
             },
+            "required": ["query"]
         },
     )
 
 
 def perform_search(search_query: str, search_tool: Tool) -> GenerationResponse:
     """
-    Generates a search result based on a provided prompt and tool specifications.
+    Generates a search result based on a provided search query and tool specifications.
     
     Args:
-        user_instructions (str): 
+        search_query (str): The query to be used for the web search.
         search_tool (Tool): The tool configuration for generating search data.
     
     Returns:
@@ -50,13 +48,6 @@ def perform_search(search_query: str, search_tool: Tool) -> GenerationResponse:
         Exception: If there's an issue generating the content.
     """
     try:
-        """
-        response = model.generate_content(
-            prompt,
-            generation_config={"temperature": 0},
-            tools=[search_tool],
-        )
-        """
         template = template_manager.create_template('tools', 'search')
         system_instruction = template['system']
         user_instruction = template_manager.fill_template(template['user'], query=search_query)
@@ -90,22 +81,30 @@ def extract_function_args(response: GenerationResponse) -> Optional[Dict[str, An
     except (IndexError, KeyError) as e:
         logger.error(f"Failed to extract function arguments: {e}")
         return None
-    
-def run_search(args):
-    run(args)
+
+
+def run_search(args: Dict[str, Any]) -> None:
+    """
+    Runs the search using the extracted arguments, ensuring that the query and location parameters are passed correctly.
+
+    Args:
+        args (Dict[str, Any]): The arguments to be passed to the search function, including `query` and `location`.
+    """
+    query = args.get('query')
+    location = args.get('location')
+
+    # Pass query and location as separate arguments to the run function
+    run(query, location)
+
 
 
 if __name__ == "__main__":
-    prompt = "what is perplexity wrt LLMs?"  
-   
-
-
-
-
-
+    prompt = "greek restaurants in frisco"  
     search_tool = Tool(function_declarations=[create_search_function_declaration()])
-    print(search_tool)
+    logger.info(search_tool)
     response = perform_search(prompt, search_tool)
     function_args = extract_function_args(response)
     logger.info(function_args)
-    run_search(function_args)
+    if function_args:
+        run_search(function_args)
+

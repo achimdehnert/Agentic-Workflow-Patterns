@@ -1,9 +1,6 @@
 from src.config.logging import logger
 from src.utils.io import load_yaml
-from typing import Union
-from typing import Tuple
-from typing import Dict 
-from typing import Any 
+from typing import Union, Tuple, Dict, Any
 import requests
 
 # Static paths
@@ -28,7 +25,7 @@ class SerpAPIClient:
         self.api_key = api_key
         self.base_url = "https://serpapi.com/search.json"
 
-    def search(self, query: str, engine: str = "google") -> Union[Dict[str, Any], Tuple[int, str]]:
+    def search(self, query: str, engine: str = "google", location: str = "") -> Union[Dict[str, Any], Tuple[int, str]]:
         """
         Perform a search query using the SERP API.
 
@@ -38,6 +35,8 @@ class SerpAPIClient:
             The search query string.
         engine : str, optional
             The search engine to use (default is "google").
+        location : str, optional
+            The location for the search query (default is an empty string).
 
         Returns:
         --------
@@ -48,7 +47,8 @@ class SerpAPIClient:
         params = {
             "engine": engine,
             "q": query,
-            "api_key": self.api_key
+            "api_key": self.api_key,
+            "location": location
         }
 
         try:
@@ -127,7 +127,7 @@ def save_top_search_results_to_markdown(results: Dict[str, Any], output_path: st
             md_file.write(f"{'-' * 100}\n\n")
 
 
-def run(search_query: str):
+def run(search_query: str, location: str):
     """
     Main function to execute the Google search using SERP API, log the top results,
     and save them to a Markdown file.
@@ -136,6 +136,8 @@ def run(search_query: str):
     -----------
     search_query : str
         The search query to be executed using the SERP API.
+    location : str
+        The location to include in the search query.
     """
 
     # Load the API key
@@ -145,7 +147,7 @@ def run(search_query: str):
     serp_client = SerpAPIClient(api_key)
 
     # Perform the search
-    results = serp_client.search(search_query)
+    results = serp_client.search(search_query, location=location)
 
     # Check if the search was successful
     if isinstance(results, dict):
@@ -161,5 +163,6 @@ def run(search_query: str):
 
 
 if __name__ == "__main__":
-    search_query = "perplexity metric"
-    run(search_query)
+    search_query = "greek restaurants"
+    location = 'frisco, texas'
+    run(search_query, location)
