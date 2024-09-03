@@ -2,7 +2,7 @@ from src.config.logging import logger
 import requests
 
 
-def parser():
+def parse():
     pass
 
 
