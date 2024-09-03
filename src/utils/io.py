@@ -7,6 +7,28 @@ import yaml
 import os
 
 
+def read_file(path: str) -> Optional[str]:
+    """
+    Reads the content of a markdown file and returns it as a text object.
+
+    Args:
+        path (str): The path to the markdown file.
+
+    Returns:
+        Optional[str]: The content of the file as a string, or None if the file could not be read.
+    """
+    try:
+        with open(path, 'r', encoding='utf-8') as file:
+            content: str = file.read()
+        return content
+    except FileNotFoundError:
+        logger.info(f"File not found: {path}")
+        return None
+    except Exception as e:
+        logger.info(f"Error reading file: {e}")
+        return None
+
+
 def load_yaml(filename: str) -> Dict[str, Any]:
     """
     Load a YAML file and return its contents.
