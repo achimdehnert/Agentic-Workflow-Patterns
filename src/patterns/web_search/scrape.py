@@ -190,4 +190,5 @@ class WebScraper:
 
 
 if __name__ == "__main__":
-    scraper = WebScraper
+    scraper = WebScraper()
+    scraper.run()
