@@ -84,7 +84,7 @@ def load_api_key(credentials_path: str) -> str:
     return config['serp']['key']
 
 
-def log_top_search_results(results: Dict[str, Any], top_n: int = 5) -> None:
+def log_top_search_results(results: Dict[str, Any], top_n: int = 10) -> None:
     """
     Log the top N search results in a formatted manner.
 
@@ -93,7 +93,7 @@ def log_top_search_results(results: Dict[str, Any], top_n: int = 5) -> None:
     results : Dict[str, Any]
         The search results returned from the SERP API.
     top_n : int, optional
-        The number of top search results to log (default is 5).
+        The number of top search results to log (default is 10).
     """
     logger.info(f"Top {top_n} Search Results:")
     for i, result in enumerate(results.get('organic_results', [])[:top_n], start=1):
@@ -105,7 +105,7 @@ def log_top_search_results(results: Dict[str, Any], top_n: int = 5) -> None:
         logger.info('-' * 100)
 
 
-def save_top_search_results_to_json(results: Dict[str, Any], output_path: str, top_n: int = 5) -> None:
+def save_top_search_results_to_json(results: Dict[str, Any], output_path: str, top_n: int = 10) -> None:
     """
     Save the top N search results to a JSON file in a formatted manner.
 
@@ -116,7 +116,7 @@ def save_top_search_results_to_json(results: Dict[str, Any], output_path: str, t
     output_path : str
         The file path where the JSON file will be saved.
     top_n : int, optional
-        The number of top search results to save (default is 5).
+        The number of top search results to save (default is 10).
     """
     top_results = []
     for i, result in enumerate(results.get('organic_results', [])[:top_n], start=1):
@@ -166,7 +166,6 @@ def run(search_query: str, location: str):
         # Handle the error response
         status_code, error_message = results
         logger.error(f"Search failed with status code {status_code}: {error_message}")
-
 
 
 if __name__ == "__main__":
