@@ -4,7 +4,7 @@ from src.config.logging import logger
 from src.utils.io import read_file
 
 
-class WebSearchManager:
+class WebContentSummarizer:
     """
     A class to manage the web scraping and response generation process.
     
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     output_path = './data/patterns/web_search/output/summary.txt'
     template_path = './config/patterns/web_search.yml'
 
-    web_search_manager = WebSearchManager(query, input_data_path, template_path)
-    response_text = web_search_manager.generate_response()
-    web_search_manager.save_response(output_path, response_text)
+    summarizer = WebContentSummarizer(query, input_data_path, template_path)
+    response_text = summarizer.generate_response()
+    summarizer.save_response(output_path, response_text)
     print(response_text)

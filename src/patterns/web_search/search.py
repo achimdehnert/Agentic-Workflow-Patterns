@@ -1,9 +1,13 @@
-from vertexai.preview.generative_models import FunctionDeclaration, GenerationResponse, Tool
-from src.patterns.web_search.serp import run
+from vertexai.preview.generative_models import FunctionDeclaration
+from vertexai.preview.generative_models import GenerationResponse
+from vertexai.preview.generative_models import Tool
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
+from src.patterns.web_search.serp import run
 from src.config.logging import logger
-from typing import Optional, Dict, Any
+from typing import Optional
+from typing import Dict 
+from typing import Any 
 
 
 class WebSearchExecutor:
@@ -15,15 +19,14 @@ class WebSearchExecutor:
         template_manager (TemplateManager): The manager for handling prompt templates.
     """
     
-    def __init__(self, template_path: str):
+    TEMPLATE_PATH = './config/patterns/web_search.yml'
+
+    def __init__(self):
         """
-        Initializes the WebSearchExecutor with the provided template configuration.
-        
-        Args:
-            template_path (str): The file path to the configuration YAML file for templates.
+        Initializes the WebSearchExecutor with the static template configuration.
         """
         self.response_generator = ResponseGenerator()
-        self.template_manager = TemplateManager(template_path)
+        self.template_manager = TemplateManager(self.TEMPLATE_PATH)
     
     def create_search_function_declaration(self) -> FunctionDeclaration:
         """
@@ -45,7 +48,7 @@ class WebSearchExecutor:
             },
         )
 
-    def perform_search(self, search_query: str, search_tool: Tool) -> GenerationResponse:
+    def function_calling(self, search_query: str, search_tool: Tool) -> GenerationResponse:
         """
         Generates a search result based on the provided search query and tool specifications.
         
@@ -93,29 +96,23 @@ class WebSearchExecutor:
             logger.error(f"Failed to extract function arguments: {e}")
             return None
 
-    def run_search(self, args: Dict[str, Any]) -> None:
+    def search(self, query: str) -> None:
         """
-        Runs the search using the extracted arguments, ensuring that the query and location parameters are passed correctly.
+        Simplified search execution method. Calls the web search function with just the query.
         
         Args:
-            args (Dict[str, Any]): The arguments to be passed to the search function, including `query` and `location`.
+            query (str): The query to search for.
         """
-        query = args.get('query')
-        location = args.get('location', '')
-
-        # Pass query and location as separate arguments to the run function
-        run(query, location)
+        search_tool = Tool(function_declarations=[self.create_search_function_declaration()])
+        response = self.perform_search(query, search_tool)
+        function_args = self.extract_function_args(response)
+        
+        if function_args:
+            search_query = function_args.get('query', query)  # fallback to original query if not in args
+            location = function_args.get('location', '')
+            run(search_query, location)
 
 
 if __name__ == "__main__":
-    prompt = "greek restaurants in frisco"
-    search_executor = WebSearchExecutor('./config/patterns/web_search.yml')
-    search_tool = Tool(function_declarations=[search_executor.create_search_function_declaration()])
-    
-    logger.info(search_tool)
-    response = search_executor.perform_search(prompt, search_tool)
-    function_args = search_executor.extract_function_args(response)
-    
-    logger.info(function_args)
-    if function_args:
-        search_executor.run_search(function_args)
+    search_executor = WebSearchExecutor()
+    search_executor.run_search("greek restaurants in frisco")
