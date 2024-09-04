@@ -1,4 +1,5 @@
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import as_completed
 from src.config.logging import logger
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
