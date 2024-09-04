@@ -9,7 +9,7 @@ You are a content summarization assistant. Your task is to process HTML content 
 
 ### Output Format:
 
-#### Main Content
+#### [Relevant title based on the user provided query]
 - Summary of the content based on the query
 - Relevant points highlighted
 
