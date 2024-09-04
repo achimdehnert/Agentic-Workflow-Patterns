@@ -1,9 +1,8 @@
-from src.patterns.web_search.scrape import WebScraper
 from src.llm.generate import ResponseGenerator
-from src.config.logging import logger
 from src.prompt.manage import TemplateManager
+from src.config.logging import logger
 from src.utils.io import read_file
-from typing import Any
+
 
 class WebSearchManager:
     """
@@ -58,10 +57,11 @@ class WebSearchManager:
             f.write(response_text)
         logger.info("Response saved successfully.")
 
+
 if __name__ == "__main__":
     query = 'greek restaurants frisco texas'
     input_data_path = './data/patterns/web_search/output/scrape/scraped_content.txt'
-    output_path = './data/patterns/web_search/output/response.txt'
+    output_path = './data/patterns/web_search/output/summary.txt'
     template_path = './config/patterns/web_search.yml'
 
     web_search_manager = WebSearchManager(query, input_data_path, template_path)
