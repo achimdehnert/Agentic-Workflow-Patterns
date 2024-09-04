@@ -16,7 +16,8 @@ class Pipeline:
 
 
 if __name__ == '__main__':
-    pass
+    query = 'best hotels in keywest florida'
+
 
 
 
