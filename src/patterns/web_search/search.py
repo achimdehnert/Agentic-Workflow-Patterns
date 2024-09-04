@@ -48,28 +48,34 @@ class WebSearchExecutor:
             },
         )
 
-    def function_calling(self, search_query: str, search_tool: Tool) -> GenerationResponse:
+    def function_call(self, search_query: str, search_tool: Tool) -> GenerationResponse:
         """
-        Generates a search result based on the provided search query and tool specifications.
-        
+        Executes the function call using Gemini to derive the arguments for the API call.
+
         Args:
-            search_query (str): The query to be used for the web search.
-            search_tool (Tool): The tool configuration for generating search data.
-        
+            search_query (str): The search query used for web search.
+            search_tool (Tool): Configuration for generating search data.
+
         Returns:
-            GenerationResponse: The response from the model containing generated content.
-        
+            GenerationResponse: The response from the model with the generated content.
+
         Raises:
-            Exception: If there's an issue generating the content.
+            Exception: If there is an issue with generating the content.
         """
         try:
+            # Create a template for the search tool interaction
             template = self.template_manager.create_template('tools', 'search')
             system_instruction = template['system']
+            
+            # Fill the user template with the provided search query
             user_instruction = self.template_manager.fill_template(template['user'], query=search_query)
             
+            # Generate and return the response using the system and user instructions
             return self.response_generator.generate_response(system_instruction, [user_instruction], tools=[search_tool])
+        
         except Exception as e:
-            logger.error(f"Failed to generate search data: {e}")
+            # Log error and raise exception if content generation fails
+            logger.error(f"Error generating search data: {e}")
             raise
 
     def extract_function_args(self, response: GenerationResponse) -> Optional[Dict[str, Any]]:
@@ -96,7 +102,7 @@ class WebSearchExecutor:
             logger.error(f"Failed to extract function arguments: {e}")
             return None
 
-    def search(self, query: str) -> None:
+    def execute(self, query: str) -> None:
         """
         Simplified search execution method. Calls the web search function with just the query.
         
@@ -104,7 +110,7 @@ class WebSearchExecutor:
             query (str): The query to search for.
         """
         search_tool = Tool(function_declarations=[self.create_search_function_declaration()])
-        response = self.perform_search(query, search_tool)
+        response = self.function_call(query, search_tool)
         function_args = self.extract_function_args(response)
         
         if function_args:
@@ -115,4 +121,4 @@ class WebSearchExecutor:
 
 if __name__ == "__main__":
     search_executor = WebSearchExecutor()
-    search_executor.run_search("greek restaurants in frisco")
+    search_executor.execute("greek restaurants in frisco")
