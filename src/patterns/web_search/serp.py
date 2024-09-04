@@ -1,6 +1,9 @@
 from src.config.logging import logger
 from src.utils.io import load_yaml
-from typing import Union, Tuple, Dict, Any
+from typing import Union
+from typing import Tuple
+from typing import Dict
+from typing import Any 
 import requests
 import json 
 
@@ -28,7 +31,7 @@ class SerpAPIClient:
 
     def search(self, query: str, engine: str = "google", location: str = "") -> Union[Dict[str, Any], Tuple[int, str]]:
         """
-        Perform a search query using the SERP API.
+        Perform Google search using the SERP API.
 
         Parameters:
         -----------
