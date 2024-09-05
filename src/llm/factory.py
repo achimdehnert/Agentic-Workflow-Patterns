@@ -23,10 +23,12 @@ class ModelFactory(ABC):
             system_instruction (str): The system instruction to initialize the model with.
 
         Returns:
-            GenerativeModel: An instance of the GenerativeModel.
+        --------
+        GenerativeModel: An instance of the GenerativeModel.
 
         Raises:
-            NotImplementedError: If the method is not implemented by a subclass.
+        -------
+        NotImplementedError: If the method is not implemented by a subclass.
         """
         raise NotImplementedError("Subclasses must implement the `create_model` method")
 
@@ -47,10 +49,12 @@ class VertexAIModelFactory(ModelFactory):
             system_instruction (str): The system instruction to initialize the model with.
 
         Returns:
-            GenerativeModel: An instance of the Vertex AI GenerativeModel.
+        --------
+        GenerativeModel: An instance of the Vertex AI GenerativeModel.
 
         Raises:
-            Exception: If there is an error during model creation, it logs the error and re-raises it.
+        -------
+        Exception: If there is an error during model creation, it logs the error and re-raises it.
         """
         try:
             return GenerativeModel(model_name, system_instruction=system_instruction)
@@ -76,7 +80,8 @@ class ModelFactoryProvider:
         If no instance exists, it creates one.
 
         Returns:
-            ModelFactory: The singleton instance of the ModelFactory.
+        --------
+        ModelFactory: The singleton instance of the ModelFactory.
         """
         if ModelFactoryProvider._instance is None:
             ModelFactoryProvider._instance = VertexAIModelFactory()
