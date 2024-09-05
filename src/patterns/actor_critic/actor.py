@@ -99,7 +99,7 @@ class Actor(Agent):
         """
         try:
             draft = self._generate_content(DraftGenerator(), topic=self.topic)
-            self._save_content(draft, "draft", 0)
+            self._save_content(draft.text, "draft", 0)
             return draft
         except Exception as e:
             logger.error(f"Error generating initial draft: {e}")
@@ -128,7 +128,7 @@ class Actor(Agent):
         """
         try:
             revised_draft = self._generate_content(RevisionGenerator(), state=state)
-            self._save_content(revised_draft, "draft", version)
+            self._save_content(revised_draft.text, "draft", version)
             return revised_draft
         except Exception as e:
             logger.error(f"Error revising draft: {e}")

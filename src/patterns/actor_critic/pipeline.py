@@ -33,7 +33,7 @@ class Pipeline:
         self.state_manager = StateManager()
         self.actor = Actor(topic, CONFIG_PATH, OUTPUT_DIR)
         self.critic = Critic(topic, CONFIG_PATH, OUTPUT_DIR)
-        logger.info(f"Pipeline initialized with topic: '{topic}', num_cycles: {num_cycles}, config_path: '{CONFIG_PATH}', output_dir: '{OUTPUT_DIR}'")
+        logger.info(f"Pipeline initialized with topic: '{topic}', num_cycles: {num_cycles}")
 
     def run(self) -> str:
         """

@@ -104,7 +104,7 @@ class Critic(Agent):
         """
         try:
             review = self._generate_content(DraftReviewGenerator(), draft=draft)
-            self._save_content(review, "feedback", 0)
+            self._save_content(review.text, "feedback", 0)
             return review
         except Exception as e:
             logger.error(f"Error reviewing draft: {e}")
@@ -133,7 +133,7 @@ class Critic(Agent):
         """
         try:
             revised_review = self._generate_content(ReviewRevisionGenerator(), state=state)
-            self._save_content(revised_review, "feedback", version)
+            self._save_content(revised_review.text, "feedback", version)
             return revised_review
         except Exception as e:
             logger.error(f"Error revising review: {e}")
