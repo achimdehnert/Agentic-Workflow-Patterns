@@ -15,7 +15,7 @@ class WebContentSummarizer:
     
     Methods:
     -------
-    summarize(query: str) -> None:
+    summarize(model_name: str, query: str) -> None:
         Generates a response based on system instructions, user input, and scraped HTML content, 
         and saves the summary to the output path.
     """
@@ -57,6 +57,8 @@ class WebContentSummarizer:
         
         Parameters:
         ----------
+        model_name : str
+            The name of the model to be used for generating the summary.
         query : str
             The search query for web scraping and content summarization.
         

@@ -18,12 +18,20 @@ class Pipeline:
         self.web_scraper = WebScraper()
         self.web_content_summarizer = WebContentSummarizer()
 
-    def run(self, model_name, query: str) -> None:
+    def run(self, model_name: str, query: str) -> None:
         """
         Executes the full pipeline to search, scrape, and summarize web content for a given query.
 
-        :param query: The search query string.
-        :raises Exception: If an error is encountered during search, scraping, or summarization.
+        Parameters:
+        -----------
+        model_name : str
+            The name of the model to be used for summarizing the content.
+        query : str
+            The search query string.
+
+        Raises:
+        -------
+        Exception: If an error is encountered during search, scraping, or summarization.
         """
         try:
             logger.info(f"Pipeline execution started for query: '{query}'")

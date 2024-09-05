@@ -6,8 +6,8 @@ from src.prompt.manage import TemplateManager
 from src.patterns.web_search.serp import run
 from src.config.logging import logger
 from typing import Optional
-from typing import Dict 
-from typing import Any 
+from typing import Dict
+from typing import Any
 
 
 class WebSearchExecutor:
@@ -33,7 +33,8 @@ class WebSearchExecutor:
         Creates a function declaration for performing a web search with an optional location parameter.
         
         Returns:
-            FunctionDeclaration: A declaration specifying the structure of the search function.
+        --------
+        FunctionDeclaration: A declaration specifying the structure of the search function.
         """
         return FunctionDeclaration(
             name="web_search",
@@ -53,14 +54,18 @@ class WebSearchExecutor:
         Executes the function call using Gemini to derive the arguments for the API call.
 
         Args:
-            search_query (str): The search query used for web search.
-            search_tool (Tool): Configuration for generating search data.
+        -----
+        model_name (str): The name of the model to be used for the function call.
+        search_query (str): The search query used for web search.
+        search_tool (Tool): Configuration for generating search data.
 
         Returns:
-            GenerationResponse: The response from the model with the generated content.
+        --------
+        GenerationResponse: The response from the model with the generated content.
 
         Raises:
-            Exception: If there is an issue with generating the content.
+        -------
+        Exception: If there is an issue with generating the content.
         """
         try:
             # Create a template for the search tool interaction
@@ -81,12 +86,14 @@ class WebSearchExecutor:
     def extract_function_args(self, response: GenerationResponse) -> Optional[Dict[str, Any]]:
         """
         Extracts arguments from the first function call in the first candidate of the response.
-        
+
         Args:
-            response (GenerationResponse): The response containing generated content.
-        
+        -----
+        response (GenerationResponse): The response containing generated content.
+
         Returns:
-            Optional[Dict[str, Any]]: The extracted arguments if present, otherwise None.
+        --------
+        Optional[Dict[str, Any]]: The extracted arguments if present, otherwise None.
         """
         try:
             first_candidate = response.candidates[0]
@@ -105,9 +112,11 @@ class WebSearchExecutor:
     def execute(self, model_name: str, query: str) -> None:
         """
         Simplified search execution method. Calls the web search function with just the query.
-        
+
         Args:
-            query (str): The query to search for.
+        -----
+        model_name (str): The name of the model to be used for web search.
+        query (str): The query to search for.
         """
         search_tool = Tool(function_declarations=[self.create_search_function_declaration()])
         response = self.function_call(model_name, query, search_tool)
