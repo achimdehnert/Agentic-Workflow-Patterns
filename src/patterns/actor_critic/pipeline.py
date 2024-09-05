@@ -20,19 +20,19 @@ class Pipeline:
         critic (Critic): The critic responsible for reviewing drafts and providing feedback.
     """
 
-    def __init__(self, topic: str, num_cycles: int):
+    def __init__(self, model_names: dict, topic: str, num_cycles: int):
         """
         Initializes the Pipeline with a topic and number of cycles.
 
         Args:
+            model_names (dict): A dictionary containing model names for 'actor' and 'critic'.
             topic (str): The topic for content generation.
             num_cycles (int): The number of cycles to run the actor-critic loop.
         """
-        self.topic = topic
         self.num_cycles = num_cycles
         self.state_manager = StateManager()
-        self.actor = Actor(topic, CONFIG_PATH, OUTPUT_DIR)
-        self.critic = Critic(topic, CONFIG_PATH, OUTPUT_DIR)
+        self.actor = Actor(model_names['actor'], topic, CONFIG_PATH, OUTPUT_DIR)
+        self.critic = Critic(model_names['critic'], topic, CONFIG_PATH, OUTPUT_DIR)
         logger.info(f"Pipeline initialized with topic: '{topic}', num_cycles: {num_cycles}")
 
     def run(self) -> str:
@@ -105,10 +105,14 @@ class Pipeline:
 
 if __name__ == "__main__":
     try:
-        topic: str = 'perplexity'
-        num_cycles: int = 2
+        model_names = {
+            'actor': 'gemini-1.5-pro-001',
+            'critic': 'gemini-1.5-flash-001'
+        }
+        topic = 'perplexity'
+        num_cycles = 2
 
-        pipeline = Pipeline(topic=topic, num_cycles=num_cycles)
+        pipeline = Pipeline(model_names=model_names, topic=topic, num_cycles=num_cycles)
         final_state: str = pipeline.run()
         logger.info("Actor-Critic pipeline completed successfully.")
         print(final_state)

@@ -63,7 +63,7 @@ class Agent:
         Saves the generated content to disk.
     """
 
-    def __init__(self, topic: str, config_path: str, output_path: str):
+    def __init__(self, model_name, topic: str, config_path: str, output_path: str):
         """
         Initialize the Agent with a topic, configuration path, and output path.
 
@@ -76,6 +76,7 @@ class Agent:
         output_path : str
             The path where the generated content will be saved.
         """
+        self.model_name = model_name
         self.topic = topic
         self.output_path = output_path
         self.template_manager = TemplateManager(config_path)
@@ -97,7 +98,8 @@ class Agent:
         str
             The generated content.
         """
-        return generator.generate(template_manager=self.template_manager, 
+        return generator.generate(model_name=self.model_name, 
+                                  template_manager=self.template_manager, 
                                   response_generator=self.response_generator, 
                                   **kwargs)
 

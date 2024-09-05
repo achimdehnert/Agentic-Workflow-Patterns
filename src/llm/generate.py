@@ -31,11 +31,12 @@ class ResponseGenerator:
         self.generation_strategy = GenerationStrategyFactory.get_strategy(strategy_type)
         logger.info(f"Generation strategy '{strategy_type}' selected.")
 
-    def generate_response(self, system_instruction: str, contents: List[str], response_schema: Optional[Dict[str, Any]] = None, tools: List[Any] = None) -> GenerationResponse:
+    def generate_response(self, model_name: str, system_instruction: str, contents: List[str], response_schema: Optional[Dict[str, Any]] = None, tools: List[Any] = None) -> GenerationResponse:
         """
-        Generates a response based on the provided system instruction, contents, response schema, and tools.
+        Generates a response based on the provided model name, system instruction, contents, response schema, and tools.
 
         Args:
+            model_name (str): The name of the model to be used for generation.
             system_instruction (str): The instruction or prompt provided to the model.
             contents (List[str]): A list of content strings that will be used as input for response generation.
             response_schema (Optional[Dict[str, Any]]): A schema that defines the structure and constraints of the generated response. Defaults to None.
@@ -50,8 +51,8 @@ class ResponseGenerator:
         logger.info("Starting response generation.")
         
         try:
-            logger.info(f"Creating model instance for: {config.TEXT_GEN_MODEL_NAME}")
-            model = self.model_factory.create_model(config.TEXT_GEN_MODEL_NAME, system_instruction)
+            logger.info(f"Creating model instance for: {model_name}")
+            model = self.model_factory.create_model(model_name, system_instruction)
             logger.info("Model created successfully.")
             
             generation_config = self.generation_strategy.create_generation_config(response_schema) if response_schema else None

@@ -13,7 +13,7 @@ class DraftGenerator(ContentGenerator):
         Generates the initial draft based on the provided topic.
     """
 
-    def generate(self, template_manager, response_generator, topic: str) -> str:
+    def generate(self, model_name, template_manager, response_generator, topic: str) -> str:
         """
         Generate an initial draft using the provided topic.
 
@@ -34,7 +34,7 @@ class DraftGenerator(ContentGenerator):
         template = template_manager.create_template('actor', 'draft')
         system_instruction = template_manager.fill_template(template['system'], topic=topic)
         user_instruction = template_manager.fill_template(template['user'], topic=topic)
-        return response_generator.generate_response(system_instruction, [user_instruction], template['schema'])
+        return response_generator.generate_response(model_name, system_instruction, [user_instruction], template['schema'])
 
 
 class RevisionGenerator(ContentGenerator):
@@ -47,7 +47,7 @@ class RevisionGenerator(ContentGenerator):
         Generates a revised draft based on the provided previous draft state.
     """
 
-    def generate(self, template_manager, response_generator, state: str) -> str:
+    def generate(self, model_name, template_manager, response_generator, state: str) -> str:
         """
         Generate a revised draft using the previous draft state.
 
@@ -68,7 +68,7 @@ class RevisionGenerator(ContentGenerator):
         template = template_manager.create_template('actor', 'revise')
         system_instruction = template['system']
         user_instruction = template_manager.fill_template(template['user'], history=state)
-        return response_generator.generate_response(system_instruction, [user_instruction], template['schema'])
+        return response_generator.generate_response(model_name, system_instruction, [user_instruction], template['schema'])
 
 
 class Actor(Agent):

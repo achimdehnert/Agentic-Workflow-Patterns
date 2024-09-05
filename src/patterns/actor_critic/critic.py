@@ -13,7 +13,7 @@ class DraftReviewGenerator(ContentGenerator):
         Generates a review based on the provided draft content.
     """
 
-    def generate(self, template_manager, response_generator, draft: str) -> str:
+    def generate(self, model_name, template_manager, response_generator, draft: str) -> str:
         """
         Generate a review for the given draft.
 
@@ -34,7 +34,7 @@ class DraftReviewGenerator(ContentGenerator):
         template = template_manager.create_template('critic', 'review')
         system_instruction = template['system']
         user_instruction = template_manager.fill_template(template['user'], article=draft)
-        return response_generator.generate_response(system_instruction, [user_instruction], template['schema'])
+        return response_generator.generate_response(model_name, system_instruction, [user_instruction], template['schema'])
 
 
 class ReviewRevisionGenerator(ContentGenerator):
@@ -47,7 +47,7 @@ class ReviewRevisionGenerator(ContentGenerator):
         Generates a revised review based on the provided previous review state.
     """
 
-    def generate(self, template_manager, response_generator, state: str) -> str:
+    def generate(self, model_name, template_manager, response_generator, state: str) -> str:
         """
         Generate a revised review using the previous review state.
 
@@ -68,7 +68,7 @@ class ReviewRevisionGenerator(ContentGenerator):
         template = template_manager.create_template('critic', 'revise')
         system_instruction = template['system']
         user_instruction = template_manager.fill_template(template['user'], history=state)
-        return response_generator.generate_response(system_instruction, [user_instruction], template['schema'])
+        return response_generator.generate_response(model_name, system_instruction, [user_instruction], template['schema'])
 
 
 class Critic(Agent):
