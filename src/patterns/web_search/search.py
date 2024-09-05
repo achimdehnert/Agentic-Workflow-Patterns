@@ -48,7 +48,7 @@ class WebSearchExecutor:
             },
         )
 
-    def function_call(self, search_query: str, search_tool: Tool) -> GenerationResponse:
+    def function_call(self, model_name: str, search_query: str, search_tool: Tool) -> GenerationResponse:
         """
         Executes the function call using Gemini to derive the arguments for the API call.
 
@@ -71,7 +71,7 @@ class WebSearchExecutor:
             user_instruction = self.template_manager.fill_template(template['user'], query=search_query)
             
             # Generate and return the response using the system and user instructions
-            return self.response_generator.generate_response(system_instruction, [user_instruction], tools=[search_tool])
+            return self.response_generator.generate_response(model_name, system_instruction, [user_instruction], tools=[search_tool])
         
         except Exception as e:
             # Log error and raise exception if content generation fails
@@ -102,7 +102,7 @@ class WebSearchExecutor:
             logger.error(f"Failed to extract function arguments: {e}")
             return None
 
-    def execute(self, query: str) -> None:
+    def execute(self, model_name: str, query: str) -> None:
         """
         Simplified search execution method. Calls the web search function with just the query.
         
@@ -110,7 +110,7 @@ class WebSearchExecutor:
             query (str): The query to search for.
         """
         search_tool = Tool(function_declarations=[self.create_search_function_declaration()])
-        response = self.function_call(query, search_tool)
+        response = self.function_call(model_name, query, search_tool)
         function_args = self.extract_function_args(response)
         
         if function_args:
@@ -121,4 +121,6 @@ class WebSearchExecutor:
 
 if __name__ == "__main__":
     search_executor = WebSearchExecutor()
-    search_executor.execute("greek restaurants in frisco")
+    model_name = 'gemini-1.5-flash-001'
+    query = "greek restaurants in frisco"
+    search_executor.execute(model_name, query)

@@ -18,7 +18,7 @@ class Pipeline:
         self.web_scraper = WebScraper()
         self.web_content_summarizer = WebContentSummarizer()
 
-    def run(self, query: str) -> None:
+    def run(self, model_name, query: str) -> None:
         """
         Executes the full pipeline to search, scrape, and summarize web content for a given query.
 
@@ -30,7 +30,7 @@ class Pipeline:
 
             # Step 1: Execute web search
             logger.info("Executing web search...")
-            self.web_search_executor.execute(query)
+            self.web_search_executor.execute(model_name, query)
             logger.info("Step 1: Web search completed")
 
             # Step 2: Scrape web pages
@@ -40,7 +40,7 @@ class Pipeline:
 
             # Step 3: Summarize content
             logger.info("Summarizing scraped content...")
-            self.web_content_summarizer.summarize(query)
+            self.web_content_summarizer.summarize(model_name, query)
             logger.info("Step 3: Content summarization completed")
 
         except Exception as e:
@@ -49,6 +49,7 @@ class Pipeline:
 
 
 if __name__ == '__main__':
+    model_name = 'gemini-1.5-flash-001'
     query = 'best hotels in Key West, Florida'
     pipeline = Pipeline()
-    pipeline.run(query)
+    pipeline.run(model_name, query)

@@ -46,7 +46,7 @@ class WebContentSummarizer:
         logger.info(f"Reading HTML content from {self.INPUT_DATA_PATH}")
         return read_file(self.INPUT_DATA_PATH)
 
-    def summarize(self, query: str) -> None:
+    def summarize(self, model_name: str, query: str) -> None:
         """
         Generates a summary by integrating system and user instructions with 
         scraped HTML content and saves the generated summary to a file.
@@ -73,7 +73,7 @@ class WebContentSummarizer:
         )
         
         logger.info("Generating response from LLM...")
-        response = self.response_generator.generate_response(system_instruction, [user_instruction])
+        response = self.response_generator.generate_response(model_name, system_instruction, [user_instruction])
         response_text: str = response.text.strip()
         
         logger.info(f"Saving generated response to {self.OUTPUT_PATH}")
@@ -85,7 +85,8 @@ class WebContentSummarizer:
 
 
 if __name__ == "__main__":
+    model_name = 'gemini-1.5-flash-001'
     query = 'greek restaurants frisco texas'
     
     summarizer = WebContentSummarizer()
-    summarizer.summarize(query)
+    summarizer.summarize(model_name, query)
