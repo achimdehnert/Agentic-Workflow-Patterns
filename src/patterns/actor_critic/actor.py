@@ -9,7 +9,7 @@ class DraftGenerator(ContentGenerator):
     
     Methods:
     --------
-    generate(template_manager, response_generator, topic: str) -> str:
+    generate(model_name, template_manager, response_generator, topic: str) -> str:
         Generates the initial draft based on the provided topic.
     """
 
@@ -19,6 +19,8 @@ class DraftGenerator(ContentGenerator):
 
         Parameters:
         -----------
+        model_name : str
+            The name of the model to be used for generating the draft.
         template_manager : TemplateManager
             The manager responsible for handling templates.
         response_generator : ResponseGenerator
@@ -43,7 +45,7 @@ class RevisionGenerator(ContentGenerator):
     
     Methods:
     --------
-    generate(template_manager, response_generator, state: str) -> str:
+    generate(model_name, template_manager, response_generator, state: str) -> str:
         Generates a revised draft based on the provided previous draft state.
     """
 
@@ -53,6 +55,8 @@ class RevisionGenerator(ContentGenerator):
 
         Parameters:
         -----------
+        model_name : str
+            The name of the model to be used for generating the revised draft.
         template_manager : TemplateManager
             The manager responsible for handling templates.
         response_generator : ResponseGenerator

@@ -106,7 +106,7 @@ class Pipeline:
 if __name__ == "__main__":
     try:
         model_names = {
-            'actor': 'gemini-1.5-pro-001',
+            'actor': 'gemini-1.5-flash-001',
             'critic': 'gemini-1.5-flash-001'
         }
         topic = 'perplexity'

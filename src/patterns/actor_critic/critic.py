@@ -9,7 +9,7 @@ class DraftReviewGenerator(ContentGenerator):
     
     Methods:
     --------
-    generate(template_manager, response_generator, draft: str) -> str:
+    generate(model_name, template_manager, response_generator, draft: str) -> str:
         Generates a review based on the provided draft content.
     """
 
@@ -19,6 +19,8 @@ class DraftReviewGenerator(ContentGenerator):
 
         Parameters:
         -----------
+        model_name : str
+            The name of the model to be used for generating the review.
         template_manager : TemplateManager
             The manager responsible for handling templates.
         response_generator : ResponseGenerator
@@ -43,7 +45,7 @@ class ReviewRevisionGenerator(ContentGenerator):
     
     Methods:
     --------
-    generate(template_manager, response_generator, state: str) -> str:
+    generate(model_name, template_manager, response_generator, state: str) -> str:
         Generates a revised review based on the provided previous review state.
     """
 
@@ -53,6 +55,8 @@ class ReviewRevisionGenerator(ContentGenerator):
 
         Parameters:
         -----------
+        model_name : str
+            The name of the model to be used for generating the revised review.
         template_manager : TemplateManager
             The manager responsible for handling templates.
         response_generator : ResponseGenerator

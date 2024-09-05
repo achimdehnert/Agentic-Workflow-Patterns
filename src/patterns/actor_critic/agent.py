@@ -13,17 +13,19 @@ class ContentGenerator(ABC):
     
     Methods:
     --------
-    generate(**kwargs: Any) -> str:
+    generate(model_name: str, **kwargs: Any) -> str:
         Abstract method that must be implemented by subclasses to generate content.
     """
 
     @abstractmethod
-    def generate(self, **kwargs: Any) -> str:
+    def generate(self, model_name: str, **kwargs: Any) -> str:
         """
         Generate content based on provided arguments.
 
         Parameters:
         -----------
+        model_name : str
+            The name of the model to be used for generating content.
         kwargs : Any
             Additional arguments required for content generation.
 
@@ -46,6 +48,8 @@ class Agent:
     
     Attributes:
     -----------
+    model_name : str
+        The name of the model used for generating content.
     topic : str
         The topic for content generation.
     output_path : str
@@ -63,12 +67,14 @@ class Agent:
         Saves the generated content to disk.
     """
 
-    def __init__(self, model_name, topic: str, config_path: str, output_path: str):
+    def __init__(self, model_name: str, topic: str, config_path: str, output_path: str):
         """
-        Initialize the Agent with a topic, configuration path, and output path.
+        Initialize the Agent with a model name, topic, configuration path, and output path.
 
         Parameters:
         -----------
+        model_name : str
+            The name of the model used for generating content.
         topic : str
             The topic for which content will be generated.
         config_path : str

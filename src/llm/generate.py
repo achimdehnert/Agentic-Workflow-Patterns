@@ -3,10 +3,10 @@ from src.llm.strategy import GenerationStrategyFactory
 from src.llm.factory import ModelFactoryProvider
 from src.config.logging import logger
 from src.config.setup import config
-from typing import Optional 
+from typing import Optional
 from typing import List
-from typing import Dict 
-from typing import Any 
+from typing import Dict
+from typing import Any
 
 
 class ResponseGenerator:
@@ -43,10 +43,12 @@ class ResponseGenerator:
             tools (List[Any]): A list of tools to be passed to the model for content generation. Defaults to None.
 
         Returns:
-            GenerationResponse: The generated response object.
+        --------
+        GenerationResponse: The generated response object.
 
         Raises:
-            Exception: If there is an error during the response generation process.
+        -------
+        Exception: If there is an error during the response generation process.
         """
         logger.info("Starting response generation.")
         
