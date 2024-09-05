@@ -107,7 +107,7 @@ if __name__ == "__main__":
     try:
         model_names = {
             'actor': 'gemini-1.5-flash-001',
-            'critic': 'gemini-1.5-flash-001'
+            'critic': 'gemini-1.5-pro-001'
         }
         topic = 'perplexity'
         num_cycles = 2
