@@ -6,10 +6,9 @@ from src.utils.io import read_file
 from typing import Dict
 
 
-
 class WebContentSummarizeAgent(SummarizeTask):
     INPUT_DATA_PATH = './data/patterns/web_search/output/scrape/scraped_content.txt'
-    OUTPUT_PATH = './data/patterns/web_search/output/summary.txt'
+    OUTPUT_PATH = './data/patterns/web_search/output/summarize/summary.txt'
     TEMPLATE_PATH = './config/patterns/web_search.yml'
 
     def __init__(self):
@@ -21,7 +20,7 @@ class WebContentSummarizeAgent(SummarizeTask):
         logger.info(f"Reading HTML content from {self.INPUT_DATA_PATH}")
         return read_file(self.INPUT_DATA_PATH)
 
-    def execute(self, model_name: str, query: str) -> None:
+    def run(self, model_name: str, query: str) -> None:
         logger.info("Fetching and processing template for response generation.")
         template: Dict[str, str] = self.template_manager.create_template('tools', 'scrape')
         

@@ -2,7 +2,7 @@ tools:
   search:
     system_instructions: './data/patterns/web_search/search/system_instructions.txt'
     user_instructions: './data/patterns/web_search/search/user_instructions.txt'
-  scrape:
+  summarize:
     system_instructions: './data/patterns/web_search/scrape/system_instructions.txt'
     user_instructions: './data/patterns/web_search/scrape/user_instructions.txt'
   

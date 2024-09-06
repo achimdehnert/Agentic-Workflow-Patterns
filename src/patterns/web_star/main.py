@@ -1,5 +1,3 @@
-from src.patterns.web_star.observers import ProgressObserver
-from src.patterns.web_star.observers import LogObserver
 from src.patterns.web_star.factory import TaskFactory
 from src.patterns.web_star.tasks import SummarizeTask
 from src.patterns.web_star.pipeline import Pipeline
@@ -28,8 +26,6 @@ class Container:
             self.scrape_task(),
             self.summarize_task()
         )
-        pipeline.add_observer(LogObserver())
-        pipeline.add_observer(ProgressObserver())
         return pipeline
     
 
@@ -37,4 +33,4 @@ if __name__ == '__main__':
     container = Container()
     pipeline = container.pipeline()
     query = 'best hotels in Key West, Florida'
-    pipeline.run('gemini-1.5-pro-001', query)
+    pipeline.run('gemini-1.5-flash-001', query)

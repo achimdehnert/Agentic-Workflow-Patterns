@@ -51,7 +51,7 @@ class WebSearchAgent(SearchTask):
             logger.error(f"Failed to extract function arguments: {e}")
             return None
 
-    def execute(self, model_name: str, query: str) -> None:
+    def run(self, model_name: str, query: str) -> None:
         search_tool = Tool(function_declarations=[self.create_search_function_declaration()])
         response = self.function_call(model_name, query, search_tool)
         function_args = self.extract_function_args(response)

@@ -97,7 +97,7 @@ class WebScrapeAgent(ScrapeTask):
         except Exception as e:
             logger.error(f"Error saving results: {str(e)}")
 
-    def execute(self) -> None:
+    def run(self) -> None:
         try:
             results = self.load_latest_json()
             scraped_results = self.scrape_results(results)
