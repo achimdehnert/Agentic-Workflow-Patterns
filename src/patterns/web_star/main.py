@@ -10,23 +10,23 @@ from src.patterns.web_star.observers import ProgressObserver
 
 class Container:
     @lru_cache()
-    def search_strategy(self) -> SearchTask:
+    def search_task(self) -> SearchTask:
         return TaskFactory.create_search_task()
 
     @lru_cache()
-    def scraping_strategy(self) -> ScrapeTask:
+    def scrape_task(self) -> ScrapeTask:
         return TaskFactory.create_scrape_task()
 
     @lru_cache()
-    def summarization_strategy(self) -> SummarizeTask:
+    def summarize_task(self) -> SummarizeTask:
         return TaskFactory.create_summarize_task()
 
     @lru_cache()
     def pipeline(self) -> Pipeline:
         pipeline = Pipeline(
-            self.search_strategy(),
-            self.scraping_strategy(),
-            self.summarization_strategy()
+            self.search_task(),
+            self.scrape_task(),
+            self.summarize_task()
         )
         pipeline.add_observer(LogObserver())
         pipeline.add_observer(ProgressObserver())
