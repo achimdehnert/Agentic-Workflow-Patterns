@@ -8,7 +8,7 @@ from functools import lru_cache
 from typing import Optional
 
 
-class Container:
+class Runner:
     """
     Container class that manages task creation and caching for pipeline execution.
     Uses lru_cache to cache instances of the tasks to improve performance.
@@ -78,8 +78,8 @@ def run(query: str, model_name: Optional[str] = 'gemini-1.5-flash-001') -> None:
     """
     try:
         logger.info(f"Starting pipeline for query: {query} with model: {model_name}")
-        container = Container()
-        pipeline = container.pipeline()
+        runner = Runner()
+        pipeline = runner.pipeline()
         pipeline.run(model_name, query)
         logger.info("Pipeline run successfully completed.")
     except Exception as e:
