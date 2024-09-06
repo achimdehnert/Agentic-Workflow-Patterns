@@ -1,7 +1,8 @@
 from src.config.logging import logger
 from src.utils.io import load_json
 from src.utils.io import load_yaml
-from typing import Dict, Optional
+from typing import Optional
+from typing import Dict
 
 
 class TemplateManager:
