@@ -22,7 +22,7 @@ class WebContentSummarizeAgent(SummarizeTask):
 
     def run(self, model_name: str, query: str) -> None:
         logger.info("Fetching and processing template for response generation.")
-        template: Dict[str, str] = self.template_manager.create_template('tools', 'scrape')
+        template: Dict[str, str] = self.template_manager.create_template('tools', 'summarize')
         
         system_instruction: str = template['system']
         user_instruction: str = self.template_manager.fill_template(
