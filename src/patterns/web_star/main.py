@@ -1,11 +1,11 @@
-from functools import lru_cache 
+from src.patterns.web_star.observers import ProgressObserver
+from src.patterns.web_star.observers import LogObserver
 from src.patterns.web_star.factory import TaskFactory
-from src.patterns.web_star.tasks import SearchTask
-from src.patterns.web_star.tasks import ScrapeTask
 from src.patterns.web_star.tasks import SummarizeTask
 from src.patterns.web_star.pipeline import Pipeline
-from src.patterns.web_star.observers import LogObserver
-from src.patterns.web_star.observers import ProgressObserver
+from src.patterns.web_star.tasks import SearchTask
+from src.patterns.web_star.tasks import ScrapeTask
+from functools import lru_cache 
 
 
 class Container:
