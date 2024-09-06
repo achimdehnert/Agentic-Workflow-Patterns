@@ -1,11 +1,9 @@
-from src.patterns.web_star.factory import TaskFactory
 from src.patterns.web_star.tasks import SummarizeTask
 from src.patterns.web_star.observers import Observer
 from src.patterns.web_star.tasks import SearchTask
 from src.patterns.web_star.tasks import ScrapeTask
 from src.config.logging import logger
 from dataclasses import dataclass
-from functools import lru_cache 
 from dataclasses import field 
 from typing import List
 
