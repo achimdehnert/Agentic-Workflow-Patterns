@@ -6,9 +6,9 @@ from abc import ABC
 
 # Abstract base class for the agent
 class Agent(ABC):
-    def __init__(self, name: str, llm_client: GenerationResponse):
+    def __init__(self, name: str, response_generator: GenerationResponse):
         self.name = name
-        self.llm_client = llm_client
+        self.response_generator = response_generator
 
     @abstractmethod
     def process(self, message: Message) -> Message:
