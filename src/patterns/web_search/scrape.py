@@ -1,16 +1,19 @@
-
-
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from src.patterns.web_search.tasks import ScrapeTask
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import as_completed
 from src.config.logging import logger
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-from typing import Tuple, Dict, List, Any
+from typing import Tuple
+from typing import Dict
+from typing import List 
+from typing import Any 
 import requests
 import json
 import time
 import os
 import re
+
 
 class WebScrapeAgent(ScrapeTask):
     """
