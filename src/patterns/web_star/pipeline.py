@@ -27,13 +27,13 @@ class Pipeline:
             self.notify_observers("Pipeline execution started")
             
             self.notify_observers("Executing web search...")
-            self.search_strategy.execute(model_name, query)
+            self.search_task.run(model_name, query)
             
             self.notify_observers("Starting web scraping...")
-            self.scraping_strategy.run()
+            self.scrape_task.run()
             
             self.notify_observers("Summarizing scraped content...")
-            self.summarization_strategy.summarize(model_name, query)
+            self.summarize_task.run(model_name, query)
             
             self.notify_observers("Pipeline execution completed")
         except Exception as e:
