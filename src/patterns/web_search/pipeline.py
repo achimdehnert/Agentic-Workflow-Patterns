@@ -1,63 +1,51 @@
-from src.patterns.web_search.summarize import WebContentSummarizer
-from src.patterns.web_search.search import WebSearchExecutor
-from src.patterns.web_search.scrape import WebScraper
+from src.patterns.web_search.tasks import SummarizeTask
+from src.patterns.web_search.tasks import SearchTask
+from src.patterns.web_search.tasks import ScrapeTask
 from src.config.logging import logger
+from dataclasses import dataclass
 
-
+@dataclass
 class Pipeline:
     """
-    The Pipeline class orchestrates the process of executing a web search, scraping web pages,
-    and summarizing the content. It integrates the components of search, scraping, and summarization.
+    Pipeline class that orchestrates the execution of search, scrape, and summarize tasks.
+    
+    Attributes:
+        search_task (SearchTask): The task responsible for searching web content.
+        scrape_task (ScrapeTask): The task responsible for scraping web content.
+        summarize_task (SummarizeTask): The task responsible for summarizing the scraped content.
     """
-
-    def __init__(self) -> None:
-        """
-        Initializes the pipeline by instantiating the WebSearchExecutor, WebScraper, and WebContentSummarizer.
-        """
-        self.web_search_executor = WebSearchExecutor()
-        self.web_scraper = WebScraper()
-        self.web_content_summarizer = WebContentSummarizer()
+    search_task: SearchTask
+    scrape_task: ScrapeTask
+    summarize_task: SummarizeTask
 
     def run(self, model_name: str, query: str) -> None:
         """
-        Executes the full pipeline to search, scrape, and summarize web content for a given query.
-
-        Parameters:
-        -----------
-        model_name : str
-            The name of the model to be used for summarizing the content.
-        query : str
-            The search query string.
-
+        Executes the search, scrape, and summarize tasks in sequence.
+        
+        Args:
+            model_name (str): The model name used for the summarization task.
+            query (str): The search query that will be passed to the search and summarize tasks.
+        
         Raises:
-        -------
-        Exception: If an error is encountered during search, scraping, or summarization.
+            Exception: If any task encounters an error, the exception is logged and re-raised.
         """
         try:
-            logger.info(f"Pipeline execution started for query: '{query}'")
+            logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}'.")
+            
+            # Execute the search task
+            logger.info("Executing search task.")
+            self.search_task.run(model_name, query)
+            
+            # Execute the scrape task
+            logger.info("Executing scrape task.")
+            self.scrape_task.run()
 
-            # Step 1: Execute web search
-            logger.info("Executing web search...")
-            self.web_search_executor.execute(model_name, query)
-            logger.info("Step 1: Web search completed")
-
-            # Step 2: Scrape web pages
-            logger.info("Starting web scraping...")
-            self.web_scraper.run()
-            logger.info("Step 2: Web scraping completed")
-
-            # Step 3: Summarize content
-            logger.info("Summarizing scraped content...")
-            self.web_content_summarizer.summarize(model_name, query)
-            logger.info("Step 3: Content summarization completed")
-
+            # Execute the summarize task
+            logger.info("Executing summarize task.")
+            self.summarize_task.run(model_name, query)
+            
+            logger.info("Pipeline execution completed successfully.")
+        
         except Exception as e:
             logger.error(f"An error occurred during the pipeline execution: {e}", exc_info=True)
             raise
-
-
-if __name__ == '__main__':
-    model_name = 'gemini-1.5-flash-001'
-    query = 'best hotels in Key West, Florida'
-    pipeline = Pipeline()
-    pipeline.run(model_name, query)
