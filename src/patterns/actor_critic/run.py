@@ -8,7 +8,7 @@ CONFIG_PATH: str = './config/patterns/actor_critic.yml'
 OUTPUT_DIR: str = './data/patterns/actor_critic/output'
 
 
-class Pipeline:
+class Runner:
     """
     The Pipeline class orchestrates the Actor-Critic workflow for generating and revising content based on a given topic.
     
@@ -112,8 +112,8 @@ if __name__ == "__main__":
         topic = 'perplexity'
         num_cycles = 2
 
-        pipeline = Pipeline(model_names=model_names, topic=topic, num_cycles=num_cycles)
-        final_state: str = pipeline.run()
+        runner = Runner(model_names=model_names, topic=topic, num_cycles=num_cycles)
+        final_state: str = runner.run()
         logger.info("Actor-Critic pipeline completed successfully.")
         print(final_state)
     except Exception as e:
