@@ -29,7 +29,6 @@ class ResponseGenerator:
         """
         self.model_factory = ModelFactoryProvider.get_instance()
         self.generation_strategy = GenerationStrategyFactory.get_strategy(strategy_type)
-        logger.info(f"Generation strategy '{strategy_type}' selected.")
 
     def generate_response(self, model_name: str, system_instruction: str, contents: List[str], response_schema: Optional[Dict[str, Any]] = None, tools: List[Any] = None) -> GenerationResponse:
         """
