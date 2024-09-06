@@ -1,5 +1,7 @@
-from abc import abstractmethod, ABC
 from src.config.logging import logger
+from abc import abstractmethod
+from abc import ABC
+
 
 class SearchTask(ABC):
     """
