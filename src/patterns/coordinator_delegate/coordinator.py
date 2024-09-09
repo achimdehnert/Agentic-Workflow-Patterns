@@ -7,7 +7,7 @@ from src.config.logging import logger
 from typing import List, Dict
 from enum import Enum
 
-from src.patterns.web_search.run import run
+
 
 
 class Intent(Enum):

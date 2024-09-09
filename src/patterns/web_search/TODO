@@ -1,0 +1,5 @@
+make sure all states are handling by state manager 
+
+every step leverage the last state from the state manager 
+the outputs of steps are however also ioed into data output (as of now this exists)
+remove processing of step inputs from io 
