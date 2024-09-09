@@ -61,7 +61,8 @@ class WebScrapeAgent(ScrapeTask):
 
     def scrape_website(self, url: str) -> str:
         """
-        Scrapes the given website URL and extracts relevant content.
+        Scrapes the given website URL and extracts relevant content. If the request takes longer than 5 seconds,
+        the website is skipped.
         
         Args:
             url (str): The URL to be scraped.
@@ -70,15 +71,19 @@ class WebScrapeAgent(ScrapeTask):
             str: Extracted text content from the webpage, or an empty string in case of an error.
         """
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)  # Adding a timeout of 5 seconds
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
             text_elements = soup.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
             extracted_text = ' '.join([elem.get_text() for elem in text_elements])
             return self.clean_text(extracted_text)
+        except requests.Timeout:
+            logger.warning(f"Skipping {url} due to timeout (more than 5 seconds)")
+            return ""
         except requests.RequestException as e:
             logger.error(f"Error scraping {url}: {str(e)}")
             return ""
+
 
     def scrape_with_delay(self, result: Dict[str, Any], delay: int) -> Tuple[Dict[str, Any], str]:
         """

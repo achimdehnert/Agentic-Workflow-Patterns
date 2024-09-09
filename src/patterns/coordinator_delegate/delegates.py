@@ -26,6 +26,7 @@ class FlightSearchAgent(Agent):
             out_dict = response.text.strip()
             web_search_query = eval(out_dict)['web_search_query']
             web_search_results_summary = run(web_search_query)
+            print(web_search_results_summary)
             return Message(web_search_results_summary, self.name, "TravelPlannerAgent")
         except Exception as e:
             logger.error(f"Error in Flight Agent: {e}")
