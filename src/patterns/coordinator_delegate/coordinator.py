@@ -1,5 +1,4 @@
 from src.patterns.coordinator_delegate.delegates import FlightAgent
-
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
 from src.llm.generate import ResponseGenerator
@@ -7,6 +6,7 @@ from src.prompt.manage import TemplateManager
 from src.config.logging import logger 
 from typing import List 
 from enum import Enum
+from src.utils.io import load_json
 
 
 class Intent(Enum):
@@ -24,15 +24,20 @@ class TravelPlannerAgent(Agent):
         super().__init__(name, response_generator)
         self.sub_agents = {agent.name: agent for agent in sub_agents}
         self.response_generator = response_generator
+        self.template_manager = TemplateManager('./config/patterns/coordinator_delegate.yml')
+    
 
     def determine_intent(self, query: str) -> Intent:
-        prompt = f"""Determine the primary intent of the following travel-related query. Respond with only one word: FLIGHT, HOTEL, or CAR_RENTAL.
-Query: {query}
-
-Intent:"""
         try:
-            response = self.response_generator.generate_response(prompt)
-            return Intent[response.strip().upper()]
+            template = self.template_manager.create_template('coordinator', 'travel_planner')
+            system_instructions = template['system']
+            user_instructions = self.template_manager.fill_template(template['user'], query=query)
+            response_schema = template['schema']
+            contents = [user_instructions]
+            response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
+            out_dict = eval(response.text.strip())
+            intent = out_dict['intent'].upper()
+            return Intent[intent]
         except Exception as e:
             logger.error(f"Error determining intent: {e}")
             return Intent.UNKNOWN

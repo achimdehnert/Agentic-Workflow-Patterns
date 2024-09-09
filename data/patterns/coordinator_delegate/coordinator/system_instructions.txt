@@ -11,7 +11,7 @@ The **Travel Planner Agent** is responsible for analyzing user queries to accura
 3. **Car Rental Search**  
    - Identifies queries that pertain to car rental services, such as availability, pricing, and rental options.
 
-4. **NA (Not Applicable)**  
-   - If the user query does not match any of the above categories, the intent is classified as **NA**, indicating it falls outside the scope of recognized intents.
+4. **Unknown (Not Applicable)**  
+   - If the user query does not match any of the above categories, the intent is classified as **UNKNOWN**, indicating it falls outside the scope of recognized intents.
 
 The agent ensures precise intent classification to enhance the user experience by routing each query to the correct service or sub-agent.

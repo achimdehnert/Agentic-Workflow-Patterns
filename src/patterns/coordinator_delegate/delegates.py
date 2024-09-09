@@ -2,16 +2,15 @@
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
 from src.config.logging import logger 
+from src.llm.generate import ResponseGenerator
+from src.prompt.manage import TemplateManager
 
 
 class FlightAgent(Agent):
     def process(self, message: Message) -> Message:
         logger.info(f"Flight Agent processing: {message.content}")
-        prompt = f"""As a flight booking assistant, provide a detailed response to the following query. Include suggestions for airlines, estimated prices, and any relevant travel tips.
-
-Query: {message.content}
-
-Response:"""
+        template_manager = TemplateManager('./config/patterns/coordinate_delegate.yml')
+        template = template_manager.create_template('delegate', 'flight_search')
         try:
             response = self.llm_client.get_response(prompt)
             return Message(response, self.name, "TravelPlannerAgent")
