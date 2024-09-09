@@ -1,15 +1,15 @@
 coordinator:
   travel_planner:
-    system_instructions: './data/patterns/actor_critic/actor/draft/system_instructions.txt'
-    user_instructions: './data/patterns/actor_critic/actor/draft/user_instructions.txt'
-    response_schema: './data/patterns/actor_critic/actor/draft/response_schema.json'
+    system_instructions: './data/patterns/coordinator_delegate/coordinator/system_instructions.txt'
+    user_instructions: './data/patterns/coordinator_delegate/coordinator/user_instructions.txt'
+    response_schema: './data/patterns/coordinator_delegate/coordinator/response_schema.json'
 delegate:
   flight_search:
-    system_instructions: './data/patterns/actor_critic/actor/draft/system_instructions.txt'
-    user_instructions: './data/patterns/actor_critic/actor/draft/user_instructions.txt'
+    system_instructions: './data/patterns/coordinator_delegate/delegate/flight_search/system_instructions.txt'
+    user_instructions: './data/patterns/coordinator_delegate/delegate/flight_search/user_instructions.txt'
   hotel_search:
-    system_instructions: './data/patterns/actor_critic/actor/draft/system_instructions.txt'
-    user_instructions: './data/patterns/actor_critic/actor/draft/user_instructions.txt'
+    system_instructions: './data/patterns/coordinator_delegate/delegate/hotel_search/system_instructions.txt'
+    user_instructions: './data/patterns/coordinator_delegate/delegate/hotel_search/user_instructions.txt'
   car_rental_search:
-  system_instructions: './data/patterns/actor_critic/actor/draft/system_instructions.txt'
-  user_instructions: './data/patterns/actor_critic/actor/draft/user_instructions.txt'
+  system_instructions: './data/patterns/coordinator_delegate/delegate/car_rental_search/system_instructions.txt'
+  user_instructions: './data/patterns/coordinator_delegate/delegate/car_rental_search/user_instructions.txt'
