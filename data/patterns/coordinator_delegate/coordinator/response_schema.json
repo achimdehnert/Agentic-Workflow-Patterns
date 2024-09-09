@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "The original user query."
+      },
+      "intent": {
+        "type": "string",
+        "description": "The detected intent of the query. Possible values: 'Flight Search', 'Hotel Search', 'Car Rental Search', 'NA'."
+      }
+    },
+    "required": ["query", "intent"]
+  }
+  
