@@ -1,0 +1,1 @@
+Analyze the user query `{query}` to identify intent (Flight Search, Hotel Search, or Car Rental Search) and extract relevant preferences (airline, hotel brand, or car rental company).

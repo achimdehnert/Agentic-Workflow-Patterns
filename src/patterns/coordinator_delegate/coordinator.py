@@ -1,12 +1,13 @@
-
+from src.patterns.coordinator_delegate.delegates import FlightAgent
 
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
 from src.llm.generate import ResponseGenerator
+from src.prompt.manage import TemplateManager
 from src.config.logging import logger 
 from typing import List 
 from enum import Enum
-from src.patterns.coordinator_delegate.delegates import FlightAgent
+
 
 class Intent(Enum):
     FLIGHT = 1
@@ -26,7 +27,6 @@ class TravelPlannerAgent(Agent):
 
     def determine_intent(self, query: str) -> Intent:
         prompt = f"""Determine the primary intent of the following travel-related query. Respond with only one word: FLIGHT, HOTEL, or CAR_RENTAL.
-
 Query: {query}
 
 Intent:"""
@@ -73,11 +73,9 @@ if __name__ == '__main__':
     flight_agent = FlightAgent(name="FlightAgent", response_generator=ResponseGenerator())
 
     # Instantiate the TravelPlannerAgent with sub-agents
-    travel_planner = TravelPlannerAgent(
-        name="TravelPlanner",
-        sub_agents=[flight_agent, flight_agent],
-        response_generator=ResponseGenerator()
-    )
+    travel_planner = TravelPlannerAgent(name="TravelPlanner", 
+                                        sub_agents=[flight_agent, flight_agent], 
+                                        response_generator=ResponseGenerator())
 
     # Simulate a user query (for example, asking for a flight)
     user_query = "I want to book a flight from New York to Los Angeles next week."
