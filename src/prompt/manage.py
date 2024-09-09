@@ -39,6 +39,7 @@ class TemplateManager:
         """
         try:
             template_config = self.config[role][action]
+            print(template_config)
             return {
                 'system': self.load_template(template_config['system_instructions']),
                 'user': self.load_template(template_config['user_instructions']),
@@ -94,7 +95,6 @@ class TemplateManager:
         if schema_path is None:
             return None
         try:
-            print('schema', schema_path)
             return load_json(schema_path)
         except FileNotFoundError as e:
             logger.error(f"Schema file not found: {e}")

@@ -1,42 +1,14 @@
-## Best Hotels in Key West, Florida 
+## Flights from New York to Los Angeles Next Week
 
-This summary provides insights on the best hotels in Key West, Florida, based on various factors including location, style, amenities, and price points.
+This summary focuses on providing information regarding flights from New York to Los Angeles next week, and does not include information about Key West hotels, which was contained in the provided HTML. Please note that the scraped content provided does not contain any information about flights, so this summary is unable to provide specific information about flight schedules, prices, or airlines. 
 
-**Luxury Resorts:**
+To find this information, I recommend using a flight search engine like Google Flights, Kayak, or Expedia. You can input your desired travel dates and location, and these websites will provide you with a range of options based on your needs. 
 
-- **Ocean Key Resort & Spa:** This resort, located on the Key West Harbor, offers a quintessential Key West experience with its blue pool, Sunset Pier Bar, and exceptional spa. [1, 5, 9] 
-- **The Marquesa Hotel:** This boutique hotel in Old Town, housed in restored Victorian-style conch cottages, boasts charming interiors, secluded courtyard pools, and a highly regarded on-site restaurant. [1, 5, 9]
-- **Sunset Key Cottages:** Escape to this private island retreat, featuring upscale cottages, superior service, and a relaxing residential atmosphere just a short boat ride from Old Town. [1, 9, 13]
+**Citations**
 
-**Boutique Hotels:**
-
-- **The Grand Maloney:** This stylish boutique hotel in Old Town features just five rooms and a freestanding carriage house, offering an intimate stay in a restored Victorian-style mansion. [5] 
-- **NYAH Key West:** This unique hotel offers flexible guest rooms, clean and functional accommodations, and a central courtyard with swimming pools and a hot tub. [5] 
-- **The Saint Hotel Key West:** This swanky boutique hotel offers a sexy atmosphere, contemporary and classy details, and a prime location in the heart of Key West. [1, 6] 
-
-**Family-Friendly Options:**
-
-- **Parrot Key Hotel and Villas:** This resort, located in New Town, offers spacious guest rooms, suites, and villas, perfect for families. Amenities include four swimming pools and a waterfront terrace. [5] 
-- **Southernmost Beach Resort:** Located at the end of Duval Street, this resort features three pools, ocean views, and a full-service beach club with complimentary beach set-ups. [9, 13] 
-
-**Other Notable Options:**
-
-- **Opal Key Resort And Marina:** This centrally located resort offers spacious guest rooms and suites, a waterfront promenade connecting to Mallory Square, and a marina for water sports activities. [5]
-- **The Marker Key West Harbor Resort:** This resort offers modern guest rooms with harbor views, a breezy laid-back vibe, and a prime location near Old Town and Duval Street. [1, 5, 9]
-- **Winslow's Bungalows:** This historic retreat, located two blocks from Duval Street, features multiple cottages and former homes, oozing retro-chic decor. [1, 5, 9]
-
-**Considerations:**
-
-- **Location:** Choose a hotel based on your desired proximity to Old Town, Duval Street, or the quieter Stock Island area. [9, 13]
-- **Price Points:** Consider your budget and look for deals during off-season or by taking advantage of promotions. [1, 5, 9]
-- **Amenities:**  Look for hotels offering pools, spas, restaurants, bars, and other amenities that align with your preferences. [1, 5, 9, 13]
-
-
-#### Citations
-
-1. https://www.cntraveler.com/gallery/best-hotels-in-key-west
-2. https://www.reddit.com/r/KeyWest/comments/zib1pg/hotel_suggestion/
-3. https://www.telegraph.co.uk/travel/destinations/north-america/united-states/florida/florida-keys/key-west/hotels/
-4. https://www.forbes.com/sites/forbes-personal-shopper/article/best-hotels-in-key-west/
-5. https://luxuryhotel.world/key-west/
-6. https://www.travelandleisure.com/best-hotels-in-key-west-8629263
+1. [https://www.cntraveler.com/gallery/best-hotels-in-key-west](https://www.cntraveler.com/gallery/best-hotels-in-key-west)
+2. [https://www.reddit.com/r/KeyWest/comments/zib1pg/hotel_suggestion/](https://www.reddit.com/r/KeyWest/comments/zib1pg/hotel_suggestion/)
+3. [https://www.telegraph.co.uk/travel/destinations/north-america/united-states/florida/florida-keys/key-west/hotels/](https://www.telegraph.co.uk/travel/destinations/north-america/united-states/florida/florida-keys/key-west/hotels/)
+4. [https://www.forbes.com/sites/forbes-personal-shopper/article/best-hotels-in-key-west/](https://www.forbes.com/sites/forbes-personal-shopper/article/best-hotels-in-key-west/)
+5. [https://luxuryhotel.world/key-west/](https://luxuryhotel.world/key-west/)
+6. [https://www.travelandleisure.com/best-hotels-in-key-west-8629263](https://www.travelandleisure.com/best-hotels-in-key-west-8629263)
