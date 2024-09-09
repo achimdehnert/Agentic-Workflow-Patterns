@@ -1,12 +1,9 @@
 from src.patterns.web_search.factory import TaskFactory
-from src.patterns.web_search.tasks import SummarizeTask
+from src.patterns.web_search.tasks import SummarizeTask, SearchTask, ScrapeTask
 from src.patterns.web_search.pipeline import Pipeline
-from src.patterns.web_search.tasks import SearchTask
-from src.patterns.web_search.tasks import ScrapeTask
 from src.config.logging import logger
 from functools import lru_cache
 from typing import Optional
-from src.memory.manage import StateManager  # Import the StateManager class
 
 
 class Runner:
@@ -69,41 +66,27 @@ class Runner:
             raise
 
     
-def run(query: str, model_name: Optional[str] = 'gemini-1.5-flash-001') -> None:
+def run(query: str, model_name: Optional[str] = 'gemini-1.5-flash-001') -> str:
     """
     Main function that initializes the container, constructs the pipeline, and executes it.
     
     Args:
-        query (str): The search query.
+        query (str): The search query to be processed.
         model_name (Optional[str]): The model name used for summarization. Defaults to 'gemini-1.5-flash-001'.
+    
+    Returns:
+        str: The summary result from the pipeline execution.
+    
+    Raises:
+        Exception: If any error occurs during pipeline execution, it is logged and re-raised.
     """
     try:
         logger.info(f"Starting pipeline for query: {query} with model: {model_name}")
-        
-        # Initialize StateManager
-        state_manager = StateManager()
-
-        # Add initial state entry for the query and model_name
-        state_manager.add_entry("Query", query)
-        state_manager.add_entry("Model Name", model_name)
-        
         runner = Runner()
         pipeline = runner.pipeline()
-
-        # Execute the pipeline
-        pipeline.run(model_name, query)
-
-        # After the pipeline execution, store the pipeline's completion state
-        state_manager.add_entry("Pipeline Status", "Completed")
-
-        # Retrieve and log the current state in Markdown format
-        state_markdown = state_manager.get_state_markdown()
-        logger.info(f"Current State in Markdown:\n{state_markdown}")
-
-        # Optionally print the state markdown for visibility
-        print(state_markdown)
-
+        summary = pipeline.run(model_name, query)
         logger.info("Pipeline run successfully completed.")
+        return summary
     except Exception as e:
         logger.error(f"Pipeline execution failed: {str(e)}")
         raise
@@ -111,4 +94,6 @@ def run(query: str, model_name: Optional[str] = 'gemini-1.5-flash-001') -> None:
 
 if __name__ == '__main__':
     query = 'best hotels in Key West, Florida'
-    run(query)
+    summary = run(query)
+    logger.info(f"Generated Summary: {summary}")
+

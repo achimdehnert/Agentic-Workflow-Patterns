@@ -1,4 +1,4 @@
-from src.patterns.actor_critic.manage import StateManager
+from memory.manage import StateManager
 from src.patterns.actor_critic.critic import Critic
 from src.patterns.actor_critic.actor import Actor
 from src.config.logging import logger
@@ -113,7 +113,7 @@ if __name__ == "__main__":
         num_cycles = 2
 
         runner = Runner(model_names=model_names, topic=topic, num_cycles=num_cycles)
-        final_state: str = runner.run()
+        final_state = runner.run()
         logger.info("Actor-Critic pipeline completed successfully.")
         print(final_state)
     except Exception as e:

@@ -46,17 +46,20 @@ class WebContentSummarizeAgent(SummarizeTask):
             logger.error(f"Error reading HTML content: {e}")
             raise
 
-    def run(self, model_name: str, query: str) -> None:
+    def run(self, model_name: str, query: str) -> str:
         """
         Runs the summarization process, generating a summary of the scraped content
-        using the provided language model and saving the output to a file.
+        using the provided language model and returning the output as a string.
 
         Args:
             model_name (str): The name of the model to be used for summarization.
             query (str): The query used to contextualize the summary.
         
+        Returns:
+            str: The generated summary as a string.
+        
         Raises:
-            Exception: If an error occurs during response generation or saving.
+            Exception: If an error occurs during response generation or processing.
         """
         try:
             # Fetching and processing the template
@@ -75,13 +78,8 @@ class WebContentSummarizeAgent(SummarizeTask):
             )
             response_text: str = response.text.strip()
             
-            # Saving the response to the output path
-            logger.info(f"Saving generated response to {self.OUTPUT_PATH}")
-            with open(self.OUTPUT_PATH, 'w') as f:
-                f.write(response_text)
-            
-            logger.info("Response saved successfully.")
-            print(response_text)
+            logger.info("Response generated successfully.")
+            return response_text
         
         except Exception as e:
             logger.error(f"Error during summarization process: {e}")
