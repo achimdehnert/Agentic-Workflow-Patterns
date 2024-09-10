@@ -1,6 +1,8 @@
 from src.patterns.web_search.factory import TaskFactory
-from src.patterns.web_search.tasks import SummarizeTask, SearchTask, ScrapeTask
+from src.patterns.web_search.tasks import SummarizeTask
 from src.patterns.web_search.pipeline import Pipeline
+from src.patterns.web_search.tasks import SearchTask
+from src.patterns.web_search.tasks import ScrapeTask
 from src.config.logging import logger
 from functools import lru_cache
 from typing import Optional

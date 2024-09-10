@@ -1,0 +1,88 @@
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#5D3FD3',
+    'primaryTextColor': '#fff',
+    'primaryBorderColor': '#5D3FD3',
+    'lineColor': '#5D3FD3',
+    'secondaryColor': '#006400',
+    'tertiaryColor': '#FFA500'
+  }
+}}%%
+
+graph TD
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef entrypoint fill:#5D3FD3,color:#fff,stroke:#5D3FD3,stroke-width:4px;
+    classDef config fill:#FFA500,color:#000,stroke:#FFA500;
+    classDef core fill:#006400,color:#fff,stroke:#006400;
+    classDef agent fill:#4169E1,color:#fff,stroke:#4169E1;
+    classDef generator fill:#FF6347,color:#fff,stroke:#FF6347;
+    classDef factory fill:#8A2BE2,color:#fff,stroke:#8A2BE2;
+    classDef strategy fill:#20B2AA,color:#fff,stroke:#20B2AA;
+    classDef util fill:#DAA520,color:#000,stroke:#DAA520;
+
+    A[run.py] --> B[actor_critic.yml]
+    A --> C[StateManager]
+    A --> D[Actor]
+    A --> E[Critic]
+    
+    D --> F[Agent]
+    E --> F
+    
+    F --> G[TemplateManager]
+    F --> H[ResponseGenerator]
+    
+    G --> I[io.py]
+    H --> J[GenerationStrategyFactory]
+    H --> K[ModelFactoryProvider]
+    
+    J --> L[DefaultGenerationStrategy]
+    K --> M[VertexAIModelFactory]
+    
+    D --> N[DraftGenerator]
+    D --> O[RevisionGenerator]
+    
+    E --> P[DraftReviewGenerator]
+    E --> Q[ReviewRevisionGenerator]
+    
+    N --> R[ContentGenerator]
+    O --> R
+    P --> R
+    Q --> R
+
+    class A entrypoint;
+    class B config;
+    class C,F,G,H core;
+    class D,E agent;
+    class I util;
+    class J,K,L,M factory;
+    class N,O,P,Q,R generator;
+
+    linkStyle default stroke:#5D3FD3,stroke-width:2px;
+
+    subgraph Core Components
+        C
+        F
+        G
+        H
+    end
+
+    subgraph Agents
+        D
+        E
+    end
+
+    subgraph Generators
+        N
+        O
+        P
+        Q
+        R
+    end
+
+    subgraph Factories
+        J
+        K
+        L
+        M
+    end
