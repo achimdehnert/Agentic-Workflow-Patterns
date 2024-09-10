@@ -1,54 +1,54 @@
 %%{init: {
-  'theme': 'base',
+  'theme': 'neutral',
   'themeVariables': {
-    'primaryColor': '#5D3FD3',
-    'primaryTextColor': '#fff',
-    'primaryBorderColor': '#5D3FD3',
-    'lineColor': '#5D3FD3',
-    'secondaryColor': '#006400',
-    'tertiaryColor': '#FFA500'
+    'primaryColor': '#f0f4f8',
+    'primaryTextColor': '#333',
+    'primaryBorderColor': '#8fa7b8',
+    'lineColor': '#8fa7b8',
+    'secondaryColor': '#f8f0f4',
+    'tertiaryColor': '#f4f8f0'
   }
 }}%%
 
 graph TD
-    classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px;
-    classDef entrypoint fill:#5D3FD3,color:#fff,stroke:#5D3FD3,stroke-width:4px;
-    classDef config fill:#FFA500,color:#000,stroke:#FFA500;
-    classDef core fill:#006400,color:#fff,stroke:#006400;
-    classDef agent fill:#4169E1,color:#fff,stroke:#4169E1;
-    classDef generator fill:#FF6347,color:#fff,stroke:#FF6347;
-    classDef factory fill:#8A2BE2,color:#fff,stroke:#8A2BE2;
-    classDef strategy fill:#20B2AA,color:#fff,stroke:#20B2AA;
-    classDef util fill:#DAA520,color:#000,stroke:#DAA520;
+    classDef default fill:#fff,stroke:#8fa7b8,stroke-width:1px,font-family:Arial,font-size:12px;
+    classDef entrypoint fill:#4a6572,color:#fff,stroke:#4a6572,stroke-width:2px;
+    classDef config fill:#f9efd4,color:#333,stroke:#d4b26a;
+    classDef core fill:#d4e6f1,color:#333,stroke:#7fb3d5;
+    classDef agent fill:#d5f5e3,color:#333,stroke:#82e0aa;
+    classDef generator fill:#fdebd0,color:#333,stroke:#f5b041;
+    classDef factory fill:#e8daef,color:#333,stroke:#bb8fce;
+    classDef strategy fill:#d6eaf8,color:#333,stroke:#85c1e9;
+    classDef util fill:#f2d7d5,color:#333,stroke:#e6b0aa;
 
-    A[run.py] --> B[actor_critic.yml]
-    A --> C[StateManager]
-    A --> D[Actor]
-    A --> E[Critic]
+    A[run.py] --> |configures| B[actor_critic.yml]
+    A --> |uses| C[StateManager]
+    A --> |initializes| D[Actor]
+    A --> |initializes| E[Critic]
     
-    D --> F[Agent]
-    E --> F
+    D --> |inherits from| F[Agent]
+    E --> |inherits from| F
     
-    F --> G[TemplateManager]
-    F --> H[ResponseGenerator]
+    F --> |uses| G[TemplateManager]
+    F --> |uses| H[ResponseGenerator]
     
-    G --> I[io.py]
-    H --> J[GenerationStrategyFactory]
-    H --> K[ModelFactoryProvider]
+    G --> |imports from| I[io.py]
+    H --> |uses| J[GenerationStrategyFactory]
+    H --> |uses| K[ModelFactoryProvider]
     
-    J --> L[DefaultGenerationStrategy]
-    K --> M[VertexAIModelFactory]
+    J --> |creates| L[DefaultGenerationStrategy]
+    K --> |creates| M[VertexAIModelFactory]
     
-    D --> N[DraftGenerator]
-    D --> O[RevisionGenerator]
+    D --> |contains| N[DraftGenerator]
+    D --> |contains| O[RevisionGenerator]
     
-    E --> P[DraftReviewGenerator]
-    E --> Q[ReviewRevisionGenerator]
+    E --> |contains| P[DraftReviewGenerator]
+    E --> |contains| Q[ReviewRevisionGenerator]
     
-    N --> R[ContentGenerator]
-    O --> R
-    P --> R
-    Q --> R
+    N --> |inherits from| R[ContentGenerator]
+    O --> |inherits from| R
+    P --> |inherits from| R
+    Q --> |inherits from| R
 
     class A entrypoint;
     class B config;
@@ -58,7 +58,7 @@ graph TD
     class J,K,L,M factory;
     class N,O,P,Q,R generator;
 
-    linkStyle default stroke:#5D3FD3,stroke-width:2px;
+    linkStyle default stroke:#8fa7b8,stroke-width:1px,stroke-dasharray: 5 5;
 
     subgraph Core Components
         C
@@ -86,3 +86,8 @@ graph TD
         L
         M
     end
+
+    style Core Components fill:#f0f4f8,stroke:#8fa7b8,stroke-width:1px;
+    style Agents fill:#f4f8f0,stroke:#8fa7b8,stroke-width:1px;
+    style Generators fill:#f8f0f4,stroke:#8fa7b8,stroke-width:1px;
+    style Factories fill:#f0f8f4,stroke:#8fa7b8,stroke-width:1px;
