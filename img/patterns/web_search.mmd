@@ -1,0 +1,85 @@
+%%{init: {
+  'theme': 'neutral',
+  'themeVariables': {
+    'primaryColor': '#f0f4f8',
+    'primaryTextColor': '#333',
+    'primaryBorderColor': '#8fa7b8',
+    'lineColor': '#8fa7b8',
+    'secondaryColor': '#f8f0f4',
+    'tertiaryColor': '#f4f8f0',
+    'fontFamily': 'Trebuchet MS, Arial, sans-serif',
+    'fontSize': '12px'
+  }
+}}%%
+
+graph TD
+    classDef default fill:#fff,stroke:#8fa7b8,stroke-width:1px;
+    classDef entrypoint fill:#e6f3ff,color:#333,stroke:#3498db,stroke-width:2px;
+    classDef config fill:#f9efd4,color:#333,stroke:#d4b26a;
+    classDef core fill:#d4e6f1,color:#333,stroke:#7fb3d5;
+    classDef agent fill:#d5f5e3,color:#333,stroke:#82e0aa;
+    classDef task fill:#fdebd0,color:#333,stroke:#f5b041;
+    classDef factory fill:#e8daef,color:#333,stroke:#bb8fce;
+    classDef strategy fill:#d6eaf8,color:#333,stroke:#85c1e9;
+    classDef util fill:#f2d7d5,color:#333,stroke:#e6b0aa;
+
+    A[run.py] -->|uses| B[Runner]
+    A -->|configures| C[web_search.yml]
+    A -->|uses| D[StateManager]
+    A -->|initializes| E[Pipeline]
+
+    E -->|contains| F[SearchTask]
+    E -->|contains| G[ScrapeTask]
+    E -->|contains| H[SummarizeTask]
+
+    F -.->|implemented by| I[WebSearchAgent]
+    G -.->|implemented by| J[WebScrapeAgent]
+    H -.->|implemented by| K[WebContentSummarizeAgent]
+
+    I & K -->|uses| L[TemplateManager]
+    I & K -->|uses| M[ResponseGenerator]
+
+    L -->|imports from| N[io.py]
+    M -->|uses| O[GenerationStrategyFactory]
+    M -->|uses| P[ModelFactoryProvider]
+
+    O -->|creates| Q[DefaultGenerationStrategy]
+    P -->|creates| R[VertexAIModelFactory]
+
+    S[TaskFactory] -.->|creates| I & J & K
+
+    T[serp.py] -->|used by| I
+
+    class A entrypoint;
+    class C config;
+    class D,L,M core;
+    class I,J,K agent;
+    class F,G,H task;
+    class N,T util;
+    class O,P,Q,R,S factory;
+
+    linkStyle default stroke:#8fa7b8,stroke-width:1px,stroke-dasharray: 3 3;
+
+    subgraph Tasks
+        F
+        G
+        H
+    end
+
+    subgraph Agents
+        I
+        J
+        K
+    end
+
+    subgraph Factories
+        O
+        P
+        Q
+        R
+        S
+    end
+
+    style Tasks fill:#f4f8f0,stroke:#8fa7b8,stroke-width:1px,rx:5,ry:5;
+    style Agents fill:#f8f0f4,stroke:#8fa7b8,stroke-width:1px,rx:5,ry:5;
+    style Factories fill:#f0f8f4,stroke:#8fa7b8,stroke-width:1px,rx:5,ry:5;
