@@ -32,14 +32,14 @@ graph TD
     E -->|contains| G[ScrapeTask]
     E -->|contains| H[SummarizeTask]
 
-    F -.->|implemented by| I[WebSearchAgent]
-    G -.->|implemented by| J[WebScrapeAgent]
-    H -.->|implemented by| K[WebContent<br>SummarizeAgent]
+    F -.->|implemented<br>by| I[WebSearchAgent]
+    G -.->|implemented<br>by| J[WebScrapeAgent]
+    H -.->|implemented<br>by| K[WebContent<br>SummarizeAgent]
 
     I & K -->|uses| L[TemplateManager]
     I & K -->|uses| M[ResponseGenerator]
 
-    L -->|imports from| N[io.py]
+    L -->|imports<br>from| N[io.py]
     M -->|uses| O[GenerationStrategy<br>Factory]
     M -->|uses| P[ModelFactory<br>Provider]
 
