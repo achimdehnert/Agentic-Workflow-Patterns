@@ -1,25 +1,29 @@
 from src.patterns.coordinator_delegate.message import Message
 from src.llm.generate import GenerationResponse
-from abc import abstractmethod
-from abc import ABC
+from src.prompt.manage import TemplateManager
+from abc import abstractmethod, ABC
+from src.config.logging import logger
 
 
 class Agent(ABC):
     """
     Abstract base class for agents that handle specific tasks in a coordinator-delegate pattern.
     Each agent must implement the 'process' method to handle incoming messages.
+    Shared resources like TemplateManager and ResponseGenerator are initialized here for all agents.
     """
 
-    def __init__(self, name: str, response_generator: GenerationResponse) -> None:
+    def __init__(self, name: str, template_manager: TemplateManager, response_generator: GenerationResponse) -> None:
         """
-        Initializes the Agent with a name and a response generator.
+        Initializes the Agent with a name, TemplateManager, and ResponseGenerator.
 
         :param name: Name of the agent.
+        :param template_manager: An instance of the TemplateManager to manage templates.
         :param response_generator: An instance of the response generator used to handle message responses.
         """
         self.name: str = name
+        self.template_manager: TemplateManager = template_manager
         self.response_generator: GenerationResponse = response_generator
-        logger.info(f"Agent {self.name} initialized with response generator.")
+        logger.info(f"Agent {self.name} initialized with shared resources.")
 
     @abstractmethod
     def process(self, message: Message) -> Message:
