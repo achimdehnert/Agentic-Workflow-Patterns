@@ -1,8 +1,11 @@
 coordinator:
-  travel_planner:
-    system_instructions: './data/patterns/coordinator_delegate/coordinator/system_instructions.txt'
-    user_instructions: './data/patterns/coordinator_delegate/coordinator/user_instructions.txt'
-    response_schema: './data/patterns/coordinator_delegate/coordinator/response_schema.json'
+  route:
+    system_instructions: './data/patterns/coordinator_delegate/coordinator/route/system_instructions.txt'
+    user_instructions: './data/patterns/coordinator_delegate/coordinator/route/user_instructions.txt'
+    response_schema: './data/patterns/coordinator_delegate/coordinator/route/response_schema.json'
+  consolidate:
+    system_instructions: './data/patterns/coordinator_delegate/coordinator/consolidate/system_instructions.txt'
+    user_instructions: './data/patterns/coordinator_delegate/coordinator/consolidate/user_instructions.txt'
 delegate:
   flight_search:
     system_instructions: './data/patterns/coordinator_delegate/delegate/flight_search/system_instructions.txt'

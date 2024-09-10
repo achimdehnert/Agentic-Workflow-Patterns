@@ -104,23 +104,19 @@ class TravelPlannerAgent(Agent):
             
             # Route to the appropriate sub-agent
             sub_agent = self.route_to_agent(intent)
-            print(sub_agent)
             sub_message = Message(content=message.content, sender=self.name, recipient=sub_agent.name, metadata={"intent": intent.name})
             
             # Process message with the sub-agent
             logger.info(f"Delegating message to {sub_agent.name}")
             response = sub_agent.process(sub_message)
 
+           
+
             # Consolidate and generate the final response
-            consolidation_prompt = f"""Consolidate the following travel information into a coherent response:
-
-            Original Query: {message.content}
-            Agent Response: {response.content}
-
-            Provide a friendly and informative response to the user:"""
+ 
 
             logger.info("Generating final response to user.")
-            final_response_text = self.response_generator.generate_response(consolidation_prompt).strip()
+            final_response_text = self.response_generator.generate_response()
             return Message(content=final_response_text, sender=self.name, recipient="User")
 
         except ValueError as e:
