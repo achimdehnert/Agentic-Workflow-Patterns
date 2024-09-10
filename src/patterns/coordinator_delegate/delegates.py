@@ -1,10 +1,9 @@
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
-from src.prompt.manage import TemplateManager
 from src.patterns.web_search.run import run
 from src.config.logging import logger
 from typing import Dict, Any
-
+import json
 
 class FlightSearchAgent(Agent):
     """
@@ -28,9 +27,15 @@ class FlightSearchAgent(Agent):
             contents = [user_instructions]
 
             logger.info(f"Generating response for flight query: {query}")
-            response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
-            out_dict: Dict[str, Any] = eval(response.text.strip())  # Handle safely
-
+            response = self.response_generator.generate_response(
+                'gemini-1.5-pro-001', system_instructions, contents, response_schema)
+            
+            # Handle the response safely
+            try:
+                out_dict: Dict[str, Any] = json.loads(response.text.strip())
+            except json.JSONDecodeError as decode_error:
+                raise ValueError(f"Failed to decode JSON: {decode_error}")
+            
             web_search_query: str = out_dict.get('web_search_query', '')
             if not web_search_query:
                 raise ValueError("Web search query missing from the response.")
@@ -41,7 +46,8 @@ class FlightSearchAgent(Agent):
 
         except Exception as e:
             logger.error(f"Error in FlightSearchAgent: {e}")
-            return Message(content="I apologize, but I couldn't process the flight information at this time.", sender=self.name, recipient="TravelPlannerAgent")
+            return Message(content="I apologize, but I couldn't process the flight information at this time.", 
+                           sender=self.name, recipient="TravelPlannerAgent")
 
 
 class HotelSearchAgent(Agent):
@@ -66,9 +72,14 @@ class HotelSearchAgent(Agent):
             contents = [user_instructions]
 
             logger.info(f"Generating response for hotel query: {query}")
-            response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
-            out_dict: Dict[str, Any] = eval(response.text.strip())  # Handle safely
-
+            response = self.response_generator.generate_response(
+                'gemini-1.5-pro-001', system_instructions, contents, response_schema)
+            
+            try:
+                out_dict: Dict[str, Any] = json.loads(response.text.strip())
+            except json.JSONDecodeError as decode_error:
+                raise ValueError(f"Failed to decode JSON: {decode_error}")
+            
             web_search_query: str = out_dict.get('web_search_query', '')
             if not web_search_query:
                 raise ValueError("Web search query missing from the response.")
@@ -79,7 +90,8 @@ class HotelSearchAgent(Agent):
 
         except Exception as e:
             logger.error(f"Error in HotelSearchAgent: {e}")
-            return Message(content="I apologize, but I couldn't process the hotel information at this time.", sender=self.name, recipient="TravelPlannerAgent")
+            return Message(content="I apologize, but I couldn't process the hotel information at this time.", 
+                           sender=self.name, recipient="TravelPlannerAgent")
 
 
 class CarRentalSearchAgent(Agent):
@@ -104,9 +116,14 @@ class CarRentalSearchAgent(Agent):
             contents = [user_instructions]
 
             logger.info(f"Generating response for car rental query: {query}")
-            response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
-            out_dict: Dict[str, Any] = eval(response.text.strip())  # Handle safely
-
+            response = self.response_generator.generate_response(
+                'gemini-1.5-pro-001', system_instructions, contents, response_schema)
+            
+            try:
+                out_dict: Dict[str, Any] = json.loads(response.text.strip())
+            except json.JSONDecodeError as decode_error:
+                raise ValueError(f"Failed to decode JSON: {decode_error}")
+            
             web_search_query: str = out_dict.get('web_search_query', '')
             if not web_search_query:
                 raise ValueError("Web search query missing from the response.")
@@ -117,4 +134,5 @@ class CarRentalSearchAgent(Agent):
 
         except Exception as e:
             logger.error(f"Error in CarRentalSearchAgent: {e}")
-            return Message(content="I apologize, but I couldn't process the car rental information at this time.", sender=self.name, recipient="TravelPlannerAgent")
+            return Message(content="I apologize, but I couldn't process the car rental information at this time.", 
+                           sender=self.name, recipient="TravelPlannerAgent")

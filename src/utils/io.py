@@ -74,7 +74,6 @@ def load_json(filename: str) -> Optional[Dict[str, Any]]:
         Exception: For any other exceptions.
     """
     try:
-        print('>>>', filename)
         with open(filename, 'r') as file:
             return json.load(file)
     except FileNotFoundError:

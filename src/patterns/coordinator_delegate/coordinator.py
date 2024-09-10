@@ -118,11 +118,7 @@ class TravelPlannerAgent(Agent):
             contents = [user_instructions]
 
             logger.info("Generating final response for the user.")
-            final_response = self.response_generator.generate_response(
-                model_name='gemini-1.5-pro-001',
-                system_instructions=system_instructions,
-                contents=contents
-            )
+            final_response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents)
             final_response_text = final_response.text.strip()
             return Message(content=final_response_text, sender=self.name, recipient="User")
 
