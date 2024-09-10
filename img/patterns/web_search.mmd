@@ -34,17 +34,17 @@ graph TD
 
     F -.->|implemented by| I[WebSearchAgent]
     G -.->|implemented by| J[WebScrapeAgent]
-    H -.->|implemented by| K[WebContentSummarizeAgent]
+    H -.->|implemented by| K[WebContent<br>SummarizeAgent]
 
     I & K -->|uses| L[TemplateManager]
     I & K -->|uses| M[ResponseGenerator]
 
     L -->|imports from| N[io.py]
-    M -->|uses| O[GenerationStrategyFactory]
-    M -->|uses| P[ModelFactoryProvider]
+    M -->|uses| O[GenerationStrategy<br>Factory]
+    M -->|uses| P[ModelFactory<br>Provider]
 
-    O -->|creates| Q[DefaultGenerationStrategy]
-    P -->|creates| R[VertexAIModelFactory]
+    O -->|creates| Q[DefaultGeneration<br>Strategy]
+    P -->|creates| R[VertexAIModel<br>Factory]
 
     S[TaskFactory] -.->|creates| I & J & K
 
