@@ -8,27 +8,27 @@
         },
         {
             "Position": 2,
-            "Title": "$55 Find Cheap Flights from New York to Los Angeles - NYC",
-            "Link": "https://www.kayak.com/flight-routes/New-York-NYC/Los-Angeles-LAX",
-            "Snippet": "Find flights to Los Angeles from $55. Fly from New York on Spirit Airlines, Frontier and more. Search for Los Angeles flights on KAYAK now to find the best ..."
-        },
-        {
-            "Position": 3,
             "Title": "Find Cheap Flights from New York to Los Angeles",
             "Link": "https://www.google.com/travel/flights/flights-from-new-york-to-los-angeles.html",
             "Snippet": "The cheapest round-trip flight from New York to Los Angeles starts at $128 from Sat, Nov 2 to Sat, Nov 9. The cheapest one-way flight starts at $64 and departs ..."
         },
         {
-            "Position": 4,
-            "Title": "Find New York to Los Angeles flights",
-            "Link": "https://www.aa.com/en-us/flights-from-new-york-to-los-angeles",
-            "Snippet": "Find deals on New York to Los Angeles flights ; 04/07/25 - 04/16/25 \u00b7 $316*. Updated: 11 hours ago ; 03/17/25 - 03/20/25 \u00b7 $334*. Updated: 9 hours ago ; 06/28/25 - ..."
+            "Position": 3,
+            "Title": "$55 Find Cheap Flights from New York to Los Angeles - NYC",
+            "Link": "https://www.kayak.com/flight-routes/New-York-NYC/Los-Angeles-LAX",
+            "Snippet": "Find flights to Los Angeles from $55. Fly from New York on Spirit Airlines, Frontier and more. Search for Los Angeles flights on KAYAK now to find the best ..."
         },
         {
-            "Position": 5,
+            "Position": 4,
             "Title": "To Los Angeles International (LAX) - New York - Skyscanner",
             "Link": "https://www.skyscanner.com/routes/nyca/lax/new-york-to-los-angeles-international.html",
             "Snippet": "Use our Whole Month search feature to scan through the calendar for the cheapest dates. You can also set up a Price Alert for your route and let us monitor the ..."
+        },
+        {
+            "Position": 5,
+            "Title": "Find New York to Los Angeles flights",
+            "Link": "https://www.aa.com/en-us/flights-from-new-york-to-los-angeles",
+            "Snippet": "Find deals on New York to Los Angeles flights ... *Fares displayed have been collected within the last 24hrs and may no longer be available at time of booking."
         },
         {
             "Position": 6,
@@ -44,21 +44,21 @@
         },
         {
             "Position": 8,
-            "Title": "$69 Cheap flights from New York to Los Angeles (JFK ...",
-            "Link": "https://www.expedia.com/lp/flights/jfk/lax/new-york-to-los-angeles",
-            "Snippet": "Cheap Flights from New York (JFK) to Los Angeles (LAX) start at $69 for one-way and $138 for round trip. Earn your airline miles on top of our rewards!"
+            "Title": "New York to Los Angeles Flights: JFK to LAX",
+            "Link": "https://www.flights.com/lp/flights/jfk/lax/new-york-to-los-angeles",
+            "Snippet": "How many morning flights are there from JFK to LAX? Early risers \u2014 you'll be happy to discover that there are 87 morning flights from JFK to LAX each week."
         },
         {
             "Position": 9,
-            "Title": "$69 Flights from New York to Los Angeles (JFK to LAX)",
-            "Link": "https://www.travelocity.com/lp/flights/jfk/lax/john-f-kennedy-intl-to-los-angeles-intl",
-            "Snippet": "The cheapest flights to Los Angeles Intl. found within the past 7 days were $138 round trip and $69 one way. Prices and availability subject to change."
+            "Title": "Cheap Flights from New York to Los Angeles (LGA-LAX)",
+            "Link": "https://www.expedia.com/lp/flights/lga/lax/new-york-to-los-angeles",
+            "Snippet": "Cheap Flights from New York (LGA) to Los Angeles (LAX) start at $62 for one-way and $125 for round trip. Earn your airline miles on top of our rewards!"
         },
         {
             "Position": 10,
-            "Title": "$61 Cheap New York to Los Angeles flights (NYC to QLA)",
-            "Link": "https://www.orbitz.com/lp/flights/178293/178280/new-york-to-los-angeles",
-            "Snippet": "Cheap flights from New York to Los Angeles (NYC - QLA): Compare last minute flight deals, direct flights and round-trip flights with Orbitz today!"
+            "Title": "$69 Flights from New York to Los Angeles (JFK to LAX)",
+            "Link": "https://www.travelocity.com/lp/flights/jfk/lax/john-f-kennedy-intl-to-los-angeles-intl",
+            "Snippet": "The cheapest flights to Los Angeles Intl. found within the past 7 days were $133 round trip and $69 one way. Prices and availability subject to change."
         }
     ]
 }

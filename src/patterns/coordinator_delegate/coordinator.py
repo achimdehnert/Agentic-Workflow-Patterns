@@ -46,7 +46,7 @@ class TravelPlannerAgent(Agent):
         :return: The determined intent as an `Intent` enum.
         """
         try:
-            template = self.template_manager.create_template('coordinator', 'travel_planner')
+            template = self.template_manager.create_template('coordinator', 'route')
             system_instructions = template['system']
             user_instructions = self.template_manager.fill_template(template['user'], query=query)
             response_schema = template['schema']
@@ -99,24 +99,28 @@ class TravelPlannerAgent(Agent):
         logger.info(f"{self.name} processing message: {message.content}")
         
         try:
+            query = message.content 
+
             # Determine intent
-            intent = self.determine_intent(message.content)
+            intent = self.determine_intent(query)
             
             # Route to the appropriate sub-agent
             sub_agent = self.route_to_agent(intent)
-            sub_message = Message(content=message.content, sender=self.name, recipient=sub_agent.name, metadata={"intent": intent.name})
+            sub_message = Message(content=query, sender=self.name, recipient=sub_agent.name, metadata={"intent": intent.name})
             
             # Process message with the sub-agent
             logger.info(f"Delegating message to {sub_agent.name}")
-            response = sub_agent.process(sub_message)
-
-           
+            sub_response = sub_agent.process(sub_message)
+            summary = sub_response.content
 
             # Consolidate and generate the final response
- 
-
+            template = self.template_manager.create_template('coordinator', 'consolidate')
+            system_instructions = self.template_manager.fill_template(template['system'], query=user_query, summary=summary)
+            user_instructions = self.template_manager.fill_template(template['user'], query=query, summary=summary)
+            contents = [user_instructions]
             logger.info("Generating final response to user.")
-            final_response_text = self.response_generator.generate_response()
+            final_response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents)
+            final_response_text = final_response.text.strip()
             return Message(content=final_response_text, sender=self.name, recipient="User")
 
         except ValueError as e:
