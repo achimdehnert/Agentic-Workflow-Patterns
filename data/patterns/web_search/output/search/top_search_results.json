@@ -8,15 +8,15 @@
         },
         {
             "Position": 2,
-            "Title": "Find Cheap Flights from New York to Los Angeles",
-            "Link": "https://www.google.com/travel/flights/flights-from-new-york-to-los-angeles.html",
-            "Snippet": "The cheapest round-trip flight from New York to Los Angeles starts at $128 from Sat, Nov 2 to Sat, Nov 9. The cheapest one-way flight starts at $64 and departs ..."
-        },
-        {
-            "Position": 3,
             "Title": "$55 Find Cheap Flights from New York to Los Angeles - NYC",
             "Link": "https://www.kayak.com/flight-routes/New-York-NYC/Los-Angeles-LAX",
             "Snippet": "Find flights to Los Angeles from $55. Fly from New York on Spirit Airlines, Frontier and more. Search for Los Angeles flights on KAYAK now to find the best ..."
+        },
+        {
+            "Position": 3,
+            "Title": "Find Cheap Flights from New York to Los Angeles",
+            "Link": "https://www.google.com/travel/flights/flights-from-new-york-to-los-angeles.html",
+            "Snippet": "The cheapest round-trip flight from New York to Los Angeles starts at $128 from Sat, Nov 2 to Sat, Nov 9. The cheapest one-way flight starts at $64 and departs ..."
         },
         {
             "Position": 4,
@@ -44,15 +44,15 @@
         },
         {
             "Position": 8,
-            "Title": "New York to Los Angeles Flights: JFK to LAX",
-            "Link": "https://www.flights.com/lp/flights/jfk/lax/new-york-to-los-angeles",
-            "Snippet": "How many morning flights are there from JFK to LAX? Early risers \u2014 you'll be happy to discover that there are 87 morning flights from JFK to LAX each week."
-        },
-        {
-            "Position": 9,
             "Title": "Cheap Flights from New York to Los Angeles (LGA-LAX)",
             "Link": "https://www.expedia.com/lp/flights/lga/lax/new-york-to-los-angeles",
             "Snippet": "Cheap Flights from New York (LGA) to Los Angeles (LAX) start at $62 for one-way and $125 for round trip. Earn your airline miles on top of our rewards!"
+        },
+        {
+            "Position": 9,
+            "Title": "New York to Los Angeles Flights: JFK to LAX",
+            "Link": "https://www.flights.com/lp/flights/jfk/lax/new-york-to-los-angeles",
+            "Snippet": "How many morning flights are there from JFK to LAX? Early risers \u2014 you'll be happy to discover that there are 87 morning flights from JFK to LAX each week."
         },
         {
             "Position": 10,

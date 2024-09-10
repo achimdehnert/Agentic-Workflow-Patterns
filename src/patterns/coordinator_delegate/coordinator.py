@@ -1,10 +1,6 @@
-from src.patterns.coordinator_delegate.delegates import CarRentalSearchAgent
-from src.patterns.coordinator_delegate.delegates import FlightSearchAgent
-from src.patterns.coordinator_delegate.delegates import HotelSearchAgent
+from src.patterns.coordinator_delegate.delegates import CarRentalSearchAgent, FlightSearchAgent, HotelSearchAgent
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
-from src.llm.generate import ResponseGenerator
-from src.prompt.manage import TemplateManager
 from src.config.logging import logger
 from typing import List, Dict, Union
 from enum import Enum
@@ -26,17 +22,15 @@ class TravelPlannerAgent(Agent):
     based on detected intent and generating a consolidated response.
     """
 
-    def __init__(self, name: str, sub_agents: List[Agent], response_generator: ResponseGenerator) -> None:
+    def __init__(self, name: str, sub_agents: List[Agent]) -> None:
         """
-        Initializes the TravelPlannerAgent with a set of sub-agents and a response generator.
+        Initializes the TravelPlannerAgent with a set of sub-agents and shared resources.
 
         :param name: Name of the agent.
         :param sub_agents: List of sub-agents responsible for specific tasks like flights, hotels, etc.
-        :param response_generator: Generator used to create responses using a language model.
         """
-        super().__init__(name, response_generator)
+        super().__init__(name)
         self.sub_agents: Dict[str, Agent] = {agent.name: agent for agent in sub_agents}
-        self.template_manager = TemplateManager('./config/patterns/coordinator_delegate.yml')
         logger.info(f"{self.name} initialized with {len(self.sub_agents)} sub-agents.")
 
     def determine_intent(self, query: str) -> Intent:
@@ -54,12 +48,7 @@ class TravelPlannerAgent(Agent):
             contents = [user_instructions]
 
             logger.info(f"Generating response to determine intent for query: {query}")
-            response = self.response_generator.generate_response(
-                model_name='gemini-1.5-pro-001',
-                system_instructions=system_instructions,
-                contents=contents,
-                response_schema=response_schema
-            )
+            response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
             out_dict = eval(response.text.strip())  # Caution: Ensure safe eval usage
             intent_str = out_dict.get('intent', 'UNKNOWN').upper()
             logger.info(f"Determined intent: {intent_str}")
@@ -146,17 +135,15 @@ class TravelPlannerAgent(Agent):
 
 
 if __name__ == '__main__':
-    # Initialize sub-agents (Flight, Hotel, CarRental) and the response generator
-    flight_agent = FlightSearchAgent(name="FlightSearchAgent", response_generator=ResponseGenerator())
-    hotel_agent = HotelSearchAgent(name="HotelSearchAgent", response_generator=ResponseGenerator())
-    car_rental_agent = CarRentalSearchAgent(name="CarRentalSearchAgent", response_generator=ResponseGenerator())
+    # Initialize sub-agents (Flight, Hotel, CarRental)
+    flight_agent = FlightSearchAgent(name="FlightSearchAgent")
+    hotel_agent = HotelSearchAgent(name="HotelSearchAgent")
+    car_rental_agent = CarRentalSearchAgent(name="CarRentalSearchAgent")
 
     # Instantiate the TravelPlannerAgent with sub-agents
     travel_planner = TravelPlannerAgent(
         name="TravelPlannerAgent",
-        sub_agents=[flight_agent, hotel_agent, car_rental_agent],
-        response_generator=ResponseGenerator()
-    )
+        sub_agents=[flight_agent, hotel_agent, car_rental_agent])
 
     # Test case 1: Flight search
     user_flight_query = "I want to book a flight from New York to Los Angeles next week."
