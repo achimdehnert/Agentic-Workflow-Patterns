@@ -140,9 +140,9 @@ if __name__ == '__main__':
     travel_planner = TravelPlannerAgent(
         name="TravelPlannerAgent",
         sub_agents=[flight_agent, hotel_agent, car_rental_agent])
-
+    """
     # Test case 1: Flight search
-    user_flight_query = "I want to book a flight from New York to Los Angeles next week."
+    user_flight_query = "I want to book a flight from Miami to Dallas  next week."
     flight_message = Message(content=user_flight_query, sender="User", recipient="TravelPlannerAgent")
 
     # Process the flight message using TravelPlannerAgent
@@ -151,16 +151,16 @@ if __name__ == '__main__':
     print("Flight Search Response:", flight_response_message.content)
 
     # Test case 2: Hotel search
-    user_hotel_query = "Can you find me a hotel in Los Angeles for next week?"
+    user_hotel_query = "Can you find me a hotel in Frisco, Texas for next week?"
     hotel_message = Message(content=user_hotel_query, sender="User", recipient="TravelPlannerAgent")
 
     # Process the hotel message using TravelPlannerAgent
     hotel_response_message = travel_planner.process(hotel_message)
     logger.info(f"Response to the hotel query: {hotel_response_message.content}")
     print("Hotel Search Response:", hotel_response_message.content)
-
+    """
     # Test case 3: Car rental search
-    user_car_rental_query = "I need a rental car in Los Angeles for a week."
+    user_car_rental_query = "I need a rental car in Frisco, Texas for a week."
     car_rental_message = Message(content=user_car_rental_query, sender="User", recipient="TravelPlannerAgent")
 
     # Process the car rental message using TravelPlannerAgent

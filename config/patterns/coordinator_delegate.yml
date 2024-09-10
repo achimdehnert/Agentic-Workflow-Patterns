@@ -18,4 +18,4 @@ delegate:
   car_rental_search:
     system_instructions: './data/patterns/coordinator_delegate/delegate/car_rental_search/system_instructions.txt'
     user_instructions: './data/patterns/coordinator_delegate/delegate/car_rental_search/user_instructions.txt'
-  response_schema: './data/patterns/coordinator_delegate/delegate/car_rental_search/response_schema.json'
+    response_schema: './data/patterns/coordinator_delegate/delegate/car_rental_search/response_schema.json'
