@@ -24,17 +24,17 @@ graph TD
     classDef util fill:#f2d7d5,color:#333,stroke:#e6b0aa;
 
     A[run.py] --> |configures| B[actor_critic.yml]
-    A --> |uses| C[StateManager]
+    A --> |uses| C[State<br>Manager]
     A --> |initializes| D[Actor]
     A --> |initializes| E[Critic]
     
-    D --> |inherits from| F[Agent]
-    E --> |inherits from| F
+    D --> |inherits<br>from| F[Agent]
+    E --> |inherits<br>from| F
     
     F --> |uses| G[TemplateManager]
     F --> |uses| H[ResponseGenerator]
     
-    G --> |imports from| I[io.py]
+    G --> |imports<br>from| I[io.py]
     H --> |uses| J[Generation<br>StrategyFactory]
     H --> |uses| K[ModelFactory<br>Provider]
     
@@ -47,10 +47,10 @@ graph TD
     E --> |contains| P[DraftReview<br>Generator]
     E --> |contains| Q[ReviewRevision<br>Generator]
     
-    N --> |inherits from| R[ContentGenerator]
-    O --> |inherits from| R
-    P --> |inherits from| R
-    Q --> |inherits from| R
+    N --> |inherits<br>from| R[ContentGenerator]
+    O --> |inherits<br>from| R
+    P --> |inherits<br>from| R
+    Q --> |inherits<br>from| R
 
     class A entrypoint;
     class B config;
