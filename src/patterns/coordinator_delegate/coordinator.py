@@ -149,7 +149,7 @@ if __name__ == '__main__':
     flight_response_message = travel_planner.process(flight_message)
     logger.info(f"Response to the flight query: {flight_response_message.content}")
     print("Flight Search Response:", flight_response_message.content)
-
+    """
     # Test case 2: Hotel search
     user_hotel_query = "Can you find me a hotel in Frisco, Texas for next week?"
     hotel_message = Message(content=user_hotel_query, sender="User", recipient="TravelPlannerAgent")
@@ -167,3 +167,4 @@ if __name__ == '__main__':
     car_rental_response_message = travel_planner.process(car_rental_message)
     logger.info(f"Response to the car rental query: {car_rental_response_message.content}")
     print("Car Rental Search Response:", car_rental_response_message.content)
+    """

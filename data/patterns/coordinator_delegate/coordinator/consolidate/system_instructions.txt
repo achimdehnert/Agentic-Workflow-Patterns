@@ -17,3 +17,5 @@ Ensure your response is well-structured and engaging, using paragraphs, bullet p
 Do not mention the web search process or the summary in your response. Present the information as if it's part of your knowledge base.
 
 Remember, your goal is to provide a seamless, informative experience for the user, combining their query intent with the most relevant and useful information from the web search results.
+
+IMPORTANT: Do not ask follow up questions.
