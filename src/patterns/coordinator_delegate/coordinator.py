@@ -1,16 +1,19 @@
+from src.patterns.coordinator_delegate.delegates import CarRentalSearchAgent
 from src.patterns.coordinator_delegate.delegates import FlightSearchAgent
+from src.patterns.coordinator_delegate.delegates import HotelSearchAgent
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
-from src.config.logging import logger 
-from typing import List, Dict
+from src.config.logging import logger
+from typing import List, Dict, Union
 from enum import Enum
 
 
-
-
 class Intent(Enum):
+    """
+    Enum to define possible user intents for travel planning.
+    """
     FLIGHT = 1
     HOTEL = 2
     CAR_RENTAL = 3
@@ -19,22 +22,20 @@ class Intent(Enum):
 
 class TravelPlannerAgent(Agent):
     """
-    Coordinator agent responsible for routing travel-related queries to the appropriate sub-agent
-    based on the detected intent. It consolidates and generates user-friendly responses using
-    a response generator and predefined templates.
+    Travel Planner agent responsible for routing travel-related queries to sub-agents 
+    based on detected intent and generating a consolidated response.
     """
 
-    def __init__(self, name: str, sub_agents: List[Agent], response_generator: ResponseGenerator):
+    def __init__(self, name: str, sub_agents: List[Agent], response_generator: ResponseGenerator) -> None:
         """
-        Initializes the TravelPlannerAgent with the provided sub-agents and response generator.
+        Initializes the TravelPlannerAgent with a set of sub-agents and a response generator.
 
         :param name: Name of the agent.
-        :param sub_agents: List of sub-agents responsible for specific tasks like flight, hotel, car rental, etc.
-        :param response_generator: The generator used for generating responses from models.
+        :param sub_agents: List of sub-agents responsible for specific tasks like flights, hotels, etc.
+        :param response_generator: Generator used to create responses using a language model.
         """
         super().__init__(name, response_generator)
         self.sub_agents: Dict[str, Agent] = {agent.name: agent for agent in sub_agents}
-        self.response_generator = response_generator
         self.template_manager = TemplateManager('./config/patterns/coordinator_delegate.yml')
         logger.info(f"{self.name} initialized with {len(self.sub_agents)} sub-agents.")
 
@@ -42,8 +43,8 @@ class TravelPlannerAgent(Agent):
         """
         Determines the user's intent based on their query using a response generation model.
 
-        :param query: The user's query.
-        :return: The determined intent as an `Intent` enum.
+        :param query: User's query string.
+        :return: Detected intent as an Intent enum value.
         """
         try:
             template = self.template_manager.create_template('coordinator', 'route')
@@ -53,11 +54,16 @@ class TravelPlannerAgent(Agent):
             contents = [user_instructions]
 
             logger.info(f"Generating response to determine intent for query: {query}")
-            response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
+            response = self.response_generator.generate_response(
+                model_name='gemini-1.5-pro-001',
+                system_instructions=system_instructions,
+                contents=contents,
+                response_schema=response_schema
+            )
             out_dict = eval(response.text.strip())  # Caution: Ensure safe eval usage
-            intent = out_dict['intent'].upper()
-            logger.info(f"Determined intent: {intent}")
-            return Intent[intent]
+            intent_str = out_dict.get('intent', 'UNKNOWN').upper()
+            logger.info(f"Determined intent: {intent_str}")
+            return Intent[intent_str]
 
         except KeyError as e:
             logger.error(f"Key error while determining intent: {e}")
@@ -66,60 +72,68 @@ class TravelPlannerAgent(Agent):
             logger.error(f"Unexpected error while determining intent: {e}")
             return Intent.UNKNOWN
 
-    def route_to_agent(self, intent: Intent) -> Agent:
+    def route_to_agent(self, intent: Intent) -> Union[Agent, None]:
         """
         Routes the query to the appropriate sub-agent based on the determined intent.
 
-        :param intent: The user's determined intent.
-        :return: The agent responsible for handling that intent.
+        :param intent: The user's detected intent.
+        :return: The corresponding sub-agent for the intent or None if not applicable.
         """
         intent_to_agent = {
             Intent.FLIGHT: "FlightSearchAgent",
             Intent.HOTEL: "HotelSearchAgent",
             Intent.CAR_RENTAL: "CarRentalSearchAgent",
-            Intent.UNKNOWN: "Not Applicable"
+            Intent.UNKNOWN: None
         }
 
-        agent_name = intent_to_agent.get(intent, "Not Applicable")
-        print(agent_name)
-        if agent_name == "Not Applicable":
+        agent_name = intent_to_agent.get(intent)
+        if not agent_name:
             logger.error(f"No valid agent found for intent: {intent}")
-            raise ValueError(f"Unknown intent: {intent}")
+            return None
 
         logger.info(f"Routing to agent: {agent_name}")
-        return self.sub_agents[agent_name]
+        return self.sub_agents.get(agent_name)
 
     def process(self, message: Message) -> Message:
         """
-        Processes the incoming message by determining intent and routing to the appropriate sub-agent.
+        Processes the incoming message, determines intent, routes to the appropriate sub-agent, 
+        and returns a consolidated response.
 
-        :param message: The incoming message to be processed.
-        :return: A response message consolidated from the sub-agent's response.
+        :param message: The incoming message to process.
+        :return: A response message after processing by the sub-agent and consolidation.
         """
         logger.info(f"{self.name} processing message: {message.content}")
         
         try:
-            query = message.content 
+            query = message.content
 
-            # Determine intent
+            # Determine the user's intent
             intent = self.determine_intent(query)
             
             # Route to the appropriate sub-agent
             sub_agent = self.route_to_agent(intent)
+            if sub_agent is None:
+                raise ValueError(f"Unknown intent: {intent}")
+
             sub_message = Message(content=query, sender=self.name, recipient=sub_agent.name, metadata={"intent": intent.name})
-            
-            # Process message with the sub-agent
             logger.info(f"Delegating message to {sub_agent.name}")
+
+            # Get the response from the sub-agent
             sub_response = sub_agent.process(sub_message)
             summary = sub_response.content
 
-            # Consolidate and generate the final response
+            # Consolidate the final response
             template = self.template_manager.create_template('coordinator', 'consolidate')
-            system_instructions = self.template_manager.fill_template(template['system'], query=user_query, summary=summary)
+            system_instructions = self.template_manager.fill_template(template['system'], query=query, summary=summary)
             user_instructions = self.template_manager.fill_template(template['user'], query=query, summary=summary)
             contents = [user_instructions]
-            logger.info("Generating final response to user.")
-            final_response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents)
+
+            logger.info("Generating final response for the user.")
+            final_response = self.response_generator.generate_response(
+                model_name='gemini-1.5-pro-001',
+                system_instructions=system_instructions,
+                contents=contents
+            )
             final_response_text = final_response.text.strip()
             return Message(content=final_response_text, sender=self.name, recipient="User")
 
@@ -128,27 +142,45 @@ class TravelPlannerAgent(Agent):
             return Message(content="I'm sorry, I could not process your request. Please try again later.", sender=self.name, recipient="User")
         except Exception as e:
             logger.error(f"Unexpected error during processing: {e}")
-            return Message(content="I apologize, but I encountered an error while processing your request. Please try again later.", sender=self.name, recipient="User")
+            return Message(content="I encountered an error while processing your request. Please try again later.", sender=self.name, recipient="User")
 
 
 if __name__ == '__main__':
     # Initialize sub-agents (Flight, Hotel, CarRental) and the response generator
     flight_agent = FlightSearchAgent(name="FlightSearchAgent", response_generator=ResponseGenerator())
+    hotel_agent = HotelSearchAgent(name="HotelSearchAgent", response_generator=ResponseGenerator())
+    car_rental_agent = CarRentalSearchAgent(name="CarRentalSearchAgent", response_generator=ResponseGenerator())
 
     # Instantiate the TravelPlannerAgent with sub-agents
     travel_planner = TravelPlannerAgent(
-        name="TravelPlannerAgent", 
-        sub_agents=[flight_agent], 
+        name="TravelPlannerAgent",
+        sub_agents=[flight_agent, hotel_agent, car_rental_agent],
         response_generator=ResponseGenerator()
     )
 
-    # Simulate a user query (for example, asking for a flight)
-    user_query = "I want to book a flight from New York to Los Angeles next week."
-    message = Message(content=user_query, sender="User", recipient="TravelPlannerAgent")
+    # Test case 1: Flight search
+    user_flight_query = "I want to book a flight from New York to Los Angeles next week."
+    flight_message = Message(content=user_flight_query, sender="User", recipient="TravelPlannerAgent")
 
-    # Process the message using TravelPlannerAgent
-    response_message = travel_planner.process(message)
+    # Process the flight message using TravelPlannerAgent
+    flight_response_message = travel_planner.process(flight_message)
+    logger.info(f"Response to the flight query: {flight_response_message.content}")
+    print("Flight Search Response:", flight_response_message.content)
 
-    # Output the response
-    logger.info(f"Response to the user: {response_message.content}")
-    print(response_message.content)
+    # Test case 2: Hotel search
+    user_hotel_query = "Can you find me a hotel in Los Angeles for next week?"
+    hotel_message = Message(content=user_hotel_query, sender="User", recipient="TravelPlannerAgent")
+
+    # Process the hotel message using TravelPlannerAgent
+    hotel_response_message = travel_planner.process(hotel_message)
+    logger.info(f"Response to the hotel query: {hotel_response_message.content}")
+    print("Hotel Search Response:", hotel_response_message.content)
+
+    # Test case 3: Car rental search
+    user_car_rental_query = "I need a rental car in Los Angeles for a week."
+    car_rental_message = Message(content=user_car_rental_query, sender="User", recipient="TravelPlannerAgent")
+
+    # Process the car rental message using TravelPlannerAgent
+    car_rental_response_message = travel_planner.process(car_rental_message)
+    logger.info(f"Response to the car rental query: {car_rental_response_message.content}")
+    print("Car Rental Search Response:", car_rental_response_message.content)
