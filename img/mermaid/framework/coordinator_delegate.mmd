@@ -24,7 +24,7 @@ flowchart TB
     I{"🔍 Determine Intent"}:::intent
     LLM["🧠 LLM"]:::llm
     
-    subgraph Delegates ["Delegates (One active at a time)"]
+    subgraph Delegates ["Delegates"]
         direction TB
         F["✈️ FlightAgent"]:::delegate
         H["🏨 HotelAgent"]:::delegate
@@ -39,7 +39,7 @@ flowchart TB
     
     U --> TP
     TP --> I
-    I --> Delegates
+    I -->|Intent=Flight Search| F
     TP -.-> |Uses| LLM
     Delegates -.-> |Uses| LLM
     Delegates --> Q
@@ -50,3 +50,4 @@ flowchart TB
     R --> O
     
     style Delegates fill:#FFF8E1,stroke:#FFA000,stroke-width:2px,rx:10,ry:10;
+    linkStyle 2 stroke:#FF4081,stroke-width:2px;
