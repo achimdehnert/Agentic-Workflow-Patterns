@@ -23,30 +23,30 @@ graph TD
     classDef strategy fill:#d6eaf8,color:#333,stroke:#85c1e9;
     classDef util fill:#f2d7d5,color:#333,stroke:#e6b0aa;
 
-    A[run.py] --> B[Pipeline]
-    A --> C[TravelPlannerAgent]
-    A --> D[Message]
+    A[run.py] -->|uses| B[Pipeline]
+    A -->|uses| C[TravelPlannerAgent]
+    A -->|uses| D[Message]
     
     subgraph Agents["Agents"]
-        C --> E[FlightAgent]
-        C --> F[HotelAgent]
-        C --> G[CarRentalAgent]
+        C -->|manages| E[FlightAgent]
+        C -->|manages| F[HotelAgent]
+        C -->|manages| G[CarRentalAgent]
         J[Agent]
     end
     
-    E & F & G -.-> J
+    E & F & G -.->|extends| J
     
-    B --> C
+    B -->|contains| C
     
     subgraph Core["Core"]
         H[TemplateManager]
         I[ResponseGenerator]
     end
     
-    C --> H
-    C --> I
-    E & F & G --> H
-    E & F & G --> I
+    C -->|uses| H
+    C -->|uses| I
+    E & F & G -->|use| H
+    E & F & G -->|use| I
     
     subgraph Factories["Factories"]
         K[Generation<br>Strategy<br>Factory]
@@ -55,13 +55,13 @@ graph TD
         N[VertexAI<br>Model<br>Factory]
     end
     
-    I --> K
-    I --> L
-    K -.-> M
-    L -.-> N
+    I -->|uses| K
+    I -->|uses| L
+    K -.->|creates| M
+    L -.->|creates| N
     
-    O[StateManager] -.-> C
-    P[io.py] -.-> H
+    O[StateManager] -.->|used by| C
+    P[io.py] -.->|used by| H
 
     class A entrypoint;
     class H,I core;

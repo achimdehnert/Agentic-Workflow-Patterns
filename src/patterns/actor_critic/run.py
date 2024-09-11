@@ -1,6 +1,6 @@
-from memory.manage import StateManager
 from src.patterns.actor_critic.critic import Critic
 from src.patterns.actor_critic.actor import Actor
+from src.memory.manage import StateManager
 from src.config.logging import logger
 
 # Static configuration variables
