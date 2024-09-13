@@ -1,6 +1,6 @@
+from src.patterns.actor_critic.utils import save_to_disk
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
-from src.utils.io import save_to_disk
 from src.config.logging import logger
 from abc import abstractmethod
 from typing import Any
