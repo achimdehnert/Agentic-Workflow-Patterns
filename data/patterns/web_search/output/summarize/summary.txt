@@ -1,14 +1,12 @@
-##  Hotels in Frisco, Texas for a Week 
+#### Car Rental Options in Frisco, Texas
 
-- Frisco, Texas offers a variety of hotels to suit different needs and budgets. 
-- For those interested in a luxurious experience, the Omni Frisco Hotel at The Star is a popular choice, located in the heart of the 91-acre entertainment district.  
-- This hotel offers timeless guest rooms and suites, a relaxing pool, and world-class amenities.
-- The Omni Frisco Hotel at The Star is also pet-friendly, with a one-time non-refundable pet fee of $150 per reservation. 
-- Other popular hotels in Frisco include the Hyatt Regency Frisco-Dallas, Hotel Indigo Frisco, an IHG Hotel, and The Westin Dallas Stonebriar Golf Resort & Spa. 
-- The Westin offers an 18-hole golf course and multiple dining options, while the Hyatt Regency features an outdoor swimming pool and shared lounge.
+- Kayak.com suggests renting an SUV or a 4WD for Frisco due to its smooth commute and roomy legroom. A pick-up truck may also be a good choice for those with hiking or camping gear. The speed limit in Frisco is 30mph within residential areas, 20mph in school zones, and 75mph on highways. Parking is readily available with numerous parking garages and some free options.
+- Avis.com highlights their Frisco location at 8756 Teel Pkwy, Ste 315, Frisco, TX, 75034, United States.  They offer a free day on rentals of three days or more and a free upgrade on select vehicles.
+- Budget.com offers a similar deal with a free day on rentals of three days or more and a free upgrade. Their Frisco location is at 2601 Preston Road - Suite 2270, Frisco, TX, 75034, United States. 
+- Momondo.com suggests Turo for the cheapest car rentals in Frisco, with prices as low as $17/day. The average price for a rental car in Frisco is $33/day. 
 
-### Citations
-1. https://www.visitfrisco.com/hotels/
-2. https://www.omnihotels.com/hotels/frisco
-3. https://www.booking.com/city/us/frisco-texas.html
-4. https://www.kayak.com/Frisco-Hotels.12219.hotel.ksp
+#### Citations
+1. https://www.kayak.com/Cheap-Frisco-Car-Rentals.12219.cars.ksp
+2. https://www.avis.com/en/locations/us/tx/frisco
+3. https://www.budget.com/en/locations/us/tx/frisco/ft4
+4. https://www.momondo.com/car-rental/Frisco-12219
