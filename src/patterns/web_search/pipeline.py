@@ -1,3 +1,5 @@
+import os
+import shutil
 from src.patterns.web_search.factory import TaskFactory
 from src.config.logging import logger
 from typing import Optional
@@ -10,6 +12,27 @@ class Pipeline:
         self.search_task = TaskFactory.create_search_task()
         self.scrape_task = TaskFactory.create_scrape_task()
         self.summarize_task = TaskFactory.create_summarize_task()
+        self.output_folders = [
+            './data/patterns/web_search/output/search',
+            './data/patterns/web_search/output/scrape',
+            './data/patterns/web_search/output/summarize'
+        ]
+
+    def flush_output_folders(self):
+        """
+        Flushes out all files in the output folders before starting the pipeline.
+        """
+        for folder in self.output_folders:
+            try:
+                for filename in os.listdir(folder):
+                    file_path = os.path.join(folder, filename)
+                    if os.path.isfile(file_path):
+                        os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                logger.info(f"Flushed output folder: {folder}")
+            except Exception as e:
+                logger.error(f"Error flushing folder {folder}: {str(e)}")
 
     def run(self, model_name: str, query: str) -> str:
         """
@@ -27,6 +50,9 @@ class Pipeline:
         """
         try:
             logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}'.")
+            
+            logger.info("Flushing output folders.")
+            self.flush_output_folders()
 
             logger.info("Executing search task.")
             self.search_task.run(model_name, query)
