@@ -18,7 +18,7 @@ class Agent(ABC):
 
         :param name: Name of the agent.
         """
-        self.name: str = name
+        self.name = name
         self.template_manager = TemplateManager('./config/patterns/coordinator_delegate.yml')
         self.response_generator = ResponseGenerator()
         logger.info(f"Agent {self.name} initialized with shared resources.")

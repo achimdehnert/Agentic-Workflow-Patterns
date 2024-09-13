@@ -4,9 +4,7 @@ from src.patterns.coordinator_delegate.delegates.hotel_search import HotelSearch
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
 from src.config.logging import logger
-from typing import List, Dict, Union
 from enum import Enum
-
 
 class Intent(Enum):
     """
@@ -17,14 +15,13 @@ class Intent(Enum):
     CAR_RENTAL = 3
     UNKNOWN = 4
 
-
 class TravelPlannerAgent(Agent):
     """
     Travel Planner agent responsible for routing travel-related queries to sub-agents 
     based on detected intent and generating a consolidated response.
     """
 
-    def __init__(self, name: str, sub_agents: List[Agent]) -> None:
+    def __init__(self, name, sub_agents):
         """
         Initializes the TravelPlannerAgent with a set of sub-agents and shared resources.
 
@@ -32,10 +29,10 @@ class TravelPlannerAgent(Agent):
         :param sub_agents: List of sub-agents responsible for specific tasks like flights, hotels, etc.
         """
         super().__init__(name)
-        self.sub_agents: Dict[str, Agent] = {agent.name: agent for agent in sub_agents}
+        self.sub_agents = {agent.name: agent for agent in sub_agents}
         logger.info(f"{self.name} initialized with {len(self.sub_agents)} sub-agents.")
 
-    def determine_intent(self, query: str) -> Intent:
+    def determine_intent(self, query):
         """
         Determines the user's intent based on their query using a response generation model.
 
@@ -63,7 +60,7 @@ class TravelPlannerAgent(Agent):
             logger.error(f"Unexpected error while determining intent: {e}")
             return Intent.UNKNOWN
 
-    def route_to_agent(self, intent: Intent) -> Union[Agent, None]:
+    def route_to_agent(self, intent):
         """
         Routes the query to the appropriate sub-agent based on the determined intent.
 
@@ -85,7 +82,7 @@ class TravelPlannerAgent(Agent):
         logger.info(f"Routing to agent: {agent_name}")
         return self.sub_agents.get(agent_name)
 
-    def process(self, message: Message) -> Message:
+    def process(self, message):
         """
         Processes the incoming message, determines intent, routes to the appropriate sub-agent, 
         and returns a consolidated response.
@@ -130,5 +127,3 @@ class TravelPlannerAgent(Agent):
         except Exception as e:
             logger.error(f"Unexpected error during processing: {e}")
             return Message(content="I encountered an error while processing your request. Please try again later.", sender=self.name, recipient="User")
-
-
