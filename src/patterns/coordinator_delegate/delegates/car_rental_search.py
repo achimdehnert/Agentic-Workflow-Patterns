@@ -1,6 +1,6 @@
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
-from patterns.web_search.pipeline import run
+from src.patterns.web_search.pipeline import run
 from src.config.logging import logger
 from typing import Dict, Any
 import json
