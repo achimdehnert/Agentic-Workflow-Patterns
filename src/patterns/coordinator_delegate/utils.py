@@ -1,11 +1,10 @@
 from src.config.logging import logger
-from datetime import datetime
 from typing import Union
-import json 
-import os 
+import json
+import os
 
 
-BASE_DIR = "./data/patterns/coordinator_delegates/output"
+BASE_DIR = "./data/patterns/coordinator_delegate/output"
 
 def ensure_directory_exists(path: str) -> None:
     """
@@ -23,14 +22,13 @@ def ensure_directory_exists(path: str) -> None:
 
 def generate_filename(prefix: str, extension: str) -> str:
     """
-    Generate a filename with the current timestamp.
+    Generate a filename without the timestamp.
     
     :param prefix: The prefix for the filename.
     :param extension: The file extension (e.g., 'json' or 'txt').
     :return: A string representing the generated filename.
     """
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    return f"{prefix}_{timestamp}.{extension}"
+    return f"{prefix}.{extension}"
 
 
 def save_json_response(category: str, response_type: str, content: Union[dict, list]) -> None:

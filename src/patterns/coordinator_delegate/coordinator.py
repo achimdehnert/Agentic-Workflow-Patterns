@@ -1,6 +1,5 @@
-from src.patterns.coordinator_delegate.delegates.car_rental_search import CarRentalSearchAgent
-from src.patterns.coordinator_delegate.delegates.flight_search import FlightSearchAgent
-from src.patterns.coordinator_delegate.delegates.hotel_search import HotelSearchAgent
+from src.patterns.coordinator_delegate.utils import save_json_response
+from src.patterns.coordinator_delegate.utils import save_text_response
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
 from src.config.logging import logger
@@ -49,6 +48,7 @@ class TravelPlannerAgent(Agent):
             logger.info(f"Generating response to determine intent for query: {query}")
             response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
             out_dict = eval(response.text.strip())  # Caution: Ensure safe eval usage
+            save_json_response('coordinator', 'route', out_dict)
             intent_str = out_dict.get('intent', 'UNKNOWN').upper()
             logger.info(f"Determined intent: {intent_str}")
             return Intent[intent_str]
@@ -119,6 +119,7 @@ class TravelPlannerAgent(Agent):
             logger.info("Generating final response for the user.")
             final_response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents)
             final_response_text = final_response.text.strip()
+            save_text_response('coordinator', 'consolidate', final_response_text)
             return Message(content=final_response_text, sender=self.name, recipient="User")
 
         except ValueError as e:
