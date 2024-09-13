@@ -1,4 +1,6 @@
-from src.patterns.coordinator_delegate.delegates import CarRentalSearchAgent, FlightSearchAgent, HotelSearchAgent
+from src.patterns.coordinator_delegate.delegates.car_rental_search import CarRentalSearchAgent
+from src.patterns.coordinator_delegate.delegates.flight_search import FlightSearchAgent
+from src.patterns.coordinator_delegate.delegates.hotel_search import HotelSearchAgent
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
 from src.config.logging import logger
@@ -130,41 +132,3 @@ class TravelPlannerAgent(Agent):
             return Message(content="I encountered an error while processing your request. Please try again later.", sender=self.name, recipient="User")
 
 
-if __name__ == '__main__':
-    # Initialize sub-agents (Flight, Hotel, CarRental)
-    flight_agent = FlightSearchAgent(name="FlightSearchAgent")
-    hotel_agent = HotelSearchAgent(name="HotelSearchAgent")
-    car_rental_agent = CarRentalSearchAgent(name="CarRentalSearchAgent")
-
-    # Instantiate the TravelPlannerAgent with sub-agents
-    travel_planner = TravelPlannerAgent(
-        name="TravelPlannerAgent",
-        sub_agents=[flight_agent, hotel_agent, car_rental_agent])
-    """
-    # Test case 1: Flight search
-    user_flight_query = "I want to book a flight from Miami to Dallas  next week."
-    flight_message = Message(content=user_flight_query, sender="User", recipient="TravelPlannerAgent")
-
-    # Process the flight message using TravelPlannerAgent
-    flight_response_message = travel_planner.process(flight_message)
-    logger.info(f"Response to the flight query: {flight_response_message.content}")
-    print("Flight Search Response:", flight_response_message.content)
-    """
-    # Test case 2: Hotel search
-    user_hotel_query = "Can you find me a hotel in Frisco, Texas for next week?"
-    hotel_message = Message(content=user_hotel_query, sender="User", recipient="TravelPlannerAgent")
-
-    # Process the hotel message using TravelPlannerAgent
-    hotel_response_message = travel_planner.process(hotel_message)
-    logger.info(f"Response to the hotel query: {hotel_response_message.content}")
-    print("Hotel Search Response:", hotel_response_message.content)
-    """
-    # Test case 3: Car rental search
-    user_car_rental_query = "I need a rental car in Frisco, Texas for a week."
-    car_rental_message = Message(content=user_car_rental_query, sender="User", recipient="TravelPlannerAgent")
-
-    # Process the car rental message using TravelPlannerAgent
-    car_rental_response_message = travel_planner.process(car_rental_message)
-    logger.info(f"Response to the car rental query: {car_rental_response_message.content}")
-    print("Car Rental Search Response:", car_rental_response_message.content)
-    """

@@ -81,7 +81,7 @@ class WebScrapeAgent(ScrapeTask):
             logger.warning(f"Skipping {url} due to timeout (more than 5 seconds)")
             return ""
         except requests.RequestException as e:
-            logger.error(f"Error scraping {url}: {str(e)}")
+            logger.warning(f"Error scraping {url}: {str(e)}")
             return ""
 
 
