@@ -1,91 +1,66 @@
 from src.patterns.web_search.factory import TaskFactory
-from src.patterns.web_search.tasks import SummarizeTask
-from src.patterns.web_search.pipeline import Pipeline
-from src.patterns.web_search.tasks import SearchTask
-from src.patterns.web_search.tasks import ScrapeTask
 from src.config.logging import logger
-from functools import lru_cache
 from typing import Optional
 
-
-class Runner:
+class Pipeline:
     """
-    Container class that manages task creation and caching for pipeline execution.
-    Uses lru_cache to cache instances of the tasks to improve performance.
+    Pipeline class that orchestrates the execution of search, scrape, and summarize tasks.
     """
+    def __init__(self):
+        self.search_task = TaskFactory.create_search_task()
+        self.scrape_task = TaskFactory.create_scrape_task()
+        self.summarize_task = TaskFactory.create_summarize_task()
 
-    @lru_cache()
-    def search_task(self) -> SearchTask:
+    def run(self, model_name: str, query: str) -> str:
         """
-        Creates and caches the search task.
-        
-        Returns:
-            SearchTask: The search task instance.
-        """
-        logger.info("Creating search task.")
-        return TaskFactory.create_search_task()
+        Executes the search, scrape, and summarize tasks in sequence.
 
-    @lru_cache()
-    def scrape_task(self) -> ScrapeTask:
-        """
-        Creates and caches the scrape task.
-        
-        Returns:
-            ScrapeTask: The scrape task instance.
-        """
-        logger.info("Creating scrape task.")
-        return TaskFactory.create_scrape_task()
+        Args:
+            model_name (str): The name of the model used for the summarization task.
+            query (str): The search query passed to the search task and used during summarization.
 
-    @lru_cache()
-    def summarize_task(self) -> SummarizeTask:
-        """
-        Creates and caches the summarize task.
-        
         Returns:
-            SummarizeTask: The summarize task instance.
-        """
-        logger.info("Creating summarize task.")
-        return TaskFactory.create_summarize_task()
+            str: The summary generated after performing the search, scrape, and summarize tasks.
 
-    @lru_cache()
-    def pipeline(self) -> Pipeline:
-        """
-        Creates and caches the pipeline composed of search, scrape, and summarize tasks.
-        
-        Returns:
-            Pipeline: The complete pipeline instance.
+        Raises:
+            Exception: If any task encounters an error, the exception is logged and re-raised.
         """
         try:
-            logger.info("Creating pipeline with search, scrape, and summarize tasks.")
-            pipeline = Pipeline(
-                self.search_task(),
-                self.scrape_task(),
-                self.summarize_task()
-            )
-            return pipeline
+            logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}'.")
+
+            logger.info("Executing search task.")
+            self.search_task.run(model_name, query)
+
+            logger.info("Executing scrape task.")
+            self.scrape_task.run()
+
+            logger.info("Executing summarize task.")
+            summary = self.summarize_task.run(model_name, query)
+
+            logger.info("Pipeline execution completed successfully.")
+            return summary
+
         except Exception as e:
-            logger.error(f"Failed to create pipeline: {str(e)}")
+            logger.error(f"An error occurred during the pipeline execution: {e}", exc_info=True)
             raise
 
-    
 def run(query: str, model_name: Optional[str] = 'gemini-1.5-flash-001') -> str:
     """
-    Main function that initializes the container, constructs the pipeline, and executes it.
-    
+    Main function that initializes the pipeline and executes it.
+
     Args:
         query (str): The search query to be processed.
         model_name (Optional[str]): The model name used for summarization. Defaults to 'gemini-1.5-flash-001'.
-    
+
     Returns:
         str: The summary result from the pipeline execution.
-    
+
     Raises:
         Exception: If any error occurs during pipeline execution, it is logged and re-raised.
     """
     try:
         logger.info(f"Starting pipeline for query: {query} with model: {model_name}")
-        runner = Runner()
-        pipeline = runner.pipeline()
+        pipeline = Pipeline()
         summary = pipeline.run(model_name, query)
         logger.info("Pipeline run successfully completed.")
         return summary
@@ -93,9 +68,7 @@ def run(query: str, model_name: Optional[str] = 'gemini-1.5-flash-001') -> str:
         logger.error(f"Pipeline execution failed: {str(e)}")
         raise
 
-
 if __name__ == '__main__':
     query = 'best hotels in Key West, Florida'
     summary = run(query)
     logger.info(f"Generated Summary: {summary}")
-
