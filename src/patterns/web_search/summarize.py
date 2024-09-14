@@ -73,7 +73,9 @@ class WebContentSummarizeAgent(SummarizeTask):
             response = self.response_generator.generate_response(
                 model_name, system_instruction, [user_instruction]
             )
+            print('>>>>', response)
             summary: str = response.text.strip()
+            print('==', summary)
             
             logger.info("Response generated successfully.")
             

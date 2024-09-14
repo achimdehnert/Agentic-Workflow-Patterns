@@ -70,7 +70,7 @@ class Pipeline:
             logger.error(f"An error occurred during the pipeline execution: {e}", exc_info=True)
             raise
 
-def run(query: str, model_name: Optional[str] = 'gemini-1.5-flash-001') -> str:
+def run(query: str, model_name: Optional[str] = 'gemini-1.5-pro-001') -> str:
     """
     Main function that initializes the pipeline and executes it.
 
@@ -95,6 +95,6 @@ def run(query: str, model_name: Optional[str] = 'gemini-1.5-flash-001') -> str:
         raise
 
 if __name__ == '__main__':
-    query = 'best hotels in Key West, Florida'
+    query = 'best hotels in Atlanta, Georgia'
     summary = run(query)
     logger.info(f"Generated Summary: {summary}")
