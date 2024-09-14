@@ -176,6 +176,8 @@ class WebScrapeAgent(ScrapeTask):
                     outfile.write(f"CONTENT:\n{result['content']}\n")
                     outfile.write(f"==== END ENTRY ====\n\n")
             logger.info(f"Scraping complete. Results saved in '{self.output_file}'")
+            # Adding a 3-second delay after saving results
+            time.sleep(3)
         except Exception as e:
             logger.error(f"Error saving results: {str(e)}")
 

@@ -67,6 +67,8 @@ class WebContentSummarizeAgent(SummarizeTask):
             user_instruction: str = self.template_manager.fill_template(
                 template['user'], query=query, html_content=self.html_content
             )
+
+            print('LLL', user_instruction)
             
             # Generating the response
             logger.info("Generating response from LLM...")

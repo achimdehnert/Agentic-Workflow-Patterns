@@ -95,6 +95,6 @@ def run(query: str, model_name: Optional[str] = 'gemini-1.5-pro-001') -> str:
         raise
 
 if __name__ == '__main__':
-    query = 'best hotels in Atlanta, Georgia'
+    query = 'best hotels in houston, texas'
     summary = run(query)
     logger.info(f"Generated Summary: {summary}")
