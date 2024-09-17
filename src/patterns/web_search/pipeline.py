@@ -34,31 +34,18 @@ class Pipeline:
             except Exception as e:
                 logger.error(f"Error flushing folder {folder}: {str(e)}")
 
-    def execute(self, model_name: str, query: str) -> str:
-        """
-        Executes the search, scrape, and summarize tasks in sequence.
-
-        Args:
-            model_name (str): The name of the model used for the summarization task.
-            query (str): The search query passed to the search task and used during summarization.
-
-        Returns:
-            str: The summary generated after performing the search, scrape, and summarize tasks.
-
-        Raises:
-            Exception: If any task encounters an error, the exception is logged and re-raised.
-        """
+    def execute(self, model_name: str, query: str, location: str = '') -> str:
         try:
-            logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}'.")
+            logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}' and location: '{location}'.")
 
             logger.info("Flushing output folders.")
             self._flush_output_folders()
 
             logger.info("Executing search task.")
-            self._search_task.run(model_name, query)
+            self._search_task.run(model_name, query, location)
 
             logger.info("Executing scrape task.")
-            self._scrape_task.run()
+            self._scrape_task.run(query, location)
 
             logger.info("Executing summarize task.")
             summary = self._summarize_task.run(model_name, query)

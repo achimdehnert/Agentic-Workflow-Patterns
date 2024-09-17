@@ -9,6 +9,7 @@ from typing import Dict
 from typing import List 
 from typing import Any 
 import requests
+import hashlib
 import json
 import time
 import os
@@ -33,6 +34,12 @@ class WebScrapeAgent(ScrapeTask):
     def __init__(self) -> None:
         self.output_file = os.path.join(self.OUTPUT_DIR, self.OUTPUT_FILE)
 
+
+    def generate_filename(self, query: str) -> str:
+        """Generate a unique filename based on the query and location."""
+        combined = f"{query}".encode('utf-8')
+        return f"search_results_{hashlib.md5(combined).hexdigest()}.json"
+    
     @staticmethod
     def clean_text(text: str) -> str:
         """
@@ -100,31 +107,6 @@ class WebScrapeAgent(ScrapeTask):
         content = self.scrape_website(result['Link'])
         return result, content
 
-    def load_latest_json(self) -> List[Dict[str, Any]]:
-        """
-        Loads the latest JSON file from the input directory containing search results.
-        
-        Returns:
-            List[Dict[str, Any]]: A list of search results (Top Results) from the latest JSON file.
-        
-        Raises:
-            FileNotFoundError: If no JSON files are found in the input directory.
-        """
-        try:
-            json_files = [f for f in os.listdir(self.INPUT_DIR) if f.endswith('.json')]
-            if not json_files:
-                raise FileNotFoundError("No JSON files found in the input directory.")
-            
-            latest_file = max(json_files, key=lambda f: os.path.getmtime(os.path.join(self.INPUT_DIR, f)))
-            with open(os.path.join(self.INPUT_DIR, latest_file), 'r') as f:
-                data = json.load(f)
-            
-            logger.info(f"Loaded latest search results from: {latest_file}")
-            return data['Top Results']
-        except Exception as e:
-            logger.error(f"Error loading JSON file: {str(e)}")
-            raise
-
     def scrape_results(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Scrapes the content from the provided search results concurrently using a thread pool.
@@ -181,17 +163,30 @@ class WebScrapeAgent(ScrapeTask):
         except Exception as e:
             logger.error(f"Error saving results: {str(e)}")
 
-    def run(self) -> None:
-        """
-        Main entry point to run the web scraping process. It loads the latest search results,
-        scrapes the websites, and saves the scraped content.
-        
-        Raises:
-            Exception: If any error occurs during the scraping process.
-        """
+
+    def load_search_results(self, query: str, location: str) -> List[Dict[str, Any]]:
         try:
-            logger.info("Starting web scraping process.")
-            results = self.load_latest_json()
+            filename = self.generate_filename(query)
+            file_path = os.path.join(self.INPUT_DIR, filename)
+            print('----------->', file_path)
+            
+            if not os.path.exists(file_path):
+                raise FileNotFoundError(f"Search results file not found for query: '{query}' and location: '{location}'")
+            
+            with open(file_path, 'r') as f:
+                data = json.load(f)
+            
+            logger.info(f"Loaded search results from: {filename}")
+            return data['Top Results']
+        except Exception as e:
+            logger.error(f"Error loading search results file: {str(e)}")
+            raise
+
+
+    def run(self, query: str, location: str) -> None:
+        try:
+            logger.info(f"Starting web scraping process for query: '{query}' and location: '{location}'")
+            results = self.load_search_results(query, location)
             scraped_results = self.scrape_results(results)
             self.save_results(scraped_results)
         except Exception as e:

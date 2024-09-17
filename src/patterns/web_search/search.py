@@ -8,6 +8,10 @@ from src.config.logging import logger
 from typing import Optional
 from typing import Dict 
 from typing import Any 
+import hashlib
+import json
+import os 
+
 
 
 class WebSearchAgent(SearchTask):
@@ -103,17 +107,13 @@ class WebSearchAgent(SearchTask):
             logger.error(f"Failed to extract function arguments: {e}")
             return None
 
-    def run(self, model_name: str, query: str) -> None:
-        """
-        Executes the search by generating the query and using the search tool.
 
-        Args:
-            model_name (str): The name of the model to use for the search.
-            query (str): The search query string.
+    def generate_filename(self, query: str) -> str:
+            """Generate a uniqåue filename based on the query and location."""
+            combined = f"{query}".encode('utf-8')
+            return f"search_results_{hashlib.md5(combined).hexdigest()}.json"
 
-        Raises:
-            Exception: If there is an error during the search process.
-        """
+    def run(self, model_name: str, query: str, location: str = '') -> None:
         try:
             search_tool = Tool(function_declarations=[self.create_search_function_declaration()])
             response = self.function_call(model_name, query, search_tool)
@@ -121,12 +121,21 @@ class WebSearchAgent(SearchTask):
             
             if function_args:
                 search_query = function_args.get('query', query)
-                location = function_args.get('location', '')
-                logger.info(f"Running web search for query: {search_query}, location: {location}")
-                from src.patterns.web_search.serp import run
-                run(search_query, location)
+                search_location = location or function_args.get('location', '')
             else:
-                logger.warning(f"No valid function arguments extracted. Defaulting to original query: {query}")
+                search_query = query
+                search_location = location
+
+            logger.info(f"Running web search for query: {search_query}, location: {search_location}")
+            from src.patterns.web_search.serp import run
+            results = run(search_query, search_location)
+
+            # Save results with the new filename format
+            filename = self.generate_filename(search_query, search_location)
+            output_path = os.path.join("./data/patterns/web_search/output/search", filename)
+            with open(output_path, 'w') as f:
+                json.dump(results, f)
+
         except Exception as e:
             logger.error(f"Error during search execution: {e}")
             raise
