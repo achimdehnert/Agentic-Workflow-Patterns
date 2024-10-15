@@ -8,6 +8,7 @@ from src.patterns.web_search.pipeline import run
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
 from src.config.logging import logger
+import json 
 
 
 
