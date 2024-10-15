@@ -1,5 +1,5 @@
-from src.patterns.actor_critic.agent import ContentGenerator
-from src.patterns.actor_critic.agent import Agent
+from src.patterns.reflection.agent import ContentGenerator
+from src.patterns.reflection.agent import Agent
 from src.config.logging import logger 
 
 
