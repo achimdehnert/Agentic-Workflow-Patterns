@@ -1,19 +1,16 @@
-import asyncio
-from typing import List, Dict, Any
-from enum import Enum
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
-
-from src.patterns.web_search.pipeline import run
-from src.llm.generate import ResponseGenerator
-from src.prompt.manage import TemplateManager
 from src.config.logging import logger
-
+from typing import List
+from typing import Dict
+from enum import Enum
+import asyncio
 
 class EntityType(Enum):
     FLIGHT = 1
     HOTEL = 2
     CAR_RENTAL = 3
+    UNKNOWN = 4
 
 
 class TravelPlannerAgent(Agent):
