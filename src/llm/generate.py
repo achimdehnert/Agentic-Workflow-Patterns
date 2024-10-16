@@ -4,25 +4,24 @@ from src.llm.factory import ModelFactoryProvider
 from src.config.logging import logger
 from src.config.setup import config
 from typing import Optional, List, Dict, Any
-
+import time
 
 class ResponseGenerator:
     """
-    A class to handle the generation of responses using different generation strategies
-    and model factories. The strategy and model used can be customized by specifying
-    the `strategy_type` in the configuration.
+    Handles response generation using various generation strategies and model factories. 
+    The `strategy_type` in the configuration specifies the generation strategy.
 
     Attributes:
-        model_factory: An instance of ModelFactoryProvider to create model instances.
-        generation_strategy: The selected strategy for content generation.
+        model_factory: Instance of ModelFactoryProvider for creating model instances.
+        generation_strategy: Strategy selected for content generation.
     """
 
     def __init__(self, strategy_type: str = "default") -> None:
         """
-        Initializes the ResponseGenerator with the specified strategy type.
+        Initializes ResponseGenerator with the specified strategy type.
 
         Args:
-            strategy_type (str): The type of strategy to use for content generation. Defaults to "default".
+            strategy_type (str): Type of strategy for content generation. Defaults to "default".
         """
         self.model_factory = ModelFactoryProvider.get_instance()
         self.generation_strategy = GenerationStrategyFactory.get_strategy(strategy_type)
@@ -32,19 +31,17 @@ class ResponseGenerator:
         Generates a response based on the provided model name, system instruction, contents, response schema, and tools.
 
         Args:
-            model_name (str): The name of the model to be used for generation.
-            system_instruction (str): The instruction or prompt provided to the model.
-            contents (List[str]): A list of content strings that will be used as input for response generation.
-            response_schema (Optional[Dict[str, Any]]): A schema that defines the structure and constraints of the generated response. Defaults to None.
-            tools (List[Any]): A list of tools to be passed to the model for content generation. Defaults to None.
+            model_name (str): Name of the model for generation.
+            system_instruction (str): Instruction or prompt for the model.
+            contents (List[str]): Content input list for response generation.
+            response_schema (Optional[Dict[str, Any]]): Schema defining response structure and constraints (default is None).
+            tools (List[Any]): Tools passed to the model for content generation (default is None).
 
         Returns:
-        --------
-        GenerationResponse: The generated response object.
+            GenerationResponse: Generated response object.
 
         Raises:
-        -------
-        Exception: If there is an error during the response generation process.
+            Exception: If an error occurs during response generation.
         """
         logger.info("Starting response generation.")
         
@@ -53,6 +50,7 @@ class ResponseGenerator:
             model = self.model_factory.create_model(model_name, system_instruction)
             logger.info("Model created successfully.")
             
+            # Prepare generation configuration and safety settings
             generation_config = self.generation_strategy.create_generation_config(response_schema) if response_schema else None
             safety_settings = self.generation_strategy.create_safety_settings()
             
@@ -64,6 +62,42 @@ class ResponseGenerator:
             )
             logger.info("Response generated successfully.")
             return response 
+        
         except Exception as e:
-            logger.error(f"Error generating response: {e}")
+            if "429" in str(e) and "Resource exhausted" in str(e):
+                logger.error("Quota exceeded: 429 Resource exhausted. Retrying in 60 seconds.")
+                time.sleep(60)  # Retry after delay due to quota limits
+                return self._retry_generate_response(model, contents, generation_config, safety_settings, tools)
+            else:
+                logger.error(f"Error generating response: {e}")
+                raise
+
+    def _retry_generate_response(self, model, contents, generation_config, safety_settings, tools) -> GenerationResponse:
+        """
+        Retries response generation once after a 429 quota limit error.
+
+        Args:
+            model: Model instance to retry with.
+            contents (List[str]): Content input for response generation.
+            generation_config (Any): Configuration for generation.
+            safety_settings (Any): Safety settings for the model.
+            tools (List[Any]): Tools passed to the model.
+
+        Returns:
+            GenerationResponse: The response after retry.
+            
+        Raises:
+            Exception: If the retry fails or another error occurs.
+        """
+        try:
+            response = model.generate_content(
+                contents,
+                generation_config=generation_config,
+                safety_settings=safety_settings,
+                tools=tools
+            )
+            logger.info("Response generated successfully after retry.")
+            return response
+        except Exception as retry_error:
+            logger.error(f"Retry failed: {retry_error}")
             raise
