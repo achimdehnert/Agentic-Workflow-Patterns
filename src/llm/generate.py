@@ -2,6 +2,7 @@ from vertexai.generative_models import GenerationResponse
 from src.llm.strategy import GenerationStrategyFactory
 from src.llm.factory import ModelFactoryProvider
 from src.config.logging import logger
+from src.config.setup import _
 from typing import Optional
 from typing import List 
 from typing import Dict 
