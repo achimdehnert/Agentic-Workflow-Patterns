@@ -1,44 +1,37 @@
-
 from src.patterns.web_search.tasks import ScrapeTask
-from concurrent.futures import ThreadPoolExecutor
-from concurrent.futures import as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from src.utils.io import generate_filename
 from src.config.logging import logger
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-from typing import Tuple
-from typing import Dict
-from typing import List 
-from typing import Any 
+from typing import Tuple, Dict, List, Any
 import requests
 import json
 import time
 import os
 import re
 
-
 class WebScrapeAgent(ScrapeTask):
     """
-    WebScrapeAgent is responsible for scraping website content based on search results.
-    
+    WebScrapeAgent is responsible for scraping content from websites based on search results.
+
     Attributes:
-        INPUT_DIR (str): The directory path where the search results (JSON) are stored.
-        OUTPUT_DIR (str): The directory path where the scraped content is saved.
-        OUTPUT_FILE (str): The filename where the final scraped content is written.
-        MAX_WORKERS (int): The maximum number of concurrent workers for scraping.
+        INPUT_DIR (str): Directory path where search results (JSON) are stored.
+        OUTPUT_DIR (str): Directory path where scraped content is saved.
+        MAX_WORKERS (int): Maximum number of concurrent threads for scraping.
     """
     INPUT_DIR = "./data/patterns/web_search/output/search"
     OUTPUT_DIR = "./data/patterns/web_search/output/scrape"
     MAX_WORKERS = 10
-    
+
     @staticmethod
     def clean_text(text: str) -> str:
         """
-        Cleans up the extracted text by removing extra whitespaces and newlines.
-        
+        Cleans extracted text by removing extra spaces and newlines.
+
         Args:
-            text (str): The raw text extracted from the webpage.
-        
+            text (str): Raw extracted text.
+
         Returns:
             str: Cleaned text with unnecessary spaces removed.
         """
@@ -47,52 +40,50 @@ class WebScrapeAgent(ScrapeTask):
     @staticmethod
     def get_domain(url: str) -> str:
         """
-        Extracts the domain from a given URL.
-        
+        Extracts the domain name from a URL.
+
         Args:
-            url (str): The full URL.
-        
+            url (str): Full URL.
+
         Returns:
-            str: The domain name from the URL.
+            str: Domain name extracted from the URL.
         """
         return urlparse(url).netloc
 
     def scrape_website(self, url: str) -> str:
         """
-        Scrapes the given website URL and extracts relevant content. If the request takes longer than 5 seconds,
-        the website is skipped.
-        
+        Scrapes content from a specified URL, with a timeout of 5 seconds. 
+
         Args:
-            url (str): The URL to be scraped.
-        
+            url (str): Website URL to be scraped.
+
         Returns:
-            str: Extracted text content from the webpage, or an empty string in case of an error.
+            str: Extracted text content or an empty string if an error occurs.
         """
         try:
-            response = requests.get(url, timeout=5)  # Adding a timeout of 5 seconds
+            response = requests.get(url, timeout=5)
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
             text_elements = soup.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
-            extracted_text = ' '.join([elem.get_text() for elem in text_elements])
+            extracted_text = ' '.join(elem.get_text() for elem in text_elements)
             return self.clean_text(extracted_text)
         except requests.Timeout:
-            logger.warning(f"Skipping {url} due to timeout (more than 5 seconds)")
+            logger.warning(f"Skipping {url} due to timeout.")
             return ""
         except requests.RequestException as e:
-            logger.warning(f"Error scraping {url}: {str(e)}")
+            logger.warning(f"Error scraping {url}: {e}")
             return ""
-
 
     def scrape_with_delay(self, result: Dict[str, Any], delay: int) -> Tuple[Dict[str, Any], str]:
         """
-        Scrapes a website with an added delay to avoid overwhelming the server.
+        Scrapes a website after a delay to avoid server overload.
 
         Args:
-            result (Dict[str, Any]): The search result containing the website URL and metadata.
-            delay (int): The delay in seconds before scraping.
-        
+            result (Dict[str, Any]): Search result containing URL and metadata.
+            delay (int): Delay in seconds before initiating scrape.
+
         Returns:
-            Tuple[Dict[str, Any], str]: The original result and the scraped content.
+            Tuple[Dict[str, Any], str]: Original result and scraped content.
         """
         time.sleep(delay)
         content = self.scrape_website(result['Link'])
@@ -100,21 +91,18 @@ class WebScrapeAgent(ScrapeTask):
 
     def scrape_results(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        Scrapes the content from the provided search results concurrently using a thread pool.
-        
+        Concurrently scrapes content from provided search results.
+
         Args:
-            results (List[Dict[str, Any]]): A list of search result dictionaries.
-        
+            results (List[Dict[str, Any]]): List of search result dictionaries.
+
         Returns:
-            List[Dict[str, Any]]: A list of dictionaries containing the title, URL, snippet, and scraped content.
+            List[Dict[str, Any]]: List of dictionaries with title, URL, snippet, and content.
         """
         os.makedirs(self.OUTPUT_DIR, exist_ok=True)
         scraped_results = []
         with ThreadPoolExecutor(max_workers=self.MAX_WORKERS) as executor:
-            future_to_result = {
-                executor.submit(self.scrape_with_delay, result, i): result
-                for i, result in enumerate(results)
-            }
+            future_to_result = {executor.submit(self.scrape_with_delay, result, i): result for i, result in enumerate(results)}
             for future in as_completed(future_to_result):
                 try:
                     result, content = future.result()
@@ -127,59 +115,73 @@ class WebScrapeAgent(ScrapeTask):
                         })
                         logger.info(f"Scraped: {result['Title']}")
                     else:
-                        logger.info(f"Skipping {result['Title']} due to no content")
+                        logger.info(f"Skipping {result['Title']} due to empty content.")
                 except Exception as e:
-                    logger.error(f"Error processing result: {str(e)}")
+                    logger.error(f"Error processing result: {e}")
         return scraped_results
 
-    def save_results(self, query, scraped_results: List[Dict[str, Any]]) -> None:
+    def save_results(self, query: str, scraped_results: List[Dict[str, Any]]) -> None:
         """
-        Saves the scraped results to a file.
-        
+        Saves scraped results to a text file.
+
         Args:
-            scraped_results (List[Dict[str, Any]]): A list of scraped results to save.
+            query (str): Query string used to generate filename.
+            scraped_results (List[Dict[str, Any]]): List of scraped results.
         """
         try:
-            output_path = f'{self.OUTPUT_DIR}/{generate_filename(query)}'
+            output_path = os.path.join(self.OUTPUT_DIR, generate_filename(query))
             with open(output_path, 'w', encoding='utf-8') as outfile:
                 for result in scraped_results:
-                    outfile.write(f"==== BEGIN ENTRY ====\n")
+                    outfile.write("==== BEGIN ENTRY ====\n")
                     outfile.write(f"TITLE: {result['title']}\n")
                     outfile.write(f"URL: {result['url']}\n")
                     outfile.write(f"SNIPPET: {result['snippet']}\n")
                     outfile.write(f"CONTENT:\n{result['content']}\n")
-                    outfile.write(f"==== END ENTRY ====\n\n")
-            logger.info(f"Scraping complete. Results saved in '{output_path}'")
-            # Adding a 3-second delay after saving results
-            time.sleep(3)
+                    outfile.write("==== END ENTRY ====\n\n")
+            logger.info(f"Scraping complete. Results saved to '{output_path}'")
+            time.sleep(3)  # Delay to ensure no rapid consecutive saves
         except Exception as e:
-            logger.error(f"Error saving results: {str(e)}")
-
+            logger.error(f"Error saving results: {e}")
 
     def load_search_results(self, query: str, location: str) -> List[Dict[str, Any]]:
+        """
+        Loads search results from a JSON file based on the query and location.
+
+        Args:
+            query (str): Query string for filename generation.
+            location (str): Location identifier for additional file context.
+
+        Returns:
+            List[Dict[str, Any]]: List of search result dictionaries.
+        """
         try:
             filename = generate_filename(query)
             file_path = os.path.join(self.INPUT_DIR, filename)
-            
             if not os.path.exists(file_path):
                 raise FileNotFoundError(f"Search results file not found for query: '{query}' and location: '{location}'")
             
-            with open(file_path, 'r') as f:
-                data = json.load(f)
+            with open(file_path, 'r') as file:
+                data = json.load(file)
             
-            logger.info(f"Loaded search results from: {filename}")
-            return data['Top Results']
+            logger.info(f"Loaded search results from '{filename}'")
+            return data.get('Top Results', [])
         except Exception as e:
-            logger.error(f"Error loading search results file: {str(e)}")
+            logger.error(f"Error loading search results: {e}")
             raise
 
-
     def run(self, query: str, location: str) -> None:
+        """
+        Orchestrates the web scraping process by loading search results, scraping content, and saving the results.
+
+        Args:
+            query (str): Query string for identifying relevant search results.
+            location (str): Location identifier for loading appropriate files.
+        """
         try:
-            logger.info(f"Starting web scraping process for query: '{query}' and location: '{location}'")
+            logger.info(f"Initiating scraping process for query: '{query}' and location: '{location}'")
             results = self.load_search_results(query, location)
             scraped_results = self.scrape_results(results)
             self.save_results(query, scraped_results)
         except Exception as e:
-            logger.error(f"Error during scraping process: {str(e)}")
+            logger.error(f"Error during scraping process: {e}")
             raise
