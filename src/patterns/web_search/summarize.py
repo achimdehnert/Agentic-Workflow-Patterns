@@ -40,7 +40,7 @@ class WebContentSummarizeAgent(SummarizeTask):
         """
         try:
             logger.info(f"Reading scraped content for query: '{query}'")
-            input_file_path = os.path.join(self.INPUT_DIR, generate_filename(query))
+            input_file_path = os.path.join(self.INPUT_DIR, generate_filename(query) + '.txt')
             return read_file(input_file_path)
         except Exception as e:
             logger.error(f"Error reading scraped content: {e}")

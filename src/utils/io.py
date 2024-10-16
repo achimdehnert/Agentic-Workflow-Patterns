@@ -95,11 +95,11 @@ def generate_filename(query: str) -> str:
         query (str): The query string for which a unique filename is generated.
 
     Returns:
-        str: A unique filename in the format '<md5_hash>.json'.
+        str: A unique filename in the format '<md5_hash>'.
     """
     try:
         encoded_query = query.encode('utf-8')
-        filename = f"{hashlib.md5(encoded_query).hexdigest()}.json"
+        filename = f"{hashlib.md5(encoded_query).hexdigest()}"
         return filename
     except Exception as e:
         logger.error(f"Error generating filename for query '{query}': {e}")

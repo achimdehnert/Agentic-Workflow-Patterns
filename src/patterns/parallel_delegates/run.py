@@ -19,7 +19,7 @@ async def main():
         sub_agents=[flight_agent, hotel_agent, car_rental_agent])
 
     # Test the travel planner
-    user_query = "I need a flight from New York to Los Angeles, a hotel in downtown LA, and a rental car for next week."
+    user_query = "I need a flight from New York to Dallas, a hotel in downtown Dallas, and a rental car for next week."
     initial_message = Message(content=user_query, sender="User", recipient="TravelPlannerAgent")
     response = await travel_planner.process(initial_message)
     print(f"Travel Planner Response: {response.content}")

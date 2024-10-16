@@ -134,7 +134,8 @@ class WebScrapeAgent(ScrapeTask):
             scraped_results (List[Dict[str, Any]]): List of scraped results.
         """
         try:
-            output_path = os.path.join(self.OUTPUT_DIR, generate_filename(query))
+            output_path = os.path.join(self.OUTPUT_DIR, generate_filename(query) + '.txt')
+
             with open(output_path, 'w', encoding='utf-8') as outfile:
                 for result in scraped_results:
                     outfile.write("==== BEGIN ENTRY ====\n")
@@ -161,7 +162,7 @@ class WebScrapeAgent(ScrapeTask):
         """
         try:
             filename = generate_filename(query)
-            file_path = os.path.join(self.INPUT_DIR, filename)
+            file_path = os.path.join(self.INPUT_DIR, filename + '.json')
             if not os.path.exists(file_path):
                 raise FileNotFoundError(f"Search results file not found for query: '{query}' and location: '{location}'")
             

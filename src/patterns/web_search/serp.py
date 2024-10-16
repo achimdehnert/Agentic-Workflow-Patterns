@@ -136,7 +136,7 @@ def run(raw_query: str, search_query: str, location: str) -> None:
     if isinstance(results, dict):
         # Log and save the top search results
         log_top_search_results(results)
-        output_path = os.path.join(SEARCH_RESULTS_OUTPUT_DIR, generate_filename(raw_query))
+        output_path = os.path.join(SEARCH_RESULTS_OUTPUT_DIR, generate_filename(raw_query) + '.json')
         save_top_search_results_to_json(results, output_path)
     else:
         # Handle the error response
