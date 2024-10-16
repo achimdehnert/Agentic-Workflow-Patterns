@@ -2,9 +2,12 @@ from vertexai.generative_models import GenerationResponse
 from src.llm.strategy import GenerationStrategyFactory
 from src.llm.factory import ModelFactoryProvider
 from src.config.logging import logger
-from src.config.setup import config
-from typing import Optional, List, Dict, Any
+from typing import Optional
+from typing import List 
+from typing import Dict 
+from typing import Any 
 import time
+
 
 class ResponseGenerator:
     """
