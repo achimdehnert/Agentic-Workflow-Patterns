@@ -21,17 +21,20 @@ class Pipeline:
 
     def _flush_output_folders(self):
         """
-        Flushes out all files in the output folders before starting the pipeline.
+        Flushes all files in the output folders before starting the pipeline.
         """
         for folder in self._output_folders:
             try:
-                for filename in os.listdir(folder):
-                    file_path = os.path.join(folder, filename)
-                    if os.path.isfile(file_path):
-                        os.unlink(file_path)
-                    elif os.path.isdir(file_path):
-                        shutil.rmtree(file_path)
-                logger.info(f"Flushed output folder: {folder}")
+                if os.path.exists(folder):
+                    for filename in os.listdir(folder):
+                        file_path = os.path.join(folder, filename)
+                        if os.path.isfile(file_path):
+                            os.unlink(file_path)
+                        elif os.path.isdir(file_path):
+                            shutil.rmtree(file_path)
+                    logger.info(f"Flushed output folder: {folder}")
+                else:
+                    logger.warning(f"Output folder does not exist: {folder}")
             except Exception as e:
                 logger.error(f"Error flushing folder {folder}: {str(e)}")
 
@@ -40,13 +43,13 @@ class Pipeline:
             logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}' and location: '{location}'.")
 
             logger.info("Flushing output folders.")
-            #self._flush_output_folders()
+            self._flush_output_folders()
 
             logger.info("Executing search task.")
-            #self._search_task.run(model_name, query, location)
+            self._search_task.run(model_name, query, location)
 
             logger.info("Executing scrape task.")
-            #self._scrape_task.run(query, location)
+            self._scrape_task.run(query, location)
 
             logger.info("Executing summarize task.")
             summary = self._summarize_task.run(model_name, query)
@@ -65,7 +68,7 @@ def run(query: str, model_name: Optional[str] = 'gemini-1.5-pro-001') -> str:
 
     Args:
         query (str): The search query to be processed.
-        model_name (Optional[str]): The model name used for summarization. Defaults to 'gemini-1.5-flash-001'.
+        model_name (Optional[str]): The model name used for summarization. Defaults to 'gemini-1.5-pro-001'.
 
     Returns:
         str: The summary result from the pipeline execution.
