@@ -9,7 +9,51 @@
       "type": "string",
       "description": "The detected intent of the query.",
       "enum": ["FLIGHT", "HOTEL", "CAR_RENTAL", "UNKNOWN"]
+    },
+    "entities": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": "string",
+          "description": "The duration of the trip, if specified."
+        },
+        "destination": {
+          "type": "string",
+          "description": "The destination of the trip."
+        },
+        "date": {
+          "type": "string",
+          "description": "The date or month of the trip."
+        },
+        "origin": {
+          "type": "string",
+          "description": "The origin location for flights, if specified."
+        },
+        "num_passengers": {
+          "type": "integer",
+          "description": "The number of passengers, if specified."
+        },
+        "hotel_amenities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Desired hotel amenities, if specified."
+        },
+        "car_type": {
+          "type": "string",
+          "description": "The type of car for rental, if specified."
+        },
+        "pickup_location": {
+          "type": "string",
+          "description": "The pickup location for car rentals, if specified."
+        },
+        "dropoff_location": {
+          "type": "string",
+          "description": "The dropoff location for car rentals, if specified."
+        }
+      }
     }
   },
-  "required": ["query", "intent"]
+  "required": ["query", "intent", "entities"]
 }
