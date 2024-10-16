@@ -11,7 +11,6 @@ from typing import Dict
 from typing import List 
 from typing import Any 
 import requests
-import hashlib
 import json
 import time
 import os
@@ -30,11 +29,7 @@ class WebScrapeAgent(ScrapeTask):
     """
     INPUT_DIR = "./data/patterns/web_search/output/search"
     OUTPUT_DIR = "./data/patterns/web_search/output/scrape"
-    OUTPUT_FILE = "scraped_content.txt"
     MAX_WORKERS = 10
-
-    def __init__(self) -> None:
-        self.output_file = os.path.join(self.OUTPUT_DIR, self.OUTPUT_FILE)
     
     @staticmethod
     def clean_text(text: str) -> str:
@@ -137,7 +132,7 @@ class WebScrapeAgent(ScrapeTask):
                     logger.error(f"Error processing result: {str(e)}")
         return scraped_results
 
-    def save_results(self, scraped_results: List[Dict[str, Any]]) -> None:
+    def save_results(self, query, scraped_results: List[Dict[str, Any]]) -> None:
         """
         Saves the scraped results to a file.
         
@@ -145,7 +140,8 @@ class WebScrapeAgent(ScrapeTask):
             scraped_results (List[Dict[str, Any]]): A list of scraped results to save.
         """
         try:
-            with open(self.output_file, 'w', encoding='utf-8') as outfile:
+            output_path = f'{self.OUTPUT_DIR}/{generate_filename(query)}'
+            with open(output_path, 'w', encoding='utf-8') as outfile:
                 for result in scraped_results:
                     outfile.write(f"==== BEGIN ENTRY ====\n")
                     outfile.write(f"TITLE: {result['title']}\n")
@@ -153,7 +149,7 @@ class WebScrapeAgent(ScrapeTask):
                     outfile.write(f"SNIPPET: {result['snippet']}\n")
                     outfile.write(f"CONTENT:\n{result['content']}\n")
                     outfile.write(f"==== END ENTRY ====\n\n")
-            logger.info(f"Scraping complete. Results saved in '{self.output_file}'")
+            logger.info(f"Scraping complete. Results saved in '{output_path}'")
             # Adding a 3-second delay after saving results
             time.sleep(3)
         except Exception as e:
@@ -183,7 +179,7 @@ class WebScrapeAgent(ScrapeTask):
             logger.info(f"Starting web scraping process for query: '{query}' and location: '{location}'")
             results = self.load_search_results(query, location)
             scraped_results = self.scrape_results(results)
-            self.save_results(scraped_results)
+            self.save_results(query, scraped_results)
         except Exception as e:
             logger.error(f"Error during scraping process: {str(e)}")
             raise
