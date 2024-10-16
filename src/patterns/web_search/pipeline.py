@@ -8,6 +8,12 @@ import os
 class Pipeline:
     """
     Pipeline class that orchestrates the execution of search, scrape, and summarize tasks.
+    
+    Attributes:
+        _search_task: Task instance responsible for performing search operations.
+        _scrape_task: Task instance responsible for scraping data from search results.
+        _summarize_task: Task instance responsible for summarizing the scraped content.
+        _output_folders: List of folders for output files related to each task.
     """
     def __init__(self):
         self._search_task = TaskFactory.create_search_task()
@@ -22,6 +28,7 @@ class Pipeline:
     def _flush_output_folders(self):
         """
         Flushes all files in the output folders before starting the pipeline.
+        Ensures a clean start for each execution by removing previous results.
         """
         for folder in self._output_folders:
             try:
@@ -39,10 +46,22 @@ class Pipeline:
                 logger.error(f"Error flushing folder {folder}: {str(e)}")
 
     def execute(self, model_name: str, query: str, location: str = '') -> str:
+        """
+        Executes the pipeline: search, scrape, and summarize tasks sequentially.
+
+        Args:
+            model_name (str): The model to be used for summarization.
+            query (str): The search query to process.
+            location (str): Optional location context for search and scrape tasks.
+
+        Returns:
+            str: A summary generated from the search results.
+
+        Raises:
+            Exception: If any task fails, the error is logged and re-raised.
+        """
         try:
             logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}' and location: '{location}'.")
-
-            logger.info("Flushing output folders.")
             self._flush_output_folders()
 
             logger.info("Executing search task.")
@@ -58,23 +77,23 @@ class Pipeline:
             return summary
 
         except Exception as e:
-            logger.error(f"An error occurred during the pipeline execution: {e}", exc_info=True)
+            logger.error(f"An error occurred during pipeline execution: {e}", exc_info=True)
             raise
 
 
 def run(query: str, model_name: Optional[str] = 'gemini-1.5-pro-001') -> str:
     """
-    Main function that initializes the pipeline and executes it.
+    Initializes and runs the pipeline to generate a summary for the given query.
 
     Args:
-        query (str): The search query to be processed.
-        model_name (Optional[str]): The model name used for summarization. Defaults to 'gemini-1.5-pro-001'.
+        query (str): The search query to process.
+        model_name (Optional[str]): The model used for summarization. Defaults to 'gemini-1.5-pro-001'.
 
     Returns:
-        str: The summary result from the pipeline execution.
+        str: The generated summary from the pipeline.
 
     Raises:
-        Exception: If any error occurs during pipeline execution, it is logged and re-raised.
+        Exception: Logs and re-raises any error during pipeline execution.
     """
     try:
         logger.info(f"Starting pipeline for query: {query} with model: {model_name}")
@@ -88,6 +107,6 @@ def run(query: str, model_name: Optional[str] = 'gemini-1.5-pro-001') -> str:
 
 
 if __name__ == '__main__':
-    query = 'best hotels in fresno, california'
+    query = 'best hotels in Fresno, California'
     summary = run(query)
     logger.info(f"Generated Summary: {summary}")
