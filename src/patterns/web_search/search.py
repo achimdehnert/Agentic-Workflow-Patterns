@@ -1,12 +1,15 @@
-from vertexai.preview.generative_models import FunctionDeclaration, GenerationResponse, Tool
+from vertexai.preview.generative_models import FunctionDeclaration
+from vertexai.preview.generative_models import GenerationResponse
 from src.patterns.web_search.serp import run as google_search
 from src.patterns.web_search.tasks import SearchTask
+from vertexai.preview.generative_models import Tool
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
 from src.config.logging import logger
-from typing import Optional, Dict, Any
-import os
-import json
+from typing import Optional
+from typing import Dict
+from typing import Any 
+
 
 class WebSearchAgent(SearchTask):
     """

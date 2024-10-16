@@ -1,10 +1,12 @@
 from src.patterns.web_search.tasks import SummarizeTask
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
+from src.utils.io import generate_filename
 from src.config.logging import logger
-from src.utils.io import read_file, generate_filename
+from src.utils.io import read_file
 from typing import Dict
 import os
+
 
 class WebContentSummarizeAgent(SummarizeTask):
     """
