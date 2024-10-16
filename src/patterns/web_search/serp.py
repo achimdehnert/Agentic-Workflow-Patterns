@@ -1,3 +1,4 @@
+from src.patterns.web_search.utils import generate_filename
 from src.config.logging import logger
 from src.utils.io import load_yaml
 from typing import Union
@@ -9,7 +10,7 @@ import json
 
 # Static paths
 CREDENTIALS_PATH = './credentials/key.yml'
-SEARCH_RESULTS_OUTPUT_PATH = './data/patterns/web_search/output/search/top_search_results.json'
+SEARCH_RESULTS_OUTPUT_DIR = './data/patterns/web_search/output/search'
 
 
 class SerpAPIClient:
@@ -164,7 +165,7 @@ def run(search_query: str, location: str):
         log_top_search_results(results)
 
         # Save the top search results to a JSON file
-        save_top_search_results_to_json(results, SEARCH_RESULTS_OUTPUT_PATH)
+        save_top_search_results_to_json(results, f'{SEARCH_RESULTS_OUTPUT_DIR}/{generate_filename(search_query)}')
     else:
         # Handle the error response
         status_code, error_message = results

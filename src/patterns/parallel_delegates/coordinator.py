@@ -6,6 +6,7 @@ from typing import Dict
 from enum import Enum
 import asyncio
 
+
 class EntityType(Enum):
     FLIGHT = 1
     HOTEL = 2
@@ -30,7 +31,6 @@ class TravelPlannerAgent(Agent):
             logger.info(f"Performing NER for query: {query}")
             response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
 
-            
             entities = eval(response.text.strip())  # Caution: Ensure safe eval usage
             entities = entities['entities']
             print(entities)
@@ -59,8 +59,9 @@ class TravelPlannerAgent(Agent):
 
         return await asyncio.gather(*tasks)
 
-    async def process_entity(self, agent: Agent, entity_type: EntityType, entity_values: List[str]) -> Message:
-        query = f"{entity_type.name}: {', '.join(entity_values)}"
+    async def process_entity(self, agent: Agent, entity_type: EntityType, entity_values: Dict) -> Message:
+        query = f"{entity_type.name}: {str(entity_values)}"
+        print(query)
         message = Message(content=query, sender=self.name, recipient=agent.name, metadata={"entity_type": entity_type.name})
         return await agent.process(message)
 

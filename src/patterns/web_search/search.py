@@ -1,5 +1,6 @@
 from vertexai.preview.generative_models import FunctionDeclaration
 from vertexai.preview.generative_models import GenerationResponse
+from src.patterns.web_search.utils import generate_filename
 from vertexai.preview.generative_models import Tool
 from src.patterns.web_search.tasks import SearchTask
 from src.llm.generate import ResponseGenerator
@@ -8,10 +9,8 @@ from src.config.logging import logger
 from typing import Optional
 from typing import Dict 
 from typing import Any 
-import hashlib
 import json
 import os 
-
 
 
 class WebSearchAgent(SearchTask):
@@ -107,12 +106,6 @@ class WebSearchAgent(SearchTask):
             logger.error(f"Failed to extract function arguments: {e}")
             return None
 
-
-    def generate_filename(self, query: str) -> str:
-            """Generate a uniqåue filename based on the query and location."""
-            combined = f"{query}".encode('utf-8')
-            return f"search_results_{hashlib.md5(combined).hexdigest()}.json"
-
     def run(self, model_name: str, query: str, location: str = '') -> None:
         try:
             search_tool = Tool(function_declarations=[self.create_search_function_declaration()])
@@ -131,7 +124,7 @@ class WebSearchAgent(SearchTask):
             results = run(search_query, search_location)
 
             # Save results with the new filename format
-            filename = self.generate_filename(search_query, search_location)
+            filename = generate_filename(search_query)
             output_path = os.path.join("./data/patterns/web_search/output/search", filename)
             with open(output_path, 'w') as f:
                 json.dump(results, f)

@@ -1,3 +1,4 @@
+from src.patterns.web_search.utils import generate_filename
 from src.patterns.web_search.tasks import ScrapeTask
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
@@ -33,12 +34,6 @@ class WebScrapeAgent(ScrapeTask):
 
     def __init__(self) -> None:
         self.output_file = os.path.join(self.OUTPUT_DIR, self.OUTPUT_FILE)
-
-
-    def generate_filename(self, query: str) -> str:
-        """Generate a unique filename based on the query and location."""
-        combined = f"{query}".encode('utf-8')
-        return f"search_results_{hashlib.md5(combined).hexdigest()}.json"
     
     @staticmethod
     def clean_text(text: str) -> str:
@@ -166,7 +161,7 @@ class WebScrapeAgent(ScrapeTask):
 
     def load_search_results(self, query: str, location: str) -> List[Dict[str, Any]]:
         try:
-            filename = self.generate_filename(query)
+            filename = generate_filename(query)
             file_path = os.path.join(self.INPUT_DIR, filename)
             print('----------->', file_path)
             

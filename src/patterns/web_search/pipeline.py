@@ -4,6 +4,7 @@ from typing import Optional
 import shutil
 import os
 
+
 class Pipeline:
     """
     Pipeline class that orchestrates the execution of search, scrape, and summarize tasks.
@@ -57,6 +58,7 @@ class Pipeline:
             logger.error(f"An error occurred during the pipeline execution: {e}", exc_info=True)
             raise
 
+
 def run(query: str, model_name: Optional[str] = 'gemini-1.5-pro-001') -> str:
     """
     Main function that initializes the pipeline and executes it.
@@ -80,6 +82,7 @@ def run(query: str, model_name: Optional[str] = 'gemini-1.5-pro-001') -> str:
     except Exception as e:
         logger.error(f"Pipeline execution failed: {str(e)}")
         raise
+
 
 if __name__ == '__main__':
     query = 'best hotels in houston, texas'
