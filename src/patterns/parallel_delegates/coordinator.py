@@ -43,6 +43,7 @@ class TravelPlannerAgent(Agent):
     async def route_to_agents(self, entities: Dict[EntityType, List[str]]) -> List[Message]:
         tasks = []
         for entity_type, entity_values in entities.items():
+            print(entity_type, '====>', entity_values)
             if entity_type == EntityType.FLIGHT:
                 agent = self.sub_agents.get("FlightSearchAgent")
             elif entity_type == EntityType.HOTEL:
