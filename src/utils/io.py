@@ -20,7 +20,7 @@ def read_file(path: str) -> Optional[str]:
     try:
         with open(path, 'r', encoding='utf-8') as file:
             content: str = file.read()
-        return content
+            return content
     except FileNotFoundError:
         logger.info(f"File not found: {path}")
         return None

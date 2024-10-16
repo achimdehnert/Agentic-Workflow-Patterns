@@ -1,5 +1,4 @@
-Given the user-provided query {query} and the accompanying scraped HTML content from relevant webpages, 
-including their associated metadata (detailed below), 
-please adhere to the provided guidelines to generate a comprehensive summary with appropriate citations:
+Given the user-provided query `{query}` and the accompanying scraped content from relevant webpages below, 
+please follow the provided guidelines to generate a comprehensive summary with appropriate citations:
 
-{html_content}
+{scraped_content}

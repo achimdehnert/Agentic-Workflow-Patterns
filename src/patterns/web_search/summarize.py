@@ -28,20 +28,20 @@ class WebContentSummarizeAgent(SummarizeTask):
         """
         self.template_manager = TemplateManager(self.TEMPLATE_PATH)
         self.response_generator = ResponseGenerator()
-        self.html_content = self._read_html_content()
+        self.scraped_content = self._read_scraped_content()
 
-    def _read_html_content(self) -> str:
+    def _read_scraped_content(self) -> str:
         """
-        Reads the scraped HTML content from the input data path.
+        Reads the scraped content from the input data path.
         
         Returns:
-            str: The HTML content as a string.
+            str: The scraped content as a string.
         
         Raises:
             Exception: If an error occurs while reading the file.
         """
         try:
-            logger.info(f"Reading HTML content from {self.INPUT_DATA_PATH}")
+            logger.info(f"Reading scraped content from {self.INPUT_DATA_PATH}")
             return read_file(self.INPUT_DATA_PATH)
         except Exception as e:
             logger.error(f"Error reading HTML content: {e}")
@@ -66,7 +66,7 @@ class WebContentSummarizeAgent(SummarizeTask):
             
             system_instruction: str = template['system']
             user_instruction: str = self.template_manager.fill_template(
-                template['user'], query=query, html_content=self.html_content
+                template['user'], query=query, scraped_content=self.scraped_content
             )
 
             print('LLL', user_instruction)
