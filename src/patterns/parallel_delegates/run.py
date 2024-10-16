@@ -1,13 +1,10 @@
 from src.patterns.parallel_delegates.delegates.car_rental_search import CarRentalSearchAgent
 from src.patterns.parallel_delegates.delegates.flight_search import FlightSearchAgent
 from src.patterns.parallel_delegates.delegates.hotel_search import HotelSearchAgent
-from src.config.logging import logger 
-
-from src.patterns.parallel_delegates.agent import Agent
-from src.patterns.parallel_delegates.message import Message
 from src.patterns.parallel_delegates.coordinator import TravelPlannerAgent
+from src.patterns.parallel_delegates.message import Message
+from src.config.logging import logger 
 import asyncio
-
 
 
 async def main():

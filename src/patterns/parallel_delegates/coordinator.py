@@ -1,5 +1,5 @@
-from src.patterns.coordinator_delegate.message import Message
-from src.patterns.coordinator_delegate.agent import Agent
+from src.patterns.parallel_delegates.message import Message
+from src.patterns.parallel_delegates.agent import Agent
 from src.config.logging import logger
 from typing import List
 from typing import Dict
@@ -29,7 +29,11 @@ class TravelPlannerAgent(Agent):
 
             logger.info(f"Performing NER for query: {query}")
             response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
+
+            
             entities = eval(response.text.strip())  # Caution: Ensure safe eval usage
+            entities = entities['entities']
+            print(entities)
             
             return {EntityType[k.upper()]: v for k, v in entities.items() if v}
         except Exception as e:

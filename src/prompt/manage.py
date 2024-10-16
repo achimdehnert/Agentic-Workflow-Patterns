@@ -39,6 +39,7 @@ class TemplateManager:
         """
         try:
             template_config = self.config[role][action]
+
             return {
                 'system': self.load_template(template_config['system_instructions']),
                 'user': self.load_template(template_config['user_instructions']),
