@@ -1,7 +1,6 @@
 from vertexai.preview.generative_models import FunctionDeclaration
 from vertexai.preview.generative_models import GenerationResponse
 from src.patterns.web_search.serp import run as google_search
-from src.patterns.web_search.utils import generate_filename
 from src.patterns.web_search.tasks import SearchTask
 from vertexai.preview.generative_models import Tool
 from src.llm.generate import ResponseGenerator

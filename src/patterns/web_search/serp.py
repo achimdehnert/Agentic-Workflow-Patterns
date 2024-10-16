@@ -1,4 +1,4 @@
-from src.patterns.web_search.utils import generate_filename
+from src.utils.io import generate_filename
 from src.config.logging import logger
 from src.utils.io import load_yaml
 from typing import Union

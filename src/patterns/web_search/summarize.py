@@ -6,6 +6,7 @@ from src.utils.io import read_file
 from typing import Dict
 import os
 
+
 class WebContentSummarizeAgent(SummarizeTask):
     """
     WebContentSummarizeAgent is responsible for summarizing scraped web content
@@ -46,7 +47,7 @@ class WebContentSummarizeAgent(SummarizeTask):
             logger.error(f"Error reading HTML content: {e}")
             raise
 
-    def run(self, model_name: str, query: str) -> None:
+    def run(self, model_name: str, query: str) -> str:
         """
         Runs the summarization process, generating a summary of the scraped content
         using the provided language model, and saves the summary to a file.
@@ -75,14 +76,15 @@ class WebContentSummarizeAgent(SummarizeTask):
             response = self.response_generator.generate_response(
                 model_name, system_instruction, [user_instruction]
             )
-            print('>>>>', response)
+            #print('>>>>', response)
             summary: str = response.text.strip()
-            print('==', summary)
+            #print('==', summary)
             
             logger.info("Response generated successfully.")
             
             # Save the summary
             self._save(summary)
+            return summary
             
         except Exception as e:
             logger.error(f"Error during summarization process: {e}")

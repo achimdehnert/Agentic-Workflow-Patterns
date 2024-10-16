@@ -40,13 +40,13 @@ class Pipeline:
             logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}' and location: '{location}'.")
 
             logger.info("Flushing output folders.")
-            self._flush_output_folders()
+            #self._flush_output_folders()
 
             logger.info("Executing search task.")
-            self._search_task.run(model_name, query, location)
+            #self._search_task.run(model_name, query, location)
 
             logger.info("Executing scrape task.")
-            self._scrape_task.run(query, location)
+            #self._scrape_task.run(query, location)
 
             logger.info("Executing summarize task.")
             summary = self._summarize_task.run(model_name, query)

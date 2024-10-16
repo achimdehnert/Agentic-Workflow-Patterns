@@ -1,7 +1,8 @@
-from src.patterns.web_search.utils import generate_filename
+
 from src.patterns.web_search.tasks import ScrapeTask
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
+from src.utils.io import generate_filename
 from src.config.logging import logger
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
@@ -163,7 +164,6 @@ class WebScrapeAgent(ScrapeTask):
         try:
             filename = generate_filename(query)
             file_path = os.path.join(self.INPUT_DIR, filename)
-            print('----------->', file_path)
             
             if not os.path.exists(file_path):
                 raise FileNotFoundError(f"Search results file not found for query: '{query}' and location: '{location}'")
@@ -180,7 +180,6 @@ class WebScrapeAgent(ScrapeTask):
 
     def run(self, query: str, location: str) -> None:
         try:
-            print('>>>>>>', query)
             logger.info(f"Starting web scraping process for query: '{query}' and location: '{location}'")
             results = self.load_search_results(query, location)
             scraped_results = self.scrape_results(results)
