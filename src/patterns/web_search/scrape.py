@@ -180,6 +180,7 @@ class WebScrapeAgent(ScrapeTask):
 
     def run(self, query: str, location: str) -> None:
         try:
+            print('>>>>>>', query)
             logger.info(f"Starting web scraping process for query: '{query}' and location: '{location}'")
             results = self.load_search_results(query, location)
             scraped_results = self.scrape_results(results)

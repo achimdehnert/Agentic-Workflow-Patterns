@@ -1,8 +1,9 @@
 from vertexai.preview.generative_models import FunctionDeclaration
 from vertexai.preview.generative_models import GenerationResponse
+from src.patterns.web_search.serp import run as google_search
 from src.patterns.web_search.utils import generate_filename
-from vertexai.preview.generative_models import Tool
 from src.patterns.web_search.tasks import SearchTask
+from vertexai.preview.generative_models import Tool
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
 from src.config.logging import logger
@@ -111,23 +112,19 @@ class WebSearchAgent(SearchTask):
             search_tool = Tool(function_declarations=[self.create_search_function_declaration()])
             response = self.function_call(model_name, query, search_tool)
             function_args = self.extract_function_args(response)
+            print(function_args, 'PPPPP')
             
             if function_args:
-                search_query = function_args.get('query', query)
+                search_terms = function_args.get('query', query)
                 search_location = location or function_args.get('location', '')
             else:
-                search_query = query
+                search_terms = query
                 search_location = location
 
-            logger.info(f"Running web search for query: {search_query}, location: {search_location}")
-            from src.patterns.web_search.serp import run
-            results = run(search_query, search_location)
+            logger.info(f"Running web search for query: {search_terms}, location: {search_location}")
+            google_search(query, search_terms, search_location)
 
-            # Save results with the new filename format
-            filename = generate_filename(search_query)
-            output_path = os.path.join("./data/patterns/web_search/output/search", filename)
-            with open(output_path, 'w') as f:
-                json.dump(results, f)
+           
 
         except Exception as e:
             logger.error(f"Error during search execution: {e}")

@@ -137,7 +137,7 @@ def save_top_search_results_to_json(results: Dict[str, Any], output_path: str, t
     logger.info(f"Top {top_n} search results saved to {output_path}")
 
 
-def run(search_query: str, location: str):
+def run(raw_query, search_query: str, location: str):
     """
     Main function to execute the Google search using SERP API, log the top results,
     and save them to a JSON file.
@@ -165,7 +165,7 @@ def run(search_query: str, location: str):
         log_top_search_results(results)
 
         # Save the top search results to a JSON file
-        save_top_search_results_to_json(results, f'{SEARCH_RESULTS_OUTPUT_DIR}/{generate_filename(search_query)}')
+        save_top_search_results_to_json(results, f'{SEARCH_RESULTS_OUTPUT_DIR}/{generate_filename(raw_query)}')
     else:
         # Handle the error response
         status_code, error_message = results
