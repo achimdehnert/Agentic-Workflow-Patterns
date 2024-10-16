@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from typing import Tuple
 from typing import Dict 
 from typing import List 
-from typing import ANy 
+from typing import Any 
 import requests
 import json
 import time
