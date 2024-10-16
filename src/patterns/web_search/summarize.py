@@ -44,7 +44,7 @@ class WebContentSummarizeAgent(SummarizeTask):
             logger.info(f"Reading scraped content from {self.INPUT_DATA_PATH}")
             return read_file(self.INPUT_DATA_PATH)
         except Exception as e:
-            logger.error(f"Error reading HTML content: {e}")
+            logger.error(f"Error reading scraped content: {e}")
             raise
 
     def run(self, model_name: str, query: str) -> str:
@@ -60,34 +60,27 @@ class WebContentSummarizeAgent(SummarizeTask):
             Exception: If an error occurs during response generation, processing, or saving.
         """
         try:
-            # Fetching and processing the template
             logger.info("Fetching and processing template for response generation.")
             template: Dict[str, str] = self.template_manager.create_template('tools', 'summarize')
             
-            system_instruction: str = template['system']
-            user_instruction: str = self.template_manager.fill_template(
+            system_instruction = template['system']
+            user_instruction = self.template_manager.fill_template(
                 template['user'], query=query, scraped_content=self.scraped_content
             )
-
-            print('LLL', user_instruction)
             
-            # Generating the response
-            logger.info("Generating response from LLM...")
+            logger.info("Generating response from LLM.")
             response = self.response_generator.generate_response(
                 model_name, system_instruction, [user_instruction]
             )
-            #print('>>>>', response)
-            summary: str = response.text.strip()
-            #print('==', summary)
             
+            summary = response.text.strip()
             logger.info("Response generated successfully.")
             
-            # Save the summary
             self._save(summary)
             return summary
             
         except Exception as e:
-            logger.error(f"Error during summarization process: {e}")
+            logger.error(f"Error during summarization process: {e}", exc_info=True)
             raise
 
     def _save(self, summary: str) -> None:
@@ -101,15 +94,13 @@ class WebContentSummarizeAgent(SummarizeTask):
             Exception: If an error occurs while saving the summary.
         """
         try:
-            # Ensure the output directory exists
             os.makedirs(os.path.dirname(self.OUTPUT_PATH), exist_ok=True)
-
             logger.info(f"Saving summary to {self.OUTPUT_PATH}")
             
             with open(self.OUTPUT_PATH, 'w', encoding='utf-8') as file:
                 file.write(summary)
             
-            logger.info("Summary saved successfully as a text file.")
+            logger.info("Summary saved successfully.")
         except Exception as e:
-            logger.error(f"Error saving summary: {e}")
+            logger.error(f"Error saving summary: {e}", exc_info=True)
             raise
