@@ -48,12 +48,12 @@ if __name__ == '__main__':
     # Test queries
     test_queries = [
         "I want to book a flight from Miami to Dallas next week.",
-        # "Can you find me a hotel in Frisco, Texas for next week?",
-        # "I need a rental car in Frisco, Texas for a week."
+        "Can you find me a hotel in Frisco, Texas for next week?",
+        "I need a rental car in Frisco, Texas for a week."
     ]
     
     # Run the pipeline with test queries
-    run(test_queries)
+    # run(test_queries)
     
     # Example of running with a single query
     run("Could you recommend some hotels in Coimbatore, India for a stay next week?")
