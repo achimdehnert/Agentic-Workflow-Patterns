@@ -1,9 +1,10 @@
-import asyncio
-from enum import Enum
-from typing import List, Dict
 from src.patterns.parallel_delegates.message import Message
 from src.patterns.parallel_delegates.agent import Agent
 from src.config.logging import logger
+from typing import List
+from typing import Dict 
+from enum import Enum
+import asyncio
 
 
 class EntityType(Enum):

@@ -1,3 +1,6 @@
+from src.patterns.dynamic_sharding.message import Message
+
+
 class Agent:
     """
     A base class for agents in the system.
