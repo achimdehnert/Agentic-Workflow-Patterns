@@ -21,4 +21,10 @@ Output Format:
 1. [URL1]
 2. [URL2]
 
-The links for the citations will be listed at the bottom, referenced by number. The format should follow a clear structure with headings and subheadings to organize the information.
+IMPORTANT:
+- The links for the citations will be listed at the bottom, referenced by number. 
+- The format should follow a clear structure with headings and subheadings to organize the information.
+- When referencing sources, eliminate duplicate citations and include both citations and relevant links in summaries.
+- Do not duplicate links under citations. 
+- Also, do not include citation numbers (e.g., [1], [2]) in the summary text. 
+- The links should appear only once, under the citations section.
