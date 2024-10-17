@@ -40,7 +40,7 @@ class WebContentSummarizeAgent(SummarizeTask):
         """
         try:
             logger.info(f"Reading scraped content for query: '{query}'")
-            input_file_path = os.path.join(self.INPUT_DIR, generate_filename(query) + '.txt')
+            input_file_path = os.path.join(self.INPUT_DIR, generate_filename(query, 'txt'))
             return read_file(input_file_path)
         except Exception as e:
             logger.error(f"Error reading scraped content: {e}")
@@ -54,7 +54,7 @@ class WebContentSummarizeAgent(SummarizeTask):
             summary (str): Generated summary to save.
             query (str): Query string used to generate the filename.
         """
-        output_path = os.path.join(self.OUTPUT_DIR, f"{generate_filename(query)}.txt")
+        output_path = os.path.join(self.OUTPUT_DIR, f"{generate_filename(query, 'txt')}")
         try:
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
             logger.info(f"Saving summary to {output_path}")

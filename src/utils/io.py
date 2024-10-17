@@ -89,22 +89,21 @@ def load_json(filename: str) -> Optional[Dict[str, Any]]:
         raise
 
 
-def generate_filename(prefix: str, extension: str, query: str = None) -> str:
+def generate_filename(query: str, extension: str) -> str:
     """
-    Generate a filename. If a query is provided, the filename will be a unique hash based on the query; 
-    otherwise, it will simply use the prefix and extension.
+    Generate a filename based on a unique hash of the provided query.
 
-    :param prefix: The prefix for the filename.
+    :param query: The query string for generating a unique hashed filename.
     :param extension: The file extension (e.g., 'json' or 'txt').
-    :param query: Optional. The query string for generating a unique hashed filename.
     :return: A string representing the generated filename.
+    :raises ValueError: If the query is not provided.
     """
     try:
-        if query:
-            encoded_query = query.encode('utf-8')
-            filename = hashlib.md5(encoded_query).hexdigest()
-        else:
-            filename = prefix
+        if not query:
+            raise ValueError("Query is missing")
+        
+        encoded_query = query.encode('utf-8')
+        filename = hashlib.md5(encoded_query).hexdigest()
         return f"{filename}.{extension}"
     except Exception as e:
         logger.error(f"Error generating filename: {e}")

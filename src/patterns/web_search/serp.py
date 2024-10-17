@@ -73,7 +73,7 @@ def load_api_key(credentials_path: str) -> str:
     config = load_yaml(credentials_path)
     return config['serp']['key']
 
-def log_top_search_results(results: Dict[str, Any], top_n: int = 3) -> None:
+def log_top_search_results(results: Dict[str, Any], top_n: int = 5) -> None:
     """
     Logs the top N search results.
 
@@ -90,7 +90,7 @@ def log_top_search_results(results: Dict[str, Any], top_n: int = 3) -> None:
         logger.info(f"  Snippet: {result.get('snippet')}")
         logger.info('-' * 100)
 
-def save_top_search_results_to_json(results: Dict[str, Any], output_path: str, top_n: int = 3) -> None:
+def save_top_search_results_to_json(results: Dict[str, Any], output_path: str, top_n: int = 5) -> None:
     """
     Saves the top N search results to a JSON file.
 
@@ -136,7 +136,7 @@ def run(raw_query: str, search_query: str, location: str) -> None:
     if isinstance(results, dict):
         # Log and save the top search results
         log_top_search_results(results)
-        output_path = os.path.join(SEARCH_RESULTS_OUTPUT_DIR, generate_filename(raw_query) + '.json')
+        output_path = os.path.join(SEARCH_RESULTS_OUTPUT_DIR, generate_filename(raw_query, 'json'))
         save_top_search_results_to_json(results, output_path)
     else:
         # Handle the error response

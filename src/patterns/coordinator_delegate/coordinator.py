@@ -1,9 +1,9 @@
-from src.patterns.coordinator_delegate.utils import save_json_response
-from src.patterns.coordinator_delegate.utils import save_text_response
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
+from src.utils.io import save_response
 from src.config.logging import logger
 from enum import Enum
+
 
 class Intent(Enum):
     """
@@ -13,6 +13,7 @@ class Intent(Enum):
     HOTEL = 2
     CAR_RENTAL = 3
     UNKNOWN = 4
+    
 
 class TravelPlannerAgent(Agent):
     """
@@ -46,9 +47,9 @@ class TravelPlannerAgent(Agent):
             contents = [user_instructions]
 
             logger.info(f"Generating response to determine intent for query: {query}")
-            response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
+            response = self.response_generator.generate_response('gemini-1.5-flash-001', system_instructions, contents, response_schema)
             out_dict = eval(response.text.strip())  # Caution: Ensure safe eval usage
-            save_json_response('coordinator', 'route', out_dict)
+            save_response('./data/patterns/coordinator_delegate/output', 'coordinator', 'route', out_dict, 'json')
             intent_str = out_dict.get('intent', 'UNKNOWN').upper()
             logger.info(f"Determined intent: {intent_str}")
             return Intent[intent_str]
@@ -117,9 +118,9 @@ class TravelPlannerAgent(Agent):
             contents = [user_instructions]
 
             logger.info("Generating final response for the user.")
-            final_response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents)
+            final_response = self.response_generator.generate_response('gemini-1.5-flash-001', system_instructions, contents)
             final_response_text = final_response.text.strip()
-            save_text_response('coordinator', 'consolidate', final_response_text)
+            save_response('./data/patterns/coordinator_delegate/output', 'coordinator', 'consolidate', final_response_text, 'txt')
             return Message(content=final_response_text, sender=self.name, recipient="User")
 
         except ValueError as e:

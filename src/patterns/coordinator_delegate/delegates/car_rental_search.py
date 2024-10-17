@@ -28,7 +28,7 @@ class CarRentalSearchAgent(Agent):
 
             logger.info(f"Generating response for car rental query: {query}")
             response = self.response_generator.generate_response(
-                'gemini-1.5-pro-001', system_instructions, contents, response_schema)
+                'gemini-1.5-flash-001', system_instructions, contents, response_schema)
 
             try:
                 out_dict = json.loads(response.text.strip())
