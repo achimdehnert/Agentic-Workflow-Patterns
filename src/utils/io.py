@@ -1,10 +1,12 @@
 from src.config.logging import logger
 from typing import Optional
+from typing import Union
 from typing import Dict 
 from typing import Any 
 import hashlib
 import json 
 import yaml
+import os 
 
 
 def read_file(path: str) -> Optional[str]:
@@ -87,20 +89,78 @@ def load_json(filename: str) -> Optional[Dict[str, Any]]:
         raise
 
 
-def generate_filename(query: str) -> str:
+def generate_filename(prefix: str, extension: str, query: str = None) -> str:
     """
-    Generate a unique filename based on the provided query string.
+    Generate a filename. If a query is provided, the filename will be a unique hash based on the query; 
+    otherwise, it will simply use the prefix and extension.
 
-    Args:
-        query (str): The query string for which a unique filename is generated.
-
-    Returns:
-        str: A unique filename in the format '<md5_hash>'.
+    :param prefix: The prefix for the filename.
+    :param extension: The file extension (e.g., 'json' or 'txt').
+    :param query: Optional. The query string for generating a unique hashed filename.
+    :return: A string representing the generated filename.
     """
     try:
-        encoded_query = query.encode('utf-8')
-        filename = f"{hashlib.md5(encoded_query).hexdigest()}"
-        return filename
+        if query:
+            encoded_query = query.encode('utf-8')
+            filename = hashlib.md5(encoded_query).hexdigest()
+        else:
+            filename = prefix
+        return f"{filename}.{extension}"
     except Exception as e:
-        logger.error(f"Error generating filename for query '{query}': {e}")
+        logger.error(f"Error generating filename: {e}")
+        raise
+
+
+def ensure_directory_exists(path: str) -> None:
+    """
+    Ensure that the directory exists, creating it if it doesn't.
+    
+    :param path: The directory path to check or create.
+    """
+    try:
+        os.makedirs(path, exist_ok=True)
+        logger.info(f"Directory ensured at: {path}")
+    except OSError as e:
+        logger.error(f"Failed to create directory at {path}: {str(e)}")
+        raise
+
+
+def save_response(base_dir: str, category: str, response_type: str, content: Union[dict, list, str], file_type: str) -> None:
+    """
+    Save responses as JSON or text files.
+
+    :param base_dir: The base directory where responses will be saved.
+    :param category: Either 'coordinator' or 'delegate'.
+    :param response_type: The type of response (e.g., 'route', 'consolidate', or delegate name).
+    :param content: The response content to save, either JSON serializable (dict or list) or text (str).
+    :param file_type: The type of file to save ('json' or 'txt').
+    """
+    try:
+        if category not in ['coordinator', 'delegate']:
+            logger.error(f"Invalid category provided: {category}")
+            raise ValueError("Invalid category. Must be 'coordinator' or 'delegate'")
+        if file_type not in ['json', 'txt']:
+            logger.error(f"Invalid file_type provided: {file_type}")
+            raise ValueError("Invalid file_type. Must be 'json' or 'txt'")
+        
+        # Construct directory path
+        dir_path = os.path.join(base_dir, category, response_type if category == 'coordinator' else "")
+        ensure_directory_exists(dir_path)
+
+        # Generate filename and file path
+        filename = generate_filename(response_type, file_type)
+        file_path = os.path.join(dir_path, filename)
+
+        # Save content based on file type
+        if file_type == 'json':
+            with open(file_path, 'w') as f:
+                json.dump(content, f, indent=2)
+        elif file_type == 'txt':
+            with open(file_path, 'w') as f:
+                f.write(content)
+        
+        logger.info(f"Saved {category} {response_type} response as {file_type.upper()} to {file_path}")
+
+    except (OSError, ValueError, TypeError) as e:
+        logger.error(f"Failed to save response: {str(e)}")
         raise
