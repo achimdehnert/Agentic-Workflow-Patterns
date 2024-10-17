@@ -1,4 +1,4 @@
-# Dynamic Sharding Pattern - Celebrity Biography Fetcher
+# Dynamic Sharding Pattern 
 
 ## Overview
 
