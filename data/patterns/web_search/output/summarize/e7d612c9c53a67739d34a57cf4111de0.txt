@@ -1,15 +1,13 @@
 # Cheap Flights from New York to Dallas
 
-- One-way flights from New York to Dallas can be found for as low as $39, while round-trip flights start at $77. [1]
-- KAYAK users have found one-way flights for as low as $40 within the past 72 hours. [2]
-- The cheapest time to fly from New York to Dallas is on Thursday, potentially saving you up to 16% compared to Sunday flights. [1]
-- The cheapest month to fly is September, with an average ticket price of $219. [2]
-- Booking flights at least a month in advance for domestic flights and 2 months in advance for international flights can lead to cheaper fares. [1]
-- The cheapest route for a one-way flight is from Newark Airport (EWR) to Dallas/Fort Worth Airport (DFW), costing $60 on average. [2]
-- Frontier and Spirit Airlines generally offer the most affordable fares. [2]
-- Direct flights are significantly cheaper than those with one stop. [2]
+Flights from New York (NYC) to Dallas (DFW) can be found for as low as $39 for a one-way ticket and $77 for a round-trip ticket. [1] According to KAYAK, the cheapest one-way flight price found in the last 72 hours was $40. [2]  The cheapest month to fly from New York to Dallas is typically September. [3] The most expensive month is typically July. [3]
+
+The cheapest day to fly from New York to Dallas is typically Thursday, while Sunday is usually the most expensive. [2] When flying back from Dallas, Tuesday is the cheapest day to fly and Sunday is the most expensive. [2]
+
+To get a below average price, book your flight at least 2 weeks before departure. [2] For the absolute cheapest price, book 122 days in advance. [2] Consider flying with Spirit Airlines or Frontier, which generally offer the most affordable fares. [2] Direct flights are significantly cheaper than those with one stop. [2]
 
 ## Citations
 
 1. https://www.expedia.com/lp/flights/nyc/dfw/new-york-to-dallas
 2. https://www.kayak.com/flight-routes/New-York-NYC/Dallas-A78
+3. https://www.google.com/travel/flights/flights-from-new-york-to-dallas.html

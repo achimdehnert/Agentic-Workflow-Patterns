@@ -1,9 +1,9 @@
+import asyncio
+from enum import Enum
+from typing import List, Dict
 from src.patterns.parallel_delegates.message import Message
 from src.patterns.parallel_delegates.agent import Agent
 from src.config.logging import logger
-from typing import List, Dict
-from enum import Enum
-import asyncio
 
 
 class EntityType(Enum):
@@ -20,19 +20,11 @@ class TravelPlannerAgent(Agent):
     """
     An agent that coordinates travel-related queries, performing Named Entity Recognition (NER)
     to identify query components, routing them to specific sub-agents, and consolidating the results.
-    
-    Attributes:
-        name (str): The name of the agent.
-        sub_agents (Dict[str, Agent]): A dictionary of sub-agents for different entity types.
     """
 
     def __init__(self, name: str, sub_agents: List[Agent]) -> None:
         """
         Initializes the TravelPlannerAgent with a list of sub-agents.
-        
-        Args:
-            name (str): The name of the TravelPlannerAgent.
-            sub_agents (List[Agent]): A list of sub-agent instances to handle specific entity types.
         """
         super().__init__(name)
         self.sub_agents: Dict[str, Agent] = {agent.name: agent for agent in sub_agents}
@@ -41,12 +33,6 @@ class TravelPlannerAgent(Agent):
     async def perform_ner(self, query: str) -> Dict[EntityType, List[str]]:
         """
         Performs Named Entity Recognition (NER) on the query to identify relevant entities.
-
-        Args:
-            query (str): The user's query text.
-
-        Returns:
-            Dict[EntityType, List[str]]: A dictionary mapping each identified EntityType to a list of relevant values.
         """
         try:
             template = self.template_manager.create_template('coordinator', 'ner')
@@ -56,11 +42,17 @@ class TravelPlannerAgent(Agent):
             contents = [user_instructions]
 
             logger.info(f"Performing NER for query: {query}")
-            response = self.response_generator.generate_response('gemini-1.5-flash-001', system_instructions, contents, response_schema)
+            response = await asyncio.to_thread(
+                self.response_generator.generate_response,
+                'gemini-1.5-flash-001',
+                system_instructions,
+                contents,
+                response_schema
+            )
 
             entities = eval(response.text.strip())  # Caution: Ensure safe eval usage
             entities = entities['entities']
-            
+
             return {EntityType[k.upper()]: v for k, v in entities.items() if v}
         except Exception as e:
             logger.error(f"Error during NER: {e}")
@@ -69,12 +61,6 @@ class TravelPlannerAgent(Agent):
     async def route_to_agents(self, entities: Dict[EntityType, List[str]]) -> List[Message]:
         """
         Routes entities to the appropriate sub-agents and processes them in parallel.
-
-        Args:
-            entities (Dict[EntityType, List[str]]): A dictionary of entity types with their respective values.
-
-        Returns:
-            List[Message]: A list of messages containing the responses from each sub-agent.
         """
         tasks = []
         for entity_type, entity_values in entities.items():
@@ -95,14 +81,6 @@ class TravelPlannerAgent(Agent):
     async def process_entity(self, agent: Agent, entity_type: EntityType, entity_values: List[str]) -> Message:
         """
         Processes an entity by creating a query message and sending it to the respective agent.
-
-        Args:
-            agent (Agent): The sub-agent responsible for handling the entity type.
-            entity_type (EntityType): The type of entity to process.
-            entity_values (List[str]): The list of values associated with the entity.
-
-        Returns:
-            Message: The response message from the sub-agent.
         """
         query = f"{entity_type.name}: {str(entity_values)}"
         message = Message(content=query, sender=self.name, recipient=agent.name, metadata={"entity_type": entity_type.name})
@@ -111,13 +89,6 @@ class TravelPlannerAgent(Agent):
     async def consolidate_responses(self, query: str, sub_responses: List[Message]) -> str:
         """
         Consolidates the responses from all sub-agents into a final summarized response.
-
-        Args:
-            query (str): The original user query.
-            sub_responses (List[Message]): The list of response messages from sub-agents.
-
-        Returns:
-            str: The final consolidated response text.
         """
         template = self.template_manager.create_template('coordinator', 'consolidate')
         system_instructions = template['system']
@@ -131,34 +102,37 @@ class TravelPlannerAgent(Agent):
         contents = [user_instructions]
 
         logger.info("Generating final consolidated response for the user.")
-        final_response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents)
+        final_response = await asyncio.to_thread(
+            self.response_generator.generate_response,
+            'gemini-1.5-pro-001',
+            system_instructions,
+            contents
+        )
         return final_response.text.strip()
 
     async def process(self, message: Message) -> Message:
         """
         Processes an incoming travel query by performing NER, routing to sub-agents, and consolidating responses.
-
-        Args:
-            message (Message): The incoming message with the user's travel query.
-
-        Returns:
-            Message: The final consolidated response message to be returned to the user.
         """
         logger.info(f"{self.name} processing message: {message.content}")
-        
+
         try:
             query = message.content
 
             # Perform Named Entity Recognition
             entities = await self.perform_ner(query)
-            
+
             # Route to appropriate sub-agents and process in parallel
             sub_responses = await self.route_to_agents(entities)
 
             # Consolidate the final response
             final_response_text = await self.consolidate_responses(query, sub_responses)
-            
+
             return Message(content=final_response_text, sender=self.name, recipient="User")
         except Exception as e:
             logger.error(f"Unexpected error during processing: {e}")
-            return Message(content="I encountered an error while processing your request. Please try again later.", sender=self.name, recipient="User")
+            return Message(
+                content="I encountered an error while processing your request. Please try again later.",
+                sender=self.name,
+                recipient="User"
+            )

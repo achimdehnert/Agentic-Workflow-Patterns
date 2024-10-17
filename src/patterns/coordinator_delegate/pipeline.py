@@ -58,4 +58,4 @@ if __name__ == '__main__':
     # run(test_queries)
     
     # Example of running with a single query
-    run("Could you recommend some hotels in Coimbatore, India for a stay next week?")
+    run("Could you recommend some hotels in Santa Barbara, California for a stay next week?")

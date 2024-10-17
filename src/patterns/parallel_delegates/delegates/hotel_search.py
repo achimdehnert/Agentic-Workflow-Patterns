@@ -4,6 +4,7 @@ from src.patterns.web_search.pipeline import run
 from src.config.logging import logger
 from typing import Dict, Any
 import json
+import asyncio  # Import asyncio for asynchronous functionalities
 
 
 class HotelSearchAgent(Agent):
@@ -41,8 +42,12 @@ class HotelSearchAgent(Agent):
 
             # Generate response based on the template and query
             logger.info(f"Generating response for hotel query: {query}")
-            response = self.response_generator.generate_response(
-                'gemini-1.5-flash-001', system_instructions, contents, response_schema
+            response = await asyncio.to_thread(
+                self.response_generator.generate_response,
+                'gemini-1.5-flash-001',
+                system_instructions,
+                contents,
+                response_schema
             )
             
             # Parse the response for a web search query
@@ -53,14 +58,20 @@ class HotelSearchAgent(Agent):
 
             # Run the web search based on the extracted query
             logger.info(f"Running web search for query: {web_search_query}")
-            web_search_results_summary: str = run(web_search_query)
-            return Message(content=web_search_results_summary, sender=self.name, 
-                           recipient="TravelPlannerAgent", metadata={"entity_type": "HOTEL"})
+            web_search_results_summary: str = await asyncio.to_thread(run, web_search_query)
+            return Message(
+                content=web_search_results_summary,
+                sender=self.name, 
+                recipient="TravelPlannerAgent",
+                metadata={"entity_type": "HOTEL"}
+            )
 
         except Exception as e:
             # Log and return error message
-            logger.error(f"Error in HotelSearchAgent: {e}")
+            logger.error(f"Error in {self.name}: {e}")
             return Message(
                 content="I apologize, but I couldn't process the hotel information at this time.", 
-                sender=self.name, recipient="TravelPlannerAgent", metadata={"entity_type": "HOTEL"}
+                sender=self.name,
+                recipient="TravelPlannerAgent",
+                metadata={"entity_type": "HOTEL"}
             )

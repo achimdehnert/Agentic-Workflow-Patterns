@@ -4,8 +4,8 @@ from src.patterns.parallel_delegates.delegates.hotel_search import HotelSearchAg
 from src.patterns.parallel_delegates.coordinator import TravelPlannerAgent
 from src.patterns.parallel_delegates.message import Message
 from src.config.logging import logger
-import asyncio
 from typing import Optional
+import asyncio
 
 
 async def pipeline() -> None:

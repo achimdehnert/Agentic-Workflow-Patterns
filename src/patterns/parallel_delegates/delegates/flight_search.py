@@ -4,6 +4,7 @@ from src.patterns.web_search.pipeline import run
 from src.config.logging import logger
 from typing import Dict, Any
 import json
+import asyncio  # Import asyncio for asynchronous functionalities
 
 
 class FlightSearchAgent(Agent):
@@ -41,7 +42,8 @@ class FlightSearchAgent(Agent):
 
             # Generate response based on the template and query
             logger.info(f"Generating response for flight query: {query}")
-            response = self.response_generator.generate_response(
+            response = await asyncio.to_thread(
+                self.response_generator.generate_response,
                 'gemini-1.5-flash-001', system_instructions, contents, response_schema
             )
             
@@ -53,14 +55,20 @@ class FlightSearchAgent(Agent):
 
             # Run the web search based on the extracted query
             logger.info(f"Running web search for query: {web_search_query}")
-            web_search_results_summary: str = run(web_search_query)
-            return Message(content=web_search_results_summary, sender=self.name, 
-                           recipient="TravelPlannerAgent", metadata={"entity_type": "FLIGHT"})
+            web_search_results_summary: str = await asyncio.to_thread(run, web_search_query)
+            return Message(
+                content=web_search_results_summary,
+                sender=self.name,
+                recipient="TravelPlannerAgent",
+                metadata={"entity_type": "FLIGHT"}
+            )
 
         except Exception as e:
             # Log and return error message
-            logger.error(f"Error in FlightSearchAgent: {e}")
+            logger.error(f"Error in {self.name}: {e}")
             return Message(
                 content="I apologize, but I couldn't process the flight information at this time.", 
-                sender=self.name, recipient="TravelPlannerAgent", metadata={"entity_type": "FLIGHT"}
+                sender=self.name,
+                recipient="TravelPlannerAgent",
+                metadata={"entity_type": "FLIGHT"}
             )
