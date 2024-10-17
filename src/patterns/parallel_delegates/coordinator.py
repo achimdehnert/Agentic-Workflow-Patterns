@@ -66,6 +66,7 @@ class TravelPlannerAgent(Agent):
         return await agent.process(message)
 
     async def consolidate_responses(self, query: str, sub_responses: List[Message]) -> str:
+        print('SUB RESPONSES => ', sub_responses)
         template = self.template_manager.create_template('coordinator', 'consolidate')
         system_instructions = template['system']
         user_instructions = self.template_manager.fill_template(
@@ -75,6 +76,7 @@ class TravelPlannerAgent(Agent):
             hotel_summary=next((r.content for r in sub_responses if r.metadata["entity_type"] == "HOTEL"), ""),
             car_rental_summary=next((r.content for r in sub_responses if r.metadata["entity_type"] == "CAR_RENTAL"), "")
         )
+        print('USER INSTRUCTIONS => ', user_instructions)
         contents = [user_instructions]
 
         logger.info("Generating final consolidated response for the user.")

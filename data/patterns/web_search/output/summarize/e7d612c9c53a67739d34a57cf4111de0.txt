@@ -1,14 +1,13 @@
-# Flights from New York to Dallas
+# Cheap Flights from New York to Dallas
 
-- Round-trip flights from New York (NYC) to Dallas (DFW) are available for as low as $77, while one-way flights can be found for as little as $39. [1]
-- Kayak users have reported finding one-way flights for as low as $40 in the past 72 hours. [2]
--  Expedia offers Price Drop Protection, which provides a credit for the difference if the cost of your airfare goes down after booking. [1]
--  Expedia also provides Price Tracking, sending automated price alerts for cheap flights. [1]
--  KAYAK recommends booking your flight at least 70 days in advance for the best deals. [2]
--  The cheapest month for flights from New York to Dallas is September. [2]
--  The cheapest route is flying from Newark (EWR) to Dallas/Fort Worth (DFW). [2]
--  Direct flights are significantly cheaper than flights with one stop. [2]
--  Frontier and Spirit Airlines generally offer the most affordable fares. [2]
+- One-way flights from New York to Dallas can be found for as low as $39, while round-trip flights start at $77. [1]
+- KAYAK users have found one-way flights for as low as $40 within the past 72 hours. [2]
+- The cheapest time to fly from New York to Dallas is on Thursday, potentially saving you up to 16% compared to Sunday flights. [1]
+- The cheapest month to fly is September, with an average ticket price of $219. [2]
+- Booking flights at least a month in advance for domestic flights and 2 months in advance for international flights can lead to cheaper fares. [1]
+- The cheapest route for a one-way flight is from Newark Airport (EWR) to Dallas/Fort Worth Airport (DFW), costing $60 on average. [2]
+- Frontier and Spirit Airlines generally offer the most affordable fares. [2]
+- Direct flights are significantly cheaper than those with one stop. [2]
 
 ## Citations
 
