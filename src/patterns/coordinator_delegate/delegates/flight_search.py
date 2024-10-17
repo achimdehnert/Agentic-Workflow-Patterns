@@ -4,6 +4,7 @@ from src.patterns.coordinator_delegate.agent import Agent
 from src.config.logging import logger
 import json
 
+
 class FlightSearchAgent(Agent):
     """
     Agent responsible for handling flight search queries. It generates a query for web search and returns summarized results.
