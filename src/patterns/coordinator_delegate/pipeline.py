@@ -1,10 +1,12 @@
-from typing import Union, List
 from src.patterns.coordinator_delegate.delegates.car_rental_search import CarRentalSearchAgent
 from src.patterns.coordinator_delegate.delegates.flight_search import FlightSearchAgent
 from src.patterns.coordinator_delegate.delegates.hotel_search import HotelSearchAgent
 from src.patterns.coordinator_delegate.coordinator import TravelPlannerAgent
 from src.patterns.coordinator_delegate.message import Message
 from src.config.logging import logger
+from typing import Union
+from typing import List 
+
 
 class Pipeline:
     def __init__(self):

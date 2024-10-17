@@ -1,13 +1,15 @@
 from src.patterns.parallel_delegates.message import Message
 from src.patterns.parallel_delegates.agent import Agent
 from src.config.logging import logger
-from typing import List
-from typing import Dict
+from typing import List, Dict
 from enum import Enum
 import asyncio
 
 
 class EntityType(Enum):
+    """
+    Enum to represent different entity types that can be identified in a travel planning context.
+    """
     FLIGHT = 1
     HOTEL = 2
     CAR_RENTAL = 3
@@ -15,12 +17,37 @@ class EntityType(Enum):
 
 
 class TravelPlannerAgent(Agent):
+    """
+    An agent that coordinates travel-related queries, performing Named Entity Recognition (NER)
+    to identify query components, routing them to specific sub-agents, and consolidating the results.
+    
+    Attributes:
+        name (str): The name of the agent.
+        sub_agents (Dict[str, Agent]): A dictionary of sub-agents for different entity types.
+    """
+
     def __init__(self, name: str, sub_agents: List[Agent]) -> None:
+        """
+        Initializes the TravelPlannerAgent with a list of sub-agents.
+        
+        Args:
+            name (str): The name of the TravelPlannerAgent.
+            sub_agents (List[Agent]): A list of sub-agent instances to handle specific entity types.
+        """
         super().__init__(name)
         self.sub_agents: Dict[str, Agent] = {agent.name: agent for agent in sub_agents}
         logger.info(f"{self.name} initialized with {len(self.sub_agents)} sub-agents.")
 
     async def perform_ner(self, query: str) -> Dict[EntityType, List[str]]:
+        """
+        Performs Named Entity Recognition (NER) on the query to identify relevant entities.
+
+        Args:
+            query (str): The user's query text.
+
+        Returns:
+            Dict[EntityType, List[str]]: A dictionary mapping each identified EntityType to a list of relevant values.
+        """
         try:
             template = self.template_manager.create_template('coordinator', 'ner')
             system_instructions = template['system']
@@ -33,7 +60,6 @@ class TravelPlannerAgent(Agent):
 
             entities = eval(response.text.strip())  # Caution: Ensure safe eval usage
             entities = entities['entities']
-            print(entities)
             
             return {EntityType[k.upper()]: v for k, v in entities.items() if v}
         except Exception as e:
@@ -41,17 +67,24 @@ class TravelPlannerAgent(Agent):
             return {}
 
     async def route_to_agents(self, entities: Dict[EntityType, List[str]]) -> List[Message]:
+        """
+        Routes entities to the appropriate sub-agents and processes them in parallel.
+
+        Args:
+            entities (Dict[EntityType, List[str]]): A dictionary of entity types with their respective values.
+
+        Returns:
+            List[Message]: A list of messages containing the responses from each sub-agent.
+        """
         tasks = []
         for entity_type, entity_values in entities.items():
-            print(entity_type, '====>', entity_values)
+            agent = None
             if entity_type == EntityType.FLIGHT:
                 agent = self.sub_agents.get("FlightSearchAgent")
             elif entity_type == EntityType.HOTEL:
                 agent = self.sub_agents.get("HotelSearchAgent")
             elif entity_type == EntityType.CAR_RENTAL:
                 agent = self.sub_agents.get("CarRentalSearchAgent")
-            else:
-                continue
 
             if agent:
                 task = asyncio.create_task(self.process_entity(agent, entity_type, entity_values))
@@ -59,14 +92,33 @@ class TravelPlannerAgent(Agent):
 
         return await asyncio.gather(*tasks)
 
-    async def process_entity(self, agent: Agent, entity_type: EntityType, entity_values: Dict) -> Message:
+    async def process_entity(self, agent: Agent, entity_type: EntityType, entity_values: List[str]) -> Message:
+        """
+        Processes an entity by creating a query message and sending it to the respective agent.
+
+        Args:
+            agent (Agent): The sub-agent responsible for handling the entity type.
+            entity_type (EntityType): The type of entity to process.
+            entity_values (List[str]): The list of values associated with the entity.
+
+        Returns:
+            Message: The response message from the sub-agent.
+        """
         query = f"{entity_type.name}: {str(entity_values)}"
-        print(query)
         message = Message(content=query, sender=self.name, recipient=agent.name, metadata={"entity_type": entity_type.name})
         return await agent.process(message)
 
     async def consolidate_responses(self, query: str, sub_responses: List[Message]) -> str:
-        print('SUB RESPONSES => ', sub_responses)
+        """
+        Consolidates the responses from all sub-agents into a final summarized response.
+
+        Args:
+            query (str): The original user query.
+            sub_responses (List[Message]): The list of response messages from sub-agents.
+
+        Returns:
+            str: The final consolidated response text.
+        """
         template = self.template_manager.create_template('coordinator', 'consolidate')
         system_instructions = template['system']
         user_instructions = self.template_manager.fill_template(
@@ -76,7 +128,6 @@ class TravelPlannerAgent(Agent):
             hotel_summary=next((r.content for r in sub_responses if r.metadata["entity_type"] == "HOTEL"), ""),
             car_rental_summary=next((r.content for r in sub_responses if r.metadata["entity_type"] == "CAR_RENTAL"), "")
         )
-        print('USER INSTRUCTIONS => ', user_instructions)
         contents = [user_instructions]
 
         logger.info("Generating final consolidated response for the user.")
@@ -84,6 +135,15 @@ class TravelPlannerAgent(Agent):
         return final_response.text.strip()
 
     async def process(self, message: Message) -> Message:
+        """
+        Processes an incoming travel query by performing NER, routing to sub-agents, and consolidating responses.
+
+        Args:
+            message (Message): The incoming message with the user's travel query.
+
+        Returns:
+            Message: The final consolidated response message to be returned to the user.
+        """
         logger.info(f"{self.name} processing message: {message.content}")
         
         try:

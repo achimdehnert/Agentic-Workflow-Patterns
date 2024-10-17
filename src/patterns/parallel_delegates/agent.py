@@ -1,8 +1,8 @@
 from src.patterns.coordinator_delegate.message import Message
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
-from abc import abstractmethod, ABC
 from src.config.logging import logger
+from abc import abstractmethod, ABC
 
 
 class Agent(ABC):
