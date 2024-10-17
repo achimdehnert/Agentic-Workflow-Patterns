@@ -2,15 +2,15 @@
     "Top Results": [
         {
             "Position": 1,
-            "Title": "Morgan Freeman | Biography, Movies, Plays, & Facts",
-            "Link": "https://www.britannica.com/biography/Morgan-Freeman",
-            "Snippet": "Morgan Freeman is an American actor whose emotional depth, subtle humor, and versatility have made him one of the most-respected performers ..."
-        },
-        {
-            "Position": 2,
             "Title": "Morgan Freeman",
             "Link": "https://en.wikipedia.org/wiki/Morgan_Freeman",
             "Snippet": "Morgan Freeman (born June 1, 1937) is an American actor, producer, and narrator. Throughout a career spanning five decades, he has received numerous ..."
+        },
+        {
+            "Position": 2,
+            "Title": "Morgan Freeman | Biography, Movies, Plays, & Facts",
+            "Link": "https://www.britannica.com/biography/Morgan-Freeman",
+            "Snippet": "Morgan Freeman is an American actor whose emotional depth, subtle humor, and versatility have made him one of the most-respected performers ..."
         },
         {
             "Position": 3,
