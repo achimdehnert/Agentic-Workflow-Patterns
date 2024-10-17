@@ -110,7 +110,7 @@ if __name__ == "__main__":
             'critic': 'gemini-1.5-pro-001'
         }
         topic = 'perplexity'
-        num_cycles = 2
+        num_cycles = 3
 
         runner = Runner(model_names=model_names, topic=topic, num_cycles=num_cycles)
         final_state = runner.run()
