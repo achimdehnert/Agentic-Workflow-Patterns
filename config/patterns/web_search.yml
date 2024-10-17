@@ -5,4 +5,3 @@ tools:
   summarize:
     system_instructions: './data/patterns/web_search/summarize/system_instructions.txt'
     user_instructions: './data/patterns/web_search/summarize/user_instructions.txt'
-  

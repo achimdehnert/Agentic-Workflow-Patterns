@@ -7,7 +7,6 @@ actor:
     system_instructions: './data/patterns/actor_critic/actor/revise/system_instructions.txt'
     user_instructions: './data/patterns/actor_critic/actor/revise/user_instructions.txt'
     response_schema: './data/patterns/actor_critic/actor/revise/response_schema.json'
-
 critic:
   review:
     system_instructions: './data/patterns/actor_critic/critic/review/system_instructions.txt'
