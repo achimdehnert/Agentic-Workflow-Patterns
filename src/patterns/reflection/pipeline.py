@@ -109,8 +109,8 @@ if __name__ == "__main__":
             'actor': 'gemini-1.5-flash-001',
             'critic': 'gemini-1.5-pro-001'
         }
-        topic = 'large language models emergent abilities'
-        num_cycles = 3
+        topic = 'perplexity'
+        num_cycles = 2
 
         runner = Runner(model_names=model_names, topic=topic, num_cycles=num_cycles)
         final_state = runner.run()
