@@ -61,8 +61,8 @@ class Pipeline:
             Exception: If any task fails, the error is logged and re-raised.
         """
         try:
-            logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}' and location: '{location}'.")
-            self._flush_output_folders()
+            # logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}' and location: '{location}'.")
+            # self._flush_output_folders()
 
             logger.info("Executing search task.")
             self._search_task.run(model_name, query, location)
@@ -81,7 +81,7 @@ class Pipeline:
             raise
 
 
-def run(query: str, model_name: Optional[str] = 'gemini-1.5-pro-001') -> str:
+def run(query: str, model_name: Optional[str] = 'gemini-1.5-flash-001') -> str:
     """
     Initializes and runs the pipeline to generate a summary for the given query.
 

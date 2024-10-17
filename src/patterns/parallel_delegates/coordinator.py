@@ -29,7 +29,7 @@ class TravelPlannerAgent(Agent):
             contents = [user_instructions]
 
             logger.info(f"Performing NER for query: {query}")
-            response = self.response_generator.generate_response('gemini-1.5-pro-001', system_instructions, contents, response_schema)
+            response = self.response_generator.generate_response('gemini-1.5-flash-001', system_instructions, contents, response_schema)
 
             entities = eval(response.text.strip())  # Caution: Ensure safe eval usage
             entities = entities['entities']

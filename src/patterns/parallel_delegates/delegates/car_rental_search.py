@@ -1,15 +1,10 @@
-import asyncio
-from typing import List, Dict, Any
-from enum import Enum
 from src.patterns.coordinator_delegate.message import Message
 from src.patterns.coordinator_delegate.agent import Agent
-
 from src.patterns.web_search.pipeline import run
-from src.llm.generate import ResponseGenerator
-from src.prompt.manage import TemplateManager
 from src.config.logging import logger
+from typing import Dict
+from typing import Any
 import json 
-
 
 
 class CarRentalSearchAgent(Agent):
@@ -25,7 +20,7 @@ class CarRentalSearchAgent(Agent):
 
             logger.info(f"Generating response for car rental query: {query}")
             response = self.response_generator.generate_response(
-                'gemini-1.5-pro-001', system_instructions, contents, response_schema)
+                'gemini-1.5-flash-001', system_instructions, contents, response_schema)
             
             out_dict: Dict[str, Any] = json.loads(response.text.strip())
             web_search_query: str = out_dict.get('web_search_query', '')
@@ -33,7 +28,7 @@ class CarRentalSearchAgent(Agent):
                 raise ValueError("Web search query missing from the response.")
 
             logger.info(f"Running web search for query: {web_search_query}")
-            web_search_results_summary: str = await run(web_search_query)
+            web_search_results_summary: str = run(web_search_query)
             return Message(content=web_search_results_summary, sender=self.name, recipient="TravelPlannerAgent", metadata={"entity_type": "CAR_RENTAL"})
 
         except Exception as e:
