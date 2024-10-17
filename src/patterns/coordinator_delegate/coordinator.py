@@ -3,6 +3,7 @@ from src.patterns.coordinator_delegate.agent import Agent
 from src.utils.io import save_response
 from src.config.logging import logger
 from enum import Enum
+from typing import Optional, List
 
 
 class Intent(Enum):
@@ -21,7 +22,7 @@ class TravelPlannerAgent(Agent):
     based on detected intent and generating a consolidated response.
     """
 
-    def __init__(self, name, sub_agents):
+    def __init__(self, name: str, sub_agents: List[Agent]):
         """
         Initializes the TravelPlannerAgent with a set of sub-agents and shared resources.
 
@@ -32,7 +33,7 @@ class TravelPlannerAgent(Agent):
         self.sub_agents = {agent.name: agent for agent in sub_agents}
         logger.info(f"{self.name} initialized with {len(self.sub_agents)} sub-agents.")
 
-    def determine_intent(self, query):
+    def determine_intent(self, query: str) -> Intent:
         """
         Determines the user's intent based on their query using a response generation model.
 
@@ -41,14 +42,14 @@ class TravelPlannerAgent(Agent):
         """
         try:
             template = self.template_manager.create_template('coordinator', 'route')
-            system_instructions = template['system']
-            user_instructions = self.template_manager.fill_template(template['user'], query=query)
-            response_schema = template['schema']
+            system_instructions = template.get('system', '')
+            user_instructions = self.template_manager.fill_template(template.get('user', ''), query=query)
+            response_schema = template.get('schema', '')
             contents = [user_instructions]
 
-            logger.info(f"Generating response to determine intent for query: {query}")
+            logger.info(f"Generating response to determine intent for query: '{query}'")
             response = self.response_generator.generate_response('gemini-1.5-flash-001', system_instructions, contents, response_schema)
-            out_dict = eval(response.text.strip())  # Caution: Ensure safe eval usage
+            out_dict = eval(response.text.strip())  # Ensure safe eval usage
             save_response('./data/patterns/coordinator_delegate/output', 'coordinator', 'route', out_dict, 'json')
             intent_str = out_dict.get('intent', 'UNKNOWN').upper()
             logger.info(f"Determined intent: {intent_str}")
@@ -61,7 +62,7 @@ class TravelPlannerAgent(Agent):
             logger.error(f"Unexpected error while determining intent: {e}")
             return Intent.UNKNOWN
 
-    def route_to_agent(self, intent):
+    def route_to_agent(self, intent: Intent) -> Optional[Agent]:
         """
         Routes the query to the appropriate sub-agent based on the determined intent.
 
@@ -80,10 +81,10 @@ class TravelPlannerAgent(Agent):
             logger.error(f"No valid agent found for intent: {intent}")
             return None
 
-        logger.info(f"Routing to agent: {agent_name}")
+        logger.info(f"Routing to agent: '{agent_name}'")
         return self.sub_agents.get(agent_name)
 
-    def process(self, message):
+    def process(self, message: Message) -> Message:
         """
         Processes the incoming message, determines intent, routes to the appropriate sub-agent, 
         and returns a consolidated response.
@@ -91,7 +92,7 @@ class TravelPlannerAgent(Agent):
         :param message: The incoming message to process.
         :return: A response message after processing by the sub-agent and consolidation.
         """
-        logger.info(f"{self.name} processing message: {message.content}")
+        logger.info(f"{self.name} processing message: '{message.content}'")
         
         try:
             query = message.content
@@ -105,7 +106,7 @@ class TravelPlannerAgent(Agent):
                 raise ValueError(f"Unknown intent: {intent}")
 
             sub_message = Message(content=query, sender=self.name, recipient=sub_agent.name, metadata={"intent": intent.name})
-            logger.info(f"Delegating message to {sub_agent.name}")
+            logger.info(f"Delegating message to '{sub_agent.name}'")
 
             # Get the response from the sub-agent
             sub_response = sub_agent.process(sub_message)
@@ -113,8 +114,8 @@ class TravelPlannerAgent(Agent):
 
             # Consolidate the final response
             template = self.template_manager.create_template('coordinator', 'consolidate')
-            system_instructions = self.template_manager.fill_template(template['system'], query=query, summary=summary)
-            user_instructions = self.template_manager.fill_template(template['user'], query=query, summary=summary)
+            system_instructions = self.template_manager.fill_template(template.get('system', ''), query=query, summary=summary)
+            user_instructions = self.template_manager.fill_template(template.get('user', ''), query=query, summary=summary)
             contents = [user_instructions]
 
             logger.info("Generating final response for the user.")
