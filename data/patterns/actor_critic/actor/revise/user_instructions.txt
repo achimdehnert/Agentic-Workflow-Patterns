@@ -1,8 +1,9 @@
+## History
 {history}
 
 Based on the provided history above, revise the latest version of the draft using the guide below.
 
-# LLM Instruction Revision Guide
+# Revision Guide
 
 ## Review and Analyze
 - Examine conversation history

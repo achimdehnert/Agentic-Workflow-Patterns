@@ -1,9 +1,10 @@
 ## History
 {history}
 
-Based on the provided history above, look at the revisions made to the draft addressing the feedback from the review, especially focusing on the final state of the draft. Suggest if any further feedback is necessary.
+Based on the provided history above, look at the revisions made to the draft addressing the feedback from the review, especially focusing on the final state of the draft. 
+Suggest if any further feedback is necessary.
 
-# LLM Review Guide
+# Review Guide
 
 ## Review and Analysis
 - Carefully review the revisions made in response to previous feedback.
@@ -22,4 +23,6 @@ Based on the provided history above, look at the revisions made to the draft add
 - Clearly mark this as a revised version, indicating it has been updated based on additional feedback.
 
 ## Deliverable
-Offer a final review of the revised draft. Address only new issues or areas for improvement. If previous issues have been resolved, there is no need to revisit them.
+- Offer a final review of the revised draft. 
+- Address only new issues or areas for improvement. 
+- If previous issues have been resolved, there is no need to revisit them.
