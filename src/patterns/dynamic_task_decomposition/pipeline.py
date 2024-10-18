@@ -1,5 +1,5 @@
-from src.patterns.task_decomposition.coordinator import CoordinatorAgent
-from src.patterns.task_decomposition.message import Message
+from src.patterns.dynamic_task_decomposition.coordinator import CoordinatorAgent
+from src.patterns.dynamic_task_decomposition.message import Message
 from src.config.logging import logger
 import asyncio
 
