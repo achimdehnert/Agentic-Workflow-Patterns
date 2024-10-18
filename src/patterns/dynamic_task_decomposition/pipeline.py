@@ -19,7 +19,7 @@ async def pipeline():
     response = await coordinator.process(message)
 
     # Save the final summary to a file
-    with open('./book_analysis_summary.md', 'w') as output_file:
+    with open('./data/patterns/dynamic_task_decomposition/book_analysis_summary.md', 'w') as output_file:
         output_file.write(response.content)
 
     # Print the final result
