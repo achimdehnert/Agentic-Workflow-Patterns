@@ -1,7 +1,7 @@
-# Parallel Task Decomposition Pattern
+# Task Decomposition
 
 ## Overview
-The **Parallel Task Decomposition Pattern** is a design pattern where a *Coordinator Agent* decomposes a complex task into multiple independent subtasks. Each subtask is then processed by a separate *Sub-Task Agent* in parallel. After all subtasks are completed, the coordinator gathers and combines the results to produce the final output. This pattern is beneficial for enhancing efficiency and scalability, especially for tasks that can be divided into smaller, independently executable units.
+The **Task Decomposition** is a design pattern where a *Coordinator Agent* decomposes a complex task into multiple independent subtasks. Each subtask is then processed by a separate *Sub-Task Agent* in parallel. After all subtasks are completed, the coordinator gathers and combines the results to produce the final output. This pattern is beneficial for enhancing efficiency and scalability, especially for tasks that can be divided into smaller, independently executable units.
 
 ## Key Components
 
