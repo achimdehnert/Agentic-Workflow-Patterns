@@ -1,0 +1,29 @@
+{
+    "type": "object",
+    "properties": {
+      "key_info": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "book_id": { "type": "string" },
+            "characters": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "themes": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "plot_points": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "required": ["book_id", "characters", "themes", "plot_points"]
+        }
+      }
+    },
+    "required": ["key_info"]
+  }
+  

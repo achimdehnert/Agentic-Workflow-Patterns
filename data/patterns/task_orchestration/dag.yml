@@ -1,0 +1,47 @@
+tasks:
+  - id: task1
+    name: CollectBooksAgent
+    description: Collect books from the folder
+    dependencies: []
+    agent: CollectBooksAgent
+    input_schema: null
+    output_schema: book_collection_schema.json
+
+  - id: task2
+    name: PreprocessBooksAgent
+    description: Preprocess collected books
+    dependencies:
+      - task1
+    agent: PreprocessBooksAgent
+    input_schema: book_collection_schema.json
+    output_schema: preprocessed_books_schema.json
+
+  - id: task3
+    name: ExtractKeyInfoAgent
+    description: Extract key information from preprocessed books
+    dependencies:
+      - task2
+    agent: ExtractKeyInfoAgent
+    input_schema: preprocessed_books_schema.json
+    output_schema: key_info_schema.json
+
+  - id: task4
+    name: GenerateSummariesAgent
+    description: Generate summaries from preprocessed books
+    dependencies:
+      - task2
+    agent: GenerateSummariesAgent
+    input_schema: preprocessed_books_schema.json
+    output_schema: summaries_schema.json
+
+  - id: task5
+    name: CompileReportAgent
+    description: Compile the final report with summaries and key information
+    dependencies:
+      - task3
+      - task4
+    agent: CompileReportAgent
+    input_schema:
+      - key_info_schema.json
+      - summaries_schema.json
+    output_schema: final_report_schema.json
