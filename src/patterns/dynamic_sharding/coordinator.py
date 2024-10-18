@@ -1,4 +1,4 @@
-from src.patterns.dynamic_sharding.delegate import Delegate
+from patterns.dynamic_sharding.delegates import Delegate
 from src.patterns.dynamic_sharding.message import Message
 from src.patterns.dynamic_sharding.agent import Agent
 from src.config.logging import logger
