@@ -1,3 +1,5 @@
+from src.patterns.parallel_task_decomposition.message import Message
+
 class Agent:
     """
     A base class for agents in the system.

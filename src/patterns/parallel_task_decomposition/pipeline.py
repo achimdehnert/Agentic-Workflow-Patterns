@@ -1,36 +1,32 @@
+from src.patterns.parallel_task_decomposition.coordinator import CoordinatorAgent  
+from src.patterns.parallel_task_decomposition.message import Message 
+from src.config.logging import logger 
 import asyncio
-from src.patterns.parallel_task_decomposition.coordinator import CoordinatorAgent
-from message import Message
-import logging
-import numpy as np
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
-async def main():
+async def pipeline():
     # Initialize the coordinator agent
     coordinator = CoordinatorAgent(name="CoordinatorAgent")
 
-    # Generate sample data
-    np.random.seed(0)
-    data = np.random.randn(1000)
+    # Example document input for extraction
+    document_content = """
+    This is an example document that needs to be processed. It contains multiple sections such as terms, conditions, dates, 
+    parties involved, obligations, and other important legal clauses that need to be extracted.
+    """
 
-    # Define the task input
-    task_input = {
-        'data': data
-    }
+    # Define the task input (document content)
+    task_input = document_content
 
     # Create the message with the task input
     message = Message(content=task_input, sender="User", recipient="CoordinatorAgent")
 
-    # Process the message and get the final result
+    # Process the message and get the final result (async call to CoordinatorAgent)
     response = await coordinator.process(message)
 
-    # Print the final result
-    print("Final Analysis Report:\n")
+    # Print the final extracted result
+    print("Final Extracted Document Summary:\n")
     print(response.content)
 
-
 if __name__ == "__main__":
-    asyncio.run(main())
+    # Run the pipeline to process the document
+    asyncio.run(pipeline())

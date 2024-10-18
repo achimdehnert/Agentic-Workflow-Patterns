@@ -1,9 +1,7 @@
-from agent import Agent
-from message import Message
-from src.llm.generate import generate  # Import the generate function to call the LLM
-import logging
-
-logger = logging.getLogger(__name__)
+from src.patterns.parallel_task_decomposition.agent import Agent
+from src.patterns.parallel_task_decomposition.message import Message
+from src.llm.generate import GenerationResponse
+from src.config.logging import logger 
 
 class SubTaskAgent(Agent):
     """

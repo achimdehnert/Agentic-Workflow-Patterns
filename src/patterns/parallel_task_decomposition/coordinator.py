@@ -1,11 +1,11 @@
+from src.patterns.parallel_task_decomposition.delegates import SubTaskAgent
+from src.patterns.parallel_task_decomposition.message import Message
+from src.patterns.parallel_task_decomposition.agent import Agent
+from src.config.logging import logger
+from typing import List
+from typing import Any 
 import asyncio
-from typing import List, Any
-from agent import Agent
-from message import Message
-from delegates import SubTaskAgent
-import logging
 
-logger = logging.getLogger(__name__)
 
 class CoordinatorAgent(Agent):
     """
