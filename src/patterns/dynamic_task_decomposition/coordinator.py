@@ -29,6 +29,7 @@ class CoordinatorAgent(Agent):
             for idx, subtask in enumerate(subtasks):
                 agent_name = f"SubTaskAgent_{idx}"
                 agent = SubTaskAgent(name=agent_name)
+                print('=====> ',subtask)
                 sub_message = Message(
                     content={"book": book_content, "task": subtask},
                     sender=self.name,
@@ -67,7 +68,7 @@ class CoordinatorAgent(Agent):
             "The tasks should cover different aspects of the book such as characters, plot, themes, etc. "
             "Return the tasks as a numbered list.\n\n"
             "Book Text:\n"
-            f"{book_content[:1000]}..."  # Limiting the text sent to the LLM for brevity
+            f"{book_content}" 
         )
 
         try:

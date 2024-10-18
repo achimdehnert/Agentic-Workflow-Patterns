@@ -22,10 +22,12 @@ class SubTaskAgent(Agent):
         Processes the assigned subtask of the document by calling the LLM.
         """
         logger.info(f"{self.name} processing subtask.")
+        print(message.__dict__)
+        print('=' * 100)
         subtask = message.content
 
         # Extract the document and task from the subtask
-        document = subtask.get("document")
+        document = subtask.get("book")
         task = subtask.get("task")
 
         if not document or not task:
