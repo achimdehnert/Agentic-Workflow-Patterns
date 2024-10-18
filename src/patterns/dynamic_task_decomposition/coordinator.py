@@ -3,47 +3,47 @@ from src.patterns.dynamic_task_decomposition.message import Message
 from src.patterns.dynamic_task_decomposition.agent import Agent
 from src.llm.generate import ResponseGenerator
 from src.config.logging import logger
-from typing import List
-from typing import Any 
+from typing import List, Any
 import asyncio
 import json
 
 
 class CoordinatorAgent(Agent):
     """
-    An agent that coordinates the processing of a book by decomposing the main task
-    into subtasks using an LLM and assigning them to sub-agents to execute in parallel.
+    An agent responsible for coordinating the decomposition of a main task 
+    (such as analyzing a book) into independent subtasks. Subtasks are assigned 
+    to sub-agents for parallel processing.
     """
 
     def __init__(self, name: str) -> None:
         """
-        Initializes the CoordinatorAgent with a given name.
+        Initializes the CoordinatorAgent with the specified name.
 
         Args:
-            name (str): The name of the coordinator agent.
+            name (str): The name of this coordinator agent.
         """
         super().__init__(name)
         logger.info(f"{self.name} initialized.")
 
     async def process(self, message: Message) -> Message:
         """
-        Processes the main task by decomposing it into subtasks, 
-        assigning those subtasks to sub-agents, and combining their results.
+        Processes the main task by decomposing it into subtasks, assigning those 
+        subtasks to sub-agents for parallel execution, and combining their results.
 
         Args:
-            message (Message): The message containing the task to process.
+            message (Message): The message containing the task details to be processed.
 
         Returns:
-            Message: The final result message after processing.
+            Message: The final result after processing all subtasks.
         """
         logger.info(f"{self.name} processing message.")
         try:
-            book_content = message.content  # The content of the book
+            book_content = message.content  # Extract book content from the message
 
-            # Decompose the main task into subtasks using the LLM
+            # Decompose the main task into subtasks using an LLM
             subtasks = await self.decompose_task(book_content)
 
-            # Create sub-agents and execute subtasks in parallel
+            # Create sub-agents and execute subtasks concurrently
             tasks = []
             for idx, subtask in subtasks.items():  # Use items() to iterate over key-value pairs
                 agent_name = f"SubTaskAgent_{idx}"
@@ -58,13 +58,13 @@ class CoordinatorAgent(Agent):
                 task = asyncio.create_task(agent.process(sub_message))
                 tasks.append(task)
 
-            # Gather results from all sub-agents concurrently
+            # Collect results from all sub-agents concurrently
             sub_results = await asyncio.gather(*tasks)
 
-            # Combine the results into a structured document, preserving the order of subtasks
+            # Combine the results, preserving the order of subtasks
             combined_result = self.combine_results(sub_results, subtasks)
 
-            # Return the final message with the combined result
+            # Return the final message containing the combined result
             return Message(content=combined_result, sender=self.name, recipient=message.sender)
 
         except Exception as e:
@@ -77,17 +77,18 @@ class CoordinatorAgent(Agent):
 
     async def decompose_task(self, book_content: str) -> dict:
         """
-        Uses an LLM to deduce exactly 10 independent subtasks from the main task.
+        Decomposes the main task into exactly 10 independent subtasks using an LLM.
 
         Args:
-            book_content (str): The content of the book to analyze.
+            book_content (str): The content of the book to be analyzed.
 
         Returns:
-            dict: A dictionary of independent subtasks in the format {'task_1': 'subtask description', ...}.
+            dict: A dictionary with keys 'task_1', 'task_2', etc., 
+                  and corresponding subtask descriptions as values.
         """
         logger.info("Decomposing main task into subtasks using LLM.")
 
-        # Prepare the refined prompt for the LLM with the JSON output request
+        # Construct the prompt for the LLM with a JSON output request
         llm_input = (
             "You are an expert in literary analysis. Given the text of a book, generate exactly 10 independent "
             "extraction tasks that can be executed in parallel. The tasks should focus on extracting different "
@@ -101,7 +102,7 @@ class CoordinatorAgent(Agent):
         try:
             response_generator = ResponseGenerator()
 
-            # Define a blocking function to be run in a separate thread
+            # Blocking function to run in a separate thread
             def blocking_call():
                 return response_generator.generate_response(
                     model_name='gemini-1.5-flash-001',
@@ -109,10 +110,10 @@ class CoordinatorAgent(Agent):
                     contents=[llm_input]
                 ).text.strip()
 
-            # Run the blocking LLM call in a separate thread
+            # Execute the blocking LLM call in a separate thread
             decomposition_result = await asyncio.to_thread(blocking_call)
 
-            # Parse the decomposition result into a dictionary of subtasks
+            # Parse the decomposition result into subtasks
             subtasks = self.parse_subtasks(decomposition_result)
 
             logger.info(f"Subtasks generated by LLM: {subtasks}")
@@ -125,8 +126,8 @@ class CoordinatorAgent(Agent):
 
     def parse_subtasks(self, decomposition_result: str) -> dict:
         """
-        Parses the LLM output from JSON format into a dictionary of subtasks.
-        Strips extra markers like ```json at the start and ``` at the end if present.
+        Parses the LLM output from a JSON-formatted string into a dictionary of subtasks.
+        Strips any extra markers like ```json or ``` if present.
 
         Args:
             decomposition_result (str): The raw LLM output in JSON format.
@@ -135,7 +136,7 @@ class CoordinatorAgent(Agent):
             dict: A dictionary of subtasks parsed from the LLM output.
         """
         try:
-            # Strip markers ```json and ```
+            # Remove markdown-like markers ```json and ```
             decomposition_result = decomposition_result.strip().strip('```json').strip('```')
 
             # Parse the cleaned JSON string into a dictionary
@@ -154,15 +155,14 @@ class CoordinatorAgent(Agent):
             logger.error(f"Invalid format received: {str(ve)}")
             raise
 
-
     def combine_results(self, sub_results: List[Any], subtasks: dict) -> str:
         """
-        Combines the results of the subtasks into a structured summary,
-        preserving the order of the subtasks.
+        Combines the results of all subtasks into a structured summary,
+        while preserving the order of the subtasks.
 
         Args:
             sub_results (List[Any]): The results of the processed subtasks.
-            subtasks (dict): The dictionary of subtasks corresponding to the results.
+            subtasks (dict): The dictionary of subtasks, used to map each result.
 
         Returns:
             str: A structured document summarizing the results of all subtasks.
