@@ -84,11 +84,11 @@ class CoordinatorAgent(Agent):
         """
         # Generalized approach for task decomposition
         return [
-            {"document": document_content, "task": "Extract key terms and definitions"},
-            {"document": document_content, "task": "Identify sections and structure"},
-            {"document": document_content, "task": "Extract important dates and events"},
-            {"document": document_content, "task": "Extract obligations, duties, or actions"},
-            {"document": document_content, "task": "Identify penalties, conditions, or outcomes"}
+            {"document": document_content, "task": "Extract all named entities (people, organizations, locations) and their roles or significance"},
+            {"document": document_content, "task": "Identify and extract all direct quotations with speakers and context"},
+            {"document": document_content, "task": "Extract all numerical data (dates, statistics, measurements) with descriptions"},
+            {"document": document_content, "task": "Identify and extract key terms or concepts with their definitions or explanations"},
+            {"document": document_content, "task": "Extract all references to external sources with available citation information"}
         ]
 
     def combine_results(self, sub_results: List[Any]) -> str:
@@ -103,5 +103,5 @@ class CoordinatorAgent(Agent):
         """
         summary = "Document Summary:\n"
         for result in sub_results:
-            summary += f"{result}\n"
+            summary += f"{result.content}\n"
         return summary

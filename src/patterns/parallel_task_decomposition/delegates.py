@@ -1,6 +1,6 @@
 from src.patterns.parallel_task_decomposition.agent import Agent
 from src.patterns.parallel_task_decomposition.message import Message
-from src.llm.generate import GenerationResponse
+from src.llm.generate import ResponseGenerator
 from src.config.logging import logger 
 
 class SubTaskAgent(Agent):
@@ -47,8 +47,12 @@ class SubTaskAgent(Agent):
         logger.info(f"Calling LLM for task: {task}")
         
         try:
+            response_generator = ResponseGenerator()
+
+
             # Call the LLM to perform the extraction based on the task
-            extraction_result = generate(prompt=llm_input)
+            extraction_result = response_generator.generate_response(model_name='gemini-1.5-flash-001', system_instruction='', contents=[llm_input]).text.strip()
+
         except Exception as e:
             logger.error(f"LLM call failed: {str(e)}")
             extraction_result = f"Failed to extract information for task: {task}"
