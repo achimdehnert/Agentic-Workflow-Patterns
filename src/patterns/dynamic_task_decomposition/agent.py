@@ -1,5 +1,7 @@
 from src.patterns.task_decomposition.message import Message
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+from abc import ABC
+
 
 class Agent(ABC):
     """
