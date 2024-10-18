@@ -1,6 +1,7 @@
 from src.patterns.task_decomposition.message import Message
+from abc import ABC, abstractmethod
 
-class Agent:
+class Agent(ABC):
     """
     A base class for agents in the system.
 
@@ -10,21 +11,22 @@ class Agent:
 
     def __init__(self, name: str) -> None:
         """
-        Initializes the Agent.
+        Initializes the Agent with a name.
 
         Args:
             name (str): The name of the agent.
         """
         self.name = name
 
+    @abstractmethod
     async def process(self, message: 'Message') -> 'Message':
         """
-        Processes a message.
+        Abstract method to process a message. Must be implemented by subclasses.
 
         Args:
-            message (Message): The message to process.
+            message (Message): The message to be processed.
 
         Returns:
-            Message: The response message.
+            Message: The response message after processing.
         """
-        raise NotImplementedError("This method should be implemented by subclasses.")
+        raise NotImplementedError("Subclasses must implement this method.")

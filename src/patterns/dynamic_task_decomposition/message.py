@@ -1,4 +1,5 @@
-from typing import Optional, Dict
+from typing import Optional
+from typing import Dict 
 
 
 class Message:
