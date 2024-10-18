@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "properties": {
+      "summaries": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "book_id": { "type": "string" },
+            "summary": { "type": "string" }
+          },
+          "required": ["book_id", "summary"]
+        }
+      }
+    },
+    "required": ["summaries"]
+  }
+  

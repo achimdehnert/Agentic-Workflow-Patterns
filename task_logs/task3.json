@@ -1,0 +1,67 @@
+{
+  "key_info": [
+    {
+      "book_id": "doc1",
+      "characters": [
+        "Amelia"
+      ],
+      "themes": [
+        "Resilience",
+        "Duty",
+        "Legacy",
+        "Courage",
+        "Loneliness",
+        "Hope",
+        "Loss"
+      ],
+      "plot_points": [
+        "Amelia grows up in a remote coastal village with her father, the lighthouse keeper.",
+        "Amelia's mother is absent.",
+        "Amelia's father falls ill and she takes over his duty of tending the lighthouse.",
+        "Amelia faces doubts from the villagers.",
+        "Amelia saves a fishing boat during a storm.",
+        "Amelia realizes that the lighthouse is her inheritance and purpose.",
+        "Amelia becomes a beacon of hope for the village."
+      ]
+    },
+    {
+      "book_id": "doc2",
+      "characters": [
+        "Marcus"
+      ],
+      "themes": [
+        "Redemption",
+        "Forgiveness",
+        "Art as a form of healing",
+        "The power of human connection"
+      ],
+      "plot_points": [
+        "Marcus is a painter haunted by a past accident",
+        "He receives a letter from a dying friend requesting a painting",
+        "Marcus begins to paint, using the act as a way to deal with his guilt and regret",
+        "The painting becomes a bridge between his past and future",
+        "Marcus delivers the painting and witnesses its impact on his friend",
+        "He rediscovers the true power of art, finding purpose beyond fame"
+      ]
+    },
+    {
+      "book_id": "doc3",
+      "characters": [
+        "Elena Reyes"
+      ],
+      "themes": [
+        "Lost civilizations",
+        "The power of language",
+        "The blurring of past and present",
+        "Identity and transformation"
+      ],
+      "plot_points": [
+        "Elena Reyes discovers an ancient manuscript.",
+        "Elena experiences strange occurrences while translating the manuscript.",
+        "Elena's colleagues urge her to stop.",
+        "Elena disappears after translating the final passage.",
+        "Years later, an archaeological dig reveals a mural of Elena in an ancient city."
+      ]
+    }
+  ]
+}
