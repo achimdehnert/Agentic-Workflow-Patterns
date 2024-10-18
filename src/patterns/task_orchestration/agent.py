@@ -1,34 +1,32 @@
-from src.patterns.task_decomposition.message import Message
-from abc import abstractmethod
-from abc import ABC
+# agent.py
+import json
+from jsonschema import validate
+from src.config.logging import logger
+from src.patterns.task_orchestration.message import Message
 
-
-class Agent(ABC):
-    """
-    A base class for agents in the system.
-
-    Attributes:
-        name (str): The name of the agent.
-    """
-
+class Agent:
     def __init__(self, name: str) -> None:
-        """
-        Initializes the Agent with a name.
-
-        Args:
-            name (str): The name of the agent.
-        """
         self.name = name
 
-    @abstractmethod
     async def process(self, message: 'Message') -> 'Message':
-        """
-        Abstract method to process a message. Must be implemented by subclasses.
+        raise NotImplementedError("This method should be implemented by subclasses.")
 
-        Args:
-            message (Message): The message to be processed.
+    def validate_input(self, data, schema_file):
+        with open(schema_file, 'r') as f:
+            schema = json.load(f)
+        try:
+            validate(instance=data, schema=schema)
+            logger.info(f"{self.name} input validated against {schema_file}.")
+        except Exception as e:
+            logger.error(f"{self.name} input validation error: {e}")
+            raise
 
-        Returns:
-            Message: The response message after processing.
-        """
-        raise NotImplementedError("Subclasses must implement this method.")
+    def validate_output(self, data, schema_file):
+        with open(schema_file, 'r') as f:
+            schema = json.load(f)
+        try:
+            validate(instance=data, schema=schema)
+            logger.info(f"{self.name} output validated against {schema_file}.")
+        except Exception as e:
+            logger.error(f"{self.name} output validation error: {e}")
+            raise
