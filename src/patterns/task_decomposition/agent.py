@@ -1,4 +1,4 @@
-from src.patterns.parallel_task_decomposition.message import Message
+from src.patterns.task_decomposition.message import Message
 
 class Agent:
     """

@@ -1,7 +1,8 @@
-import asyncio
 from coordinator import CoordinatorAgent
-from message import Message
 from src.config.logging import logger
+from message import Message
+import asyncio
+
 
 async def pipeline():
     # Initialize the coordinator agent
@@ -26,6 +27,7 @@ async def pipeline():
 
     # Print the final extracted result
     print("Extraction completed. The extracted information has been saved to 'extracted_info.md'.")
+
 
 if __name__ == "__main__":
     # Run the pipeline to process the document

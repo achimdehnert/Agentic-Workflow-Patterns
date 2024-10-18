@@ -1,5 +1,5 @@
-from src.patterns.parallel_task_decomposition.agent import Agent
-from src.patterns.parallel_task_decomposition.message import Message
+from src.patterns.task_decomposition.message import Message
+from src.patterns.task_decomposition.agent import Agent
 from src.llm.generate import ResponseGenerator
 from src.config.logging import logger
 import asyncio
