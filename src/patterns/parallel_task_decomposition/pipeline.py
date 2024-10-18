@@ -19,14 +19,13 @@ async def pipeline():
 
     # Process the message and get the final result (async call to CoordinatorAgent)
     response = await coordinator.process(message)
-    print('====> ', response.content, '======')
 
     # Save the extracted information to a file
-    with open('./data/patterns/parallel_task_decomposition/extracted_info.txt', 'w') as output_file:
+    with open('./data/patterns/parallel_task_decomposition/extracted_info.md', 'w') as output_file:
         output_file.write(response.content)
 
     # Print the final extracted result
-    print("Extraction completed. The extracted information has been saved to 'extracted_info.txt'.")
+    print("Extraction completed. The extracted information has been saved to 'extracted_info.md'.")
 
 if __name__ == "__main__":
     # Run the pipeline to process the document
