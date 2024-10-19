@@ -1,16 +1,16 @@
 {
   "summaries": [
     {
-      "book_id": "doc1",
-      "summary": "Amelia, raised in isolation by her lighthouse-keeper father, faces a life-altering challenge when he falls ill. Driven by duty and a yearning to keep the light burning, she takes over her father's role, navigating the doubts of villagers and the unforgiving sea. Her courage is tested during a perilous storm, when she guides a lost fishing boat to safety. This act of heroism not only earns the respect of the villagers but also reveals Amelia's true purpose as the keeper of the lighthouse, a legacy passed down from her father and a symbol of hope in the face of adversity."
+      "doc_id": "doc1",
+      "summary": "Amelia, raised in a remote village, grows up with her lighthouse keeper father and the absence of her mother. When her father falls ill, Amelia takes on the responsibility of keeping the light burning, facing the villagers' doubts and the harsh realities of the sea. One stormy night, she guides a lost fishing boat to safety, earning the village's respect.  In the process, she discovers her own strength and purpose as the keeper of the lighthouse, fulfilling her inheritance and becoming a beacon of hope in the darkness."
     },
     {
-      "book_id": "doc2",
-      "summary": "Marcus, a once-celebrated artist, is consumed by guilt after a tragic accident caused by his recklessness. He abandons his art until a letter arrives, requesting one last painting from an old friend battling a terminal illness. Driven by guilt and the weight of expectation, Marcus returns to painting, pouring his remorse, hope, and regret onto the canvas. The act of creation becomes a cathartic journey toward self-forgiveness and reconciliation with others. As he completes the painting, he realizes its significance transcends his friend's wish; it represents a bridge from his past to a future he had thought lost. Witnessing the joy his painting brings to his friend, Marcus rediscovers the true power of art: its ability to heal, connect, and inspire the human spirit, overshadowing the allure of fame."
+      "doc_id": "doc2",
+      "summary": "Marcus, a once celebrated artist, is consumed by guilt after a tragic accident caused by his recklessness. A friend's dying wish to see one last original painting forces him back to art. As Marcus paints, he confronts his demons, finding catharsis and redemption through the act of creation. The painting becomes a bridge from his past to a future he thought lost, showcasing the healing power of art beyond fame and recognition."
     },
     {
-      "book_id": "doc3",
-      "summary": "Professor Elena Reyes, a scholar dedicated to deciphering ancient languages, stumbles upon the last known text of a long-lost civilization. As she translates the cryptic symbols, strange occurrences begin to plague her, blurring the lines between reality and the past. Drawn by an inexplicable compulsion, Elena delves deeper into the mysteries of the manuscript, sacrificing her own identity in the process.  She vanishes, leaving behind a journal entry written in an unknown script that speaks of returning home. Years later, archaeologists discover a chamber in the ancient city with a mural depicting Elena as a high priestess, hailed as the one who bridged worlds and keeper of forgotten wisdom. The novel explores themes of obsession, the power of the past, and the blurred boundaries between identity and belonging."
+      "doc_id": "doc3",
+      "summary": "Professor Elena Reyes, a scholar dedicated to deciphering ancient languages, discovers a manuscript containing the last known text of a long-lost civilization. As she translates the text, she experiences strange occurrences \u2013 vivid dreams, whispers in an unknown tongue, and a blurring of reality. Driven by an inexplicable compulsion, she continues her research, feeling a part of herself fading with each deciphered word. On the night she translates the final passage, Elena vanishes, leaving behind a journal entry written in an unfamiliar script that speaks of returning home. Years later, archaeologists uncover a chamber with a mural depicting Elena as a high priestess, hailed as the bridge between worlds, keeper of forgotten wisdom."
     }
   ]
 }

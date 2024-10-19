@@ -9,7 +9,7 @@
             "book_id": { "type": "string" },
             "summary": { "type": "string" }
           },
-          "required": ["book_id", "summary"]
+          "required": ["doc_id", "summary"]
         }
       }
     },

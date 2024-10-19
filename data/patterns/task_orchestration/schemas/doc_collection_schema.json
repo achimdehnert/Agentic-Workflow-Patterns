@@ -15,6 +15,6 @@
         }
       }
     },
-    "required": ["books"]
+    "required": ["docs"]
   }
   

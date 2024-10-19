@@ -20,7 +20,7 @@
               "items": { "type": "string" }
             }
           },
-          "required": ["book_id", "characters", "themes", "plot_points"]
+          "required": ["doc_id", "characters", "themes", "plot_points"]
         }
       }
     },
