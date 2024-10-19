@@ -3,12 +3,14 @@ from jsonschema import ValidationError
 from src.config.logging import logger
 from json import JSONDecodeError
 from jsonschema import validate
+from abc import abstractmethod
 from typing import Dict
 from typing import Any 
+from abc import ABC
 import json
 
 
-class Agent:
+class Agent(ABC):
     """
     A base class representing an agent responsible for processing messages 
     and validating input and output data based on given JSON schemas.
@@ -23,6 +25,7 @@ class Agent:
         """
         self.name = name
 
+    @abstractmethod
     async def process(self, message: 'Message') -> 'Message':
         """
         Abstract method to process the message.
