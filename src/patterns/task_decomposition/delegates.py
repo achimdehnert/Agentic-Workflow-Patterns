@@ -4,6 +4,7 @@ from src.llm.generate import ResponseGenerator
 from src.config.logging import logger
 import asyncio
 
+
 class SubTaskAgent(Agent):
     """
     An agent that processes a specific subtask of the document extraction

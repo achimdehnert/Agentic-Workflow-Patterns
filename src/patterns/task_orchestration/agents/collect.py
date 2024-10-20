@@ -1,14 +1,15 @@
 from src.patterns.task_orchestration.message import Message
 from src.patterns.task_orchestration.agent import Agent
+from src.llm.generate import ResponseGenerator
 from src.config.logging import logger
 from glob import glob
 import os
 
 
-class CollectDocsAgent(Agent):
+class CollectAgent(Agent):
     async def process(self, message: Message) -> Message:
         """
-        Collects documents from a specified folder, validates the output, and returns a message.
+        Collects documents from a specified source, validates the output, and returns a message.
 
         Args:
             message (Message): The input message.

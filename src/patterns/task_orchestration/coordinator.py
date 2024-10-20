@@ -1,15 +1,14 @@
+from src.patterns.task_orchestration.message import Message
+from src.patterns.task_orchestration.agent import Agent
+from typing import Dict, Any, Optional
+from src.config.logging import logger
+import traceback
 import asyncio
 import yaml
 import json
 import os
-import traceback
-from typing import Dict, Any, Optional
-from src.config.logging import logger
-from src.patterns.task_orchestration.message import Message
-from src.patterns.task_orchestration.agent import Agent
 
-
-class CoordinatorAgent(Agent):
+class Coordinator(Agent):
     """
     A coordinator agent responsible for executing a Directed Acyclic Graph (DAG) of tasks
     using various sub-agents. The agent manages task execution, dependencies, and states.
@@ -173,7 +172,9 @@ class CoordinatorAgent(Agent):
             task_id (str): The ID of the task whose result is being logged.
             result (Any): The result data to log.
         """
-        os.makedirs('task_logs', exist_ok=True)
+        os.makedirs('./data/patterns/task_orchestration/trace', exist_ok=True)
+
         with open(f'task_logs/{task_id}.json', 'w') as f:
             json.dump(result, f, indent=2)
+
         logger.info(f"Task result logged for {task_id}.")
