@@ -4,28 +4,25 @@
       "doc_id": "doc1",
       "characters": [
         "Amelia",
-        "Amelia's father",
-        "Amelia's mother",
-        "Villagers",
-        "Fishermen"
+        "Father"
       ],
       "themes": [
+        "Resilience",
+        "Duty",
         "Legacy",
         "Courage",
-        "Resilience",
-        "Responsibility",
         "Isolation",
-        "Hope",
-        "Light vs. Darkness"
+        "Loss",
+        "Hope"
       ],
       "plot_points": [
-        "Amelia grows up in the lighthouse with her father",
-        "Amelia's mother's absence is a significant factor in her life",
-        "Amelia's father falls ill, forcing her to take over his duties",
-        "Villagers doubt Amelia's ability to maintain the lighthouse",
-        "Amelia saves a fishing boat during a storm",
-        "The villagers acknowledge Amelia's strength and courage",
-        "Amelia realizes her purpose as the lighthouse keeper and her role as a beacon of hope"
+        "Amelia grows up in a remote coastal village with her father, the lighthouse keeper.",
+        "Amelia's mother is absent, creating a void in her life.",
+        "Amelia's father falls ill, threatening to leave the lighthouse dark.",
+        "Amelia takes over her father's duty as the lighthouse keeper.",
+        "Amelia rescues a fishing boat during a storm, proving her strength and dedication.",
+        "The villagers recognize Amelia's courage and her ability to carry on her father's legacy.",
+        "Amelia discovers her true purpose as the lighthouse keeper, becoming a beacon of hope for others."
       ]
     },
     {
@@ -35,18 +32,20 @@
       ],
       "themes": [
         "Redemption",
-        "Guilt and Forgiveness",
+        "Forgiveness",
+        "Second Chances",
         "The Power of Art",
-        "Finding Purpose",
-        "The Importance of Connection"
+        "Guilt and Regret",
+        "Hope and Healing"
       ],
       "plot_points": [
-        "Marcus is a recluse haunted by a tragic accident.",
-        "A friend's dying wish prompts him to paint again.",
-        "Marcus uses art as a cathartic process to deal with his guilt.",
-        "He rediscovers his passion for art and its healing power.",
-        "He delivers the painting to his friend and experiences the joy it brings.",
-        "Marcus finds renewed purpose and rejects the pursuit of fame."
+        "Marcus is a recluse haunted by a past accident.",
+        "He receives a letter requesting a painting from a dying friend.",
+        "Marcus struggles with guilt and fear while painting.",
+        "The act of painting becomes a cathartic experience.",
+        "Marcus realizes the painting is for himself as much as his friend.",
+        "He delivers the painting and witnesses its impact on his friend.",
+        "Marcus rediscovers his passion for art and its true purpose."
       ]
     },
     {
@@ -55,18 +54,19 @@
         "Elena Reyes"
       ],
       "themes": [
-        "History and Lost Civilizations",
-        "The Power of Language",
-        "The Blurring of Reality",
-        "Identity and Transformation",
-        "The Search for Knowledge"
+        "Lost civilizations",
+        "Obsession",
+        "Blurred reality",
+        "Past and present",
+        "Identity"
       ],
       "plot_points": [
-        "Elena Reyes discovers an ancient manuscript",
-        "Elena experiences strange events while translating the manuscript",
-        "Elena disappears after translating the final passage",
-        "Years later, a mural depicting Elena is found in the ancient city",
-        "The inscription hails Elena as a bridge between worlds and keeper of knowledge"
+        "Elena discovers an ancient manuscript",
+        "Strange occurrences begin to plague Elena",
+        "Elena's colleagues urge her to stop",
+        "Elena continues her research, feeling a shift in her identity",
+        "Elena vanishes after completing the translation",
+        "A mural is found depicting Elena as a high priestess"
       ]
     }
   ]
