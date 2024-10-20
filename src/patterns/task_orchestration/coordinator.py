@@ -8,6 +8,7 @@ import yaml
 import json
 import os
 
+
 class Coordinator(Agent):
     """
     A coordinator agent responsible for executing a Directed Acyclic Graph (DAG) of tasks
