@@ -73,14 +73,13 @@ class SummarizeAgent(Agent):
         """
         llm_input = (
             "You are a professional document summarizer. Given the text of a document, provide a concise summary "
-            "that captures the main plot, characters, and themes. The summary should be around 200 words.\n\n"
+            "that captures the main plot, characters, and themes. The summary should be short and limited to only two sentences.\n\n"
             "Provide the summary in valid JSON format with the key 'summary'. "
             "Do not include any explanations or additional text.\n"
             "Wrap the JSON output within <JSON>{{...}}</JSON> tags.\n\n"
             f"Document Title: {doc_title}\n"
-            f"Document Text:\n{doc_content}"
+            f"Document Text:\n{doc_content}"    
         )
-
         logger.info(f"Generating summary for document '{doc_title}' with ID '{doc_id}' using LLM.")
 
         try:
