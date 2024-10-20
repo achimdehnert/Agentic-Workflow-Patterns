@@ -1,15 +1,18 @@
 from src.patterns.task_orchestration.message import Message
 from src.patterns.task_orchestration.agent import Agent
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from src.config.logging import logger
+import importlib
 import traceback
+
 import asyncio
+
 import yaml
 import json
 import os
 
 
-class Coordinator(Agent):
+class CoordinatorAgent(Agent):
     """
     A coordinator agent responsible for executing a Directed Acyclic Graph (DAG) of tasks
     using various sub-agents. The agent manages task execution, dependencies, and states.
@@ -25,10 +28,10 @@ class Coordinator(Agent):
         """
         super().__init__(name)
         self.dag_file = dag_file
-        self.tasks: Dict[str, Dict[str, Any]] = {}
-        self.task_results: Dict[str, Any] = {}
-        self.task_states: Dict[str, str] = {}
-        self.load_dag()
+        self.tasks = {}
+        self.task_results = {}
+        self.task_states = {}
+        self._load_dag()
         logger.info(f"{self.name} initialized with DAG from {dag_file}.")
 
     async def process(self, message: Message) -> Message:
@@ -43,8 +46,8 @@ class Coordinator(Agent):
         """
         logger.info(f"{self.name} processing message.")
         try:
-            await self.execute_dag()
-            final_task_id = self.find_final_task()
+            await self._execute_dag()
+            final_task_id = self._find_final_task()
             final_output = self.task_results.get(final_task_id, "No final output generated.")
             return Message(content=final_output, sender=self.name, recipient=message.sender)
         except Exception as e:
@@ -56,7 +59,7 @@ class Coordinator(Agent):
                 recipient=message.sender
             )
 
-    def load_dag(self) -> None:
+    def _load_dag(self) -> None:
         """
         Loads the DAG definition from the specified YAML file.
         """
@@ -68,13 +71,13 @@ class Coordinator(Agent):
                 self.task_states[task_id] = 'pending'
                 logger.info(f"Task {task_id} loaded: {task_data['description']}")
 
-    async def execute_dag(self) -> None:
+    async def _execute_dag(self) -> None:
         """
         Executes the tasks defined in the DAG based on their dependencies.
         """
         pending_tasks = set(self.tasks.keys())
         while pending_tasks:
-            executable_tasks = [task_id for task_id in pending_tasks if self.can_execute(task_id)]
+            executable_tasks = self._find_executable_tasks(pending_tasks)
             if not executable_tasks:
                 logger.error("No executable tasks found. Possible circular dependency.")
                 break
@@ -82,20 +85,29 @@ class Coordinator(Agent):
             tasks = []
             for task_id in executable_tasks:
                 task_data = self.tasks[task_id]
-                agent_name = task_data['name']
-                print(agent_name, '---')
-                print(task_data['agent'], 'ppppp')
-                agent = self.create_agent(task_data['agent'], agent_name)
-                input_data = self.collect_inputs(task_data['dependencies'])
+                agent = self._create_agent(task_data['agent'], task_data['name'])
+                input_data = self._collect_inputs(task_data['dependencies'])
                 sub_message = Message(content=input_data, sender=self.name, recipient=agent.name)
-                task = asyncio.create_task(self.run_task(task_id, agent, sub_message, task_data))
+                task = asyncio.create_task(self._run_task(task_id, agent, sub_message, task_data))
                 tasks.append(task)
                 pending_tasks.remove(task_id)
                 self.task_states[task_id] = 'running'
 
             await asyncio.gather(*tasks)
 
-    def can_execute(self, task_id: str) -> bool:
+    def _find_executable_tasks(self, pending_tasks: set) -> List[str]:
+        """
+        Finds tasks that can be executed based on their dependencies.
+
+        Args:
+            pending_tasks (set): The set of tasks that are yet to be executed.
+
+        Returns:
+            List[str]: A list of task IDs that can be executed.
+        """
+        return [task_id for task_id in pending_tasks if self._can_execute(task_id)]
+
+    def _can_execute(self, task_id: str) -> bool:
         """
         Checks if a task can be executed based on its dependencies.
 
@@ -108,7 +120,7 @@ class Coordinator(Agent):
         dependencies = self.tasks[task_id]['dependencies']
         return all(dep in self.task_results for dep in dependencies)
 
-    def collect_inputs(self, dependencies: list) -> Dict[str, Any]:
+    def _collect_inputs(self, dependencies: list) -> Dict[str, Any]:
         """
         Collects input data based on the dependencies of a task.
 
@@ -126,7 +138,7 @@ class Coordinator(Agent):
         else:
             return {dep: self.task_results[dep] for dep in dependencies}
 
-    async def run_task(self, task_id: str, agent: Agent, message: Message, task_data: Dict[str, Any]) -> None:
+    async def _run_task(self, task_id: str, agent: Agent, message: Message, task_data: Dict[str, Any]) -> None:
         """
         Runs a single task using the specified agent and message.
 
@@ -141,19 +153,52 @@ class Coordinator(Agent):
             result_message = await agent.process(message)
             self.task_results[task_id] = result_message.content
             self.task_states[task_id] = 'completed'
-            self.log_task_result(task_id, result_message.content)
+            self._log_task_result(task_id, result_message.content)
             logger.info(f"Completed task {task_id}: {agent.name}")
         except Exception as e:
             self.task_states[task_id] = 'failed'
             logger.error(f"Task {task_id} failed: {e}")
             logger.error(f"Traceback: {traceback.format_exc()}")
 
-    def create_agent(self, agent_class_name, agent_name):
-        module = __import__('agents', fromlist=[agent_class_name])
-        agent_class = getattr(module, agent_class_name)
-        return agent_class(name=agent_name)
 
-    def find_final_task(self) -> Optional[str]:
+
+    def _create_agent(self, agent_class_name: str, agent_name: str):
+        """
+        Dynamically creates an agent based on the agent class name.
+
+        Args:
+            agent_class_name (str): The class name of the agent.
+            agent_name (str): The name of the agent instance.
+
+        Returns:
+            Agent: An instance of the specified agent class.
+        """
+        # Define a mapping between agent class names and their respective modules
+        agent_module_map = {
+            'CollectAgent': 'collect',
+            'PreprocessAgent': 'preprocess',
+            'ExtractAgent': 'extract',
+            'CompileAgent': 'compile',
+            'SummarizeAgent': 'summarize',
+            # Add more mappings as needed
+        }
+
+        # Identify the module name based on the agent class name
+        module_name = agent_module_map.get(agent_class_name)
+
+        if not module_name:
+            raise ImportError(f"No module found for agent class '{agent_class_name}'")
+
+        try:
+            # Import the module dynamically
+            module = importlib.import_module(f'src.patterns.task_orchestration.agents.{module_name}')
+            agent_class = getattr(module, agent_class_name)
+            return agent_class(name=agent_name)
+        except (ModuleNotFoundError, AttributeError) as e:
+            raise ImportError(f"Could not create agent '{agent_class_name}' from module '{module_name}': {e}")
+
+
+    def _find_final_task(self) -> Optional[str]:
         """
         Finds the final task in the DAG that has no dependents.
 
@@ -165,7 +210,7 @@ class Coordinator(Agent):
         final_tasks = all_tasks - dependent_tasks
         return final_tasks.pop() if final_tasks else None
 
-    def log_task_result(self, task_id: str, result: Any) -> None:
+    def _log_task_result(self, task_id: str, result: Any) -> None:
         """
         Logs the result of a completed task to a JSON file.
 
@@ -175,7 +220,7 @@ class Coordinator(Agent):
         """
         os.makedirs('./data/patterns/task_orchestration/trace', exist_ok=True)
 
-        with open(f'task_logs/{task_id}.json', 'w') as f:
+        with open(f'./data/patterns/task_orchestration/trace/{task_id}.json', 'w') as f:
             json.dump(result, f, indent=2)
 
         logger.info(f"Task result logged for {task_id}.")

@@ -1,0 +1,73 @@
+{
+  "key_info": [
+    {
+      "doc_id": "doc1",
+      "characters": [
+        "Amelia",
+        "Amelia's father",
+        "Amelia's mother",
+        "Villagers",
+        "Fishermen"
+      ],
+      "themes": [
+        "Legacy",
+        "Courage",
+        "Resilience",
+        "Responsibility",
+        "Isolation",
+        "Hope",
+        "Light vs. Darkness"
+      ],
+      "plot_points": [
+        "Amelia grows up in the lighthouse with her father",
+        "Amelia's mother's absence is a significant factor in her life",
+        "Amelia's father falls ill, forcing her to take over his duties",
+        "Villagers doubt Amelia's ability to maintain the lighthouse",
+        "Amelia saves a fishing boat during a storm",
+        "The villagers acknowledge Amelia's strength and courage",
+        "Amelia realizes her purpose as the lighthouse keeper and her role as a beacon of hope"
+      ]
+    },
+    {
+      "doc_id": "doc2",
+      "characters": [
+        "Marcus"
+      ],
+      "themes": [
+        "Redemption",
+        "Guilt and Forgiveness",
+        "The Power of Art",
+        "Finding Purpose",
+        "The Importance of Connection"
+      ],
+      "plot_points": [
+        "Marcus is a recluse haunted by a tragic accident.",
+        "A friend's dying wish prompts him to paint again.",
+        "Marcus uses art as a cathartic process to deal with his guilt.",
+        "He rediscovers his passion for art and its healing power.",
+        "He delivers the painting to his friend and experiences the joy it brings.",
+        "Marcus finds renewed purpose and rejects the pursuit of fame."
+      ]
+    },
+    {
+      "doc_id": "doc3",
+      "characters": [
+        "Elena Reyes"
+      ],
+      "themes": [
+        "History and Lost Civilizations",
+        "The Power of Language",
+        "The Blurring of Reality",
+        "Identity and Transformation",
+        "The Search for Knowledge"
+      ],
+      "plot_points": [
+        "Elena Reyes discovers an ancient manuscript",
+        "Elena experiences strange events while translating the manuscript",
+        "Elena disappears after translating the final passage",
+        "Years later, a mural depicting Elena is found in the ancient city",
+        "The inscription hails Elena as a bridge between worlds and keeper of knowledge"
+      ]
+    }
+  ]
+}

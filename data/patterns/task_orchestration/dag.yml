@@ -1,46 +1,46 @@
 tasks:
   - id: task1
-    name: CollectDocsAgent
+    name: CollectAgent
     description: Collect documents from the folder
     dependencies: []
-    agent: CollectDocsAgent
+    agent: CollectAgent
     input_schema: null
     output_schema: doc_collection_schema.json
 
   - id: task2
-    name: PreprocessDocsAgent
+    name: PreprocessAgent
     description: Preprocess collected documents
     dependencies:
       - task1
-    agent: PreprocessDocsAgent
+    agent: PreprocessAgent
     input_schema: doc_collection_schema.json
     output_schema: preprocessed_docs_schema.json
 
   - id: task3
-    name: ExtractKeyInfoAgent
+    name: ExtractAgent
     description: Extract key information from preprocessed documents
     dependencies:
       - task2
-    agent: ExtractKeyInfoAgent
+    agent: ExtractAgent
     input_schema: preprocessed_docs_schema.json
     output_schema: key_info_schema.json
 
   - id: task4
-    name: GenerateSummariesAgent
+    name: SummarizeAgent
     description: Generate summaries from preprocessed documents
     dependencies:
       - task2
-    agent: GenerateSummariesAgent
+    agent: SummarizeAgent
     input_schema: preprocessed_docs_schema.json
     output_schema: summaries_schema.json
 
   - id: task5
-    name: CompileReportAgent
+    name: CompileAgent
     description: Compile the final report with summaries and key information
     dependencies:
       - task3
       - task4
-    agent: CompileReportAgent
+    agent: CompileAgent
     input_schema:
       - key_info_schema.json
       - summaries_schema.json

@@ -19,24 +19,26 @@ class CollectAgent(Agent):
 
     async def process(self, message: Message) -> Message:
         """
-        Collects documents from a specified source, validates the output, and returns a message.
+        Preprocesses collected documents by cleaning the content using an LLM. This is especially useful if the collected
+        content is read using OCR or scraped from the web.
 
         Args:
-            message (Message): The input message containing relevant task information.
+            message (Message): The input message containing collected documents.
 
         Returns:
-            Message: The message containing collected documents with their metadata.
+            Message: The message containing preprocessed documents.
 
         Raises:
-            RuntimeError: If document collection or validation fails.
+            RuntimeError: If document preprocessing or validation fails.
         """
         logger.info(f"{self.name} started collecting documents.")
+        input_data = message.content
 
-        # Collect documents from the specified folder
-        docs = self._collect_documents(self.DOCS_FOLDER)
-
-        # Validate the collected documents against the schema
         try:
+            # Await the collection of documents
+            docs = await self._collect_documents(self.DOCS_FOLDER)
+            
+            # Validate the collected documents against the schema
             self.validate_output(docs, self.SCHEMA_PATH)
         except Exception as e:
             logger.error(f"Validation failed for collected documents: {e}")
@@ -45,7 +47,8 @@ class CollectAgent(Agent):
         logger.info(f"{self.name} successfully collected and validated documents.")
         return Message(content=docs, sender=self.name, recipient=message.sender)
 
-    def _collect_documents(self, folder_path: str) -> Dict[str, List[Dict[str, Any]]]:
+
+    async def _collect_documents(self, folder_path: str) -> Dict[str, List[Dict[str, Any]]]:
         """
         Collects text documents from a specified folder and processes each document.
 
@@ -64,7 +67,7 @@ class CollectAgent(Agent):
         for idx, filepath in enumerate(doc_files):
             try:
                 content, title = self._read_document(filepath)
-                extracted_title = asyncio.run(self._extract_title_from_llm(content))
+                extracted_title = await self._extract_title_from_llm(content)  # Directly await the coroutine
 
                 docs["docs"].append({
                     "id": f"doc{idx + 1}",
@@ -110,7 +113,8 @@ class CollectAgent(Agent):
         llm_input = (
             "The following text represents a document that requires a precise and descriptive title: \n\n"
             f"{document}\n\n"
-            "Please analyze the content thoroughly and generate a concise, professional title that accurately reflects the core theme of the document."
+            "Please analyze the content thoroughly and generate a concise, professional, short title that accurately reflects the core theme of the document. "
+            "Only return one title."
         )
         logger.info(f"Extracting title using LLM for content length: {len(document)} characters.")
 

@@ -1,4 +1,4 @@
-from src.patterns.task_orchestration.coordinator import Coordinator
+from src.patterns.task_orchestration.coordinator import CoordinatorAgent
 from src.patterns.task_orchestration.message import Message
 from src.config.logging import logger
 from typing import Any
@@ -28,7 +28,7 @@ async def pipeline() -> None:
     """
     try:
         logger.info("Initializing the Coordinator agent with the DAG file.")
-        coordinator = Coordinator(name="CoordinatorAgent", dag_file=Config.DAG_FILE_PATH)
+        coordinator = CoordinatorAgent(name="CoordinatorAgent", dag_file=Config.DAG_FILE_PATH)
 
         main_task = "Process docs to generate summaries and extract key information."
         message = Message(content=main_task, sender="User", recipient="CoordinatorAgent")
