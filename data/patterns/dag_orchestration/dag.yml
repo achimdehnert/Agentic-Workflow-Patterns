@@ -44,4 +44,4 @@ tasks:
     input_schema:
       - extract.json
       - summarize.json
-    output_schema: final_report_schema.json
+    output_schema: compile.json

@@ -1,19 +1,17 @@
-from src.patterns.task_orchestration.agent import Agent
+from src.patterns.dag_orchestration.agent import Agent
 from src.utils.io import extract_json_from_response
 from src.llm.generate import ResponseGenerator
 from src.commons.message import Message
 from src.config.logging import logger
-from typing import Dict
-from typing import List 
-from typing import Any 
+from typing import Dict, List, Any
 import asyncio
 import os
 
 
 class ExtractAgent(Agent):
-    ROOT_PATTERN_PATH = './data/patterns/task_orchestration'
-    INPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'preprocessed_docs_schema.json')
-    OUTPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'key_info_schema.json')
+    ROOT_PATTERN_PATH = './data/patterns/dag_orchestration'
+    INPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'preprocess.json')
+    OUTPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'extract.json')
     MODEL_NAME = 'gemini-1.5-flash-001'
 
     async def process(self, message: Message) -> Message:
@@ -24,10 +22,7 @@ class ExtractAgent(Agent):
             message (Message): The input message containing preprocessed documents.
 
         Returns:
-            Message: The message containing extracted key information.
-
-        Raises:
-            RuntimeError: If document extraction or validation fails.
+            Message: The message containing extracted key information in the format required by the schema.
         """
         logger.info(f"{self.name} started extracting key information from documents.")
         input_data = message.content
@@ -36,7 +31,7 @@ class ExtractAgent(Agent):
         self._validate_input_data(input_data)
 
         response_generator = ResponseGenerator()
-        key_info = {"key_info": []}
+        extracted_items = []
 
         for doc in input_data.get("preprocessed_docs", []):
             try:
@@ -45,21 +40,27 @@ class ExtractAgent(Agent):
                 self._validate_themes(doc["title"], extracted_data.get("themes", []))
                 self._validate_plot_points(doc["title"], extracted_data.get("plot_points", []))
 
-                key_info["key_info"].append({
-                    "doc_id": doc["id"],
-                    "characters": extracted_data.get("characters", []),
-                    "themes": extracted_data.get("themes", []),
-                    "plot_points": extracted_data.get("plot_points", [])
+                # Create the extracted item following the schema
+                extracted_items.append({
+                    "id": doc["id"],
+                    "key_info": {
+                        "characters": extracted_data.get("characters", []),
+                        "themes": extracted_data.get("themes", []),
+                        "plot_points": extracted_data.get("plot_points", [])
+                    }
                 })
             except Exception as e:
                 logger.error(f"Failed to extract key information from document '{doc['title']}' with ID '{doc['id']}': {e}")
                 raise RuntimeError(f"Error extracting key information for document '{doc['title']}'") from e
 
+        # Prepare the final output in the required format
+        output_data = {"extracted_items": extracted_items}
+
         # Validate the extracted key information against the output schema
-        self._validate_output_data(key_info)
+        self._validate_output_data(output_data)
 
         logger.info(f"{self.name} successfully extracted and validated key information.")
-        return Message(content=key_info, sender=self.name, recipient=message.sender)
+        return Message(content=output_data, sender=self.name, recipient=message.sender)
 
     async def _extract_key_information(self, response_generator: ResponseGenerator, doc_id: str, doc_title: str, doc_content: str) -> Dict[str, Any]:
         """
@@ -73,9 +74,6 @@ class ExtractAgent(Agent):
 
         Returns:
             Dict[str, Any]: The extracted key information in dictionary format.
-
-        Raises:
-            RuntimeError: If the LLM fails to generate a valid JSON response.
         """
         llm_input = (
             "You are a literary analyst with expertise in text interpretation. Your task is to analyze the following document "
@@ -86,6 +84,7 @@ class ExtractAgent(Agent):
             "Provide the output as a structured JSON object with keys 'characters', 'themes', and 'plot_points'. "
             "Ensure that 'characters' is an array of strings representing character names only. Do not include descriptions or additional text.\n"
             "Wrap the JSON output within <JSON>{{...}}</JSON> tags for clarity.\n\n"
+            f"Document ID: {doc_id}\n"
             f"Document Title: {doc_title}\n"
             f"Document Text:\n{doc_content}"
         )
@@ -101,7 +100,7 @@ class ExtractAgent(Agent):
                 ).text.strip()
 
             extraction_result = await asyncio.to_thread(blocking_call)
-            logger.debug(f"LLM Response for document '{doc_title}': {extraction_result}")
+            logger.info(f"LLM Response for document '{doc_title}': {extraction_result}")
 
             extracted_data = extract_json_from_response(extraction_result)
             if not extracted_data:

@@ -1,4 +1,4 @@
-from src.patterns.task_orchestration.agent import Agent
+from src.patterns.dag_orchestration.agent import Agent
 from src.llm.generate import ResponseGenerator
 from src.commons.message import Message
 from src.config.logging import logger
@@ -12,9 +12,9 @@ import os
 
 
 class CollectAgent(Agent):
-    ROOT_PATTERN_PATH = './data/patterns/task_orchestration'
+    ROOT_PATTERN_PATH = './data/patterns/dag_orchestration'
     DOCS_FOLDER = os.path.join(ROOT_PATTERN_PATH, 'docs')
-    SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'doc_collection_schema.json')
+    SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'collect.json')
     MODEL_NAME = 'gemini-1.5-flash-001'
 
     async def process(self, message: Message) -> Message:

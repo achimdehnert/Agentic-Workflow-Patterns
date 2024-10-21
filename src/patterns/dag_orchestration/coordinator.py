@@ -1,7 +1,7 @@
-from src.patterns.task_orchestration.agent import Agent
-from typing import Dict, Any, Optional, List
-from src.config.logging import logger
+from src.patterns.dag_orchestration.agent import Agent
 from src.commons.message import Message
+from src.config.logging import logger
+from typing import Optional, List, Dict, Any
 import importlib
 import traceback
 import asyncio
@@ -10,13 +10,22 @@ import json
 import os
 
 
+class Config:
+    """
+    Configuration class to hold the paths for DAG files and trace directory.
+    """
+    PATTERN_ROOT_PATH = './data/patterns/dag_orchestration'
+    DAG_FILE_PATH = f"{PATTERN_ROOT_PATH}/dag.yml"
+    TRACE_DIR = f"{PATTERN_ROOT_PATH}/trace"
+
+
 class CoordinatorAgent(Agent):
     """
     A coordinator agent responsible for executing a Directed Acyclic Graph (DAG) of tasks
     using various sub-agents. The agent manages task execution, dependencies, and states.
     """
 
-    def __init__(self, name: str, dag_file: str) -> None:
+    def __init__(self, name: str, dag_file: str = Config.DAG_FILE_PATH) -> None:
         """
         Initializes the CoordinatorAgent with the specified name and DAG file.
         
@@ -86,7 +95,7 @@ class CoordinatorAgent(Agent):
                 agent = self._create_agent(task_data['agent'], task_data['name'])
                 input_data = self._collect_inputs(task_data['dependencies'])
                 sub_message = Message(content=input_data, sender=self.name, recipient=agent.name)
-                task = asyncio.create_task(self._run_task(task_id, agent, sub_message, task_data))
+                task = asyncio.create_task(self._run_task(task_id, agent, sub_message))
                 tasks.append(task)
                 pending_tasks.remove(task_id)
                 self.task_states[task_id] = 'running'
@@ -136,7 +145,7 @@ class CoordinatorAgent(Agent):
         else:
             return {dep: self.task_results[dep] for dep in dependencies}
 
-    async def _run_task(self, task_id: str, agent: Agent, message: Message, task_data: Dict[str, Any]) -> None:
+    async def _run_task(self, task_id: str, agent: Agent, message: Message) -> None:
         """
         Runs a single task using the specified agent and message.
 
@@ -144,7 +153,6 @@ class CoordinatorAgent(Agent):
             task_id (str): The ID of the task to run.
             agent (Agent): The agent responsible for processing the task.
             message (Message): The message containing the input data.
-            task_data (Dict[str, Any]): Additional task-related data.
         """
         logger.info(f"Starting task {task_id}: {agent.name}")
         try:
@@ -158,9 +166,7 @@ class CoordinatorAgent(Agent):
             logger.error(f"Task {task_id} failed: {e}")
             logger.error(f"Traceback: {traceback.format_exc()}")
 
-
-
-    def _create_agent(self, agent_class_name: str, agent_name: str):
+    def _create_agent(self, agent_class_name: str, agent_name: str) -> Agent:
         """
         Dynamically creates an agent based on the agent class name.
 
@@ -171,30 +177,24 @@ class CoordinatorAgent(Agent):
         Returns:
             Agent: An instance of the specified agent class.
         """
-        # Define a mapping between agent class names and their respective modules
         agent_module_map = {
             'CollectAgent': 'collect',
             'PreprocessAgent': 'preprocess',
             'ExtractAgent': 'extract',
             'CompileAgent': 'compile',
             'SummarizeAgent': 'summarize',
-            # Add more mappings as needed
         }
 
-        # Identify the module name based on the agent class name
         module_name = agent_module_map.get(agent_class_name)
-
         if not module_name:
             raise ImportError(f"No module found for agent class '{agent_class_name}'")
 
         try:
-            # Import the module dynamically
-            module = importlib.import_module(f'src.patterns.task_orchestration.agents.{module_name}')
+            module = importlib.import_module(f'src.patterns.dag_orchestration.agents.{module_name}')
             agent_class = getattr(module, agent_class_name)
             return agent_class(name=agent_name)
         except (ModuleNotFoundError, AttributeError) as e:
             raise ImportError(f"Could not create agent '{agent_class_name}' from module '{module_name}': {e}")
-
 
     def _find_final_task(self) -> Optional[str]:
         """
@@ -216,9 +216,10 @@ class CoordinatorAgent(Agent):
             task_id (str): The ID of the task whose result is being logged.
             result (Any): The result data to log.
         """
-        os.makedirs('./data/patterns/task_orchestration/trace', exist_ok=True)
+        os.makedirs(Config.TRACE_DIR, exist_ok=True)
+        trace_file = f"{Config.TRACE_DIR}/{task_id}.json"
 
-        with open(f'./data/patterns/task_orchestration/trace/{task_id}.json', 'w') as f:
+        with open(trace_file, 'w') as f:
             json.dump(result, f, indent=2)
 
-        logger.info(f"Task result logged for {task_id}.")
+        logger.info(f"Task result logged for {task_id} at {trace_file}.")

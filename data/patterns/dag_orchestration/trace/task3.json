@@ -1,73 +1,80 @@
 {
-  "key_info": [
+  "extracted_items": [
     {
-      "doc_id": "doc1",
-      "characters": [
-        "Amelia",
-        "Father"
-      ],
-      "themes": [
-        "Resilience",
-        "Duty",
-        "Legacy",
-        "Courage",
-        "Isolation",
-        "Loss",
-        "Hope"
-      ],
-      "plot_points": [
-        "Amelia grows up in a remote coastal village with her father, the lighthouse keeper.",
-        "Amelia's mother is absent, creating a void in her life.",
-        "Amelia's father falls ill, threatening to leave the lighthouse dark.",
-        "Amelia takes over her father's duty as the lighthouse keeper.",
-        "Amelia rescues a fishing boat during a storm, proving her strength and dedication.",
-        "The villagers recognize Amelia's courage and her ability to carry on her father's legacy.",
-        "Amelia discovers her true purpose as the lighthouse keeper, becoming a beacon of hope for others."
-      ]
+      "id": "doc1",
+      "key_info": {
+        "characters": [
+          "Amelia",
+          "Amelia's father",
+          "Amelia's mother",
+          "village elders",
+          "fishermen"
+        ],
+        "themes": [
+          "Resilience",
+          "Legacy",
+          "Courage",
+          "Loss and Grief",
+          "Duty",
+          "Hope",
+          "Isolation",
+          "Community"
+        ],
+        "plot_points": [
+          "Amelia grows up in a lighthouse with her father.",
+          "Amelia's mother is absent.",
+          "Amelia's father falls ill, leaving her in charge of the lighthouse.",
+          "Amelia takes up her father's mantle and keeps the light burning.",
+          "A fishing boat is lost at sea during a storm.",
+          "Amelia guides the boat to safety with the lighthouse light.",
+          "The villagers recognize Amelia's strength and bravery.",
+          "Amelia understands that the lighthouse is her legacy and her purpose."
+        ]
+      }
     },
     {
-      "doc_id": "doc2",
-      "characters": [
-        "Marcus"
-      ],
-      "themes": [
-        "Redemption",
-        "Forgiveness",
-        "Second Chances",
-        "The Power of Art",
-        "Guilt and Regret",
-        "Hope and Healing"
-      ],
-      "plot_points": [
-        "Marcus is a recluse haunted by a past accident.",
-        "He receives a letter requesting a painting from a dying friend.",
-        "Marcus struggles with guilt and fear while painting.",
-        "The act of painting becomes a cathartic experience.",
-        "Marcus realizes the painting is for himself as much as his friend.",
-        "He delivers the painting and witnesses its impact on his friend.",
-        "Marcus rediscovers his passion for art and its true purpose."
-      ]
+      "id": "doc2",
+      "key_info": {
+        "characters": [
+          "Marcus"
+        ],
+        "themes": [
+          "Redemption",
+          "Guilt and Forgiveness",
+          "The Power of Art",
+          "Loss and Healing"
+        ],
+        "plot_points": [
+          "Marcus is a recluse haunted by a past accident.",
+          "He receives a letter from a dying friend who wants to see one of his paintings.",
+          "He begins to paint, pouring his emotions into the canvas.",
+          "He realizes the painting is for himself as well as his friend.",
+          "He delivers the painting and witnesses its effect on his friend.",
+          "The art world recognizes his return, but he prioritizes personal healing over fame."
+        ]
+      }
     },
     {
-      "doc_id": "doc3",
-      "characters": [
-        "Elena Reyes"
-      ],
-      "themes": [
-        "Lost civilizations",
-        "Obsession",
-        "Blurred reality",
-        "Past and present",
-        "Identity"
-      ],
-      "plot_points": [
-        "Elena discovers an ancient manuscript",
-        "Strange occurrences begin to plague Elena",
-        "Elena's colleagues urge her to stop",
-        "Elena continues her research, feeling a shift in her identity",
-        "Elena vanishes after completing the translation",
-        "A mural is found depicting Elena as a high priestess"
-      ]
+      "id": "doc3",
+      "key_info": {
+        "characters": [
+          "Elena Reyes"
+        ],
+        "themes": [
+          "Lost civilizations",
+          "The power of knowledge",
+          "The blurring of past and present",
+          "Identity and transformation",
+          "The allure and danger of the unknown"
+        ],
+        "plot_points": [
+          "Elena Reyes discovers an ancient manuscript.",
+          "Elena experiences strange occurrences while translating the manuscript.",
+          "Elena's colleagues urge her to stop, but she continues.",
+          "Elena vanishes after translating the final passage.",
+          "An archaeological dig reveals a mural depicting Elena as a high priestess."
+        ]
+      }
     }
   ]
 }

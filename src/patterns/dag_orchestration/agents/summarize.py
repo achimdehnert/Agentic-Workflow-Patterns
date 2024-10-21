@@ -1,4 +1,4 @@
-from src.patterns.task_orchestration.agent import Agent
+from src.patterns.dag_orchestration.agent import Agent
 from src.utils.io import extract_json_from_response
 from src.llm.generate import ResponseGenerator
 from src.commons.message import Message
@@ -8,9 +8,9 @@ import os
 
 
 class SummarizeAgent(Agent):
-    ROOT_PATTERN_PATH = './data/patterns/task_orchestration'
-    INPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'preprocessed_docs_schema.json')
-    OUTPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'summaries_schema.json')
+    ROOT_PATTERN_PATH = './data/patterns/dag_orchestration'
+    INPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'preprocess.json')
+    OUTPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'summarize.json')
     MODEL_NAME = 'gemini-1.5-flash-001'
 
     async def process(self, message: Message) -> Message:
@@ -21,7 +21,7 @@ class SummarizeAgent(Agent):
             message (Message): The input message containing preprocessed documents.
 
         Returns:
-            Message: The message containing generated summaries.
+            Message: The message containing generated summaries in the format required by the schema.
 
         Raises:
             RuntimeError: If document summarization or validation fails.
@@ -42,7 +42,7 @@ class SummarizeAgent(Agent):
                 )
 
                 summaries["summaries"].append({
-                    "doc_id": doc["id"],
+                    "id": doc["id"],
                     "summary": summary
                 })
             except Exception as e:
@@ -66,7 +66,7 @@ class SummarizeAgent(Agent):
             doc_content (str): The content of the document.
 
         Returns:
-            str: The generated summary in JSON format.
+            str: The generated summary.
 
         Raises:
             RuntimeError: If the LLM fails to generate a response.

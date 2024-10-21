@@ -7,7 +7,10 @@ import json
 
 
 class Config:
-    PATTERN_ROOT_PATH = './data/patterns/task_orchestration'
+    """
+    Configuration class to hold the paths for DAG file and final report file.
+    """
+    PATTERN_ROOT_PATH = './data/patterns/dag_orchestration'
     DAG_FILE_PATH = f"{PATTERN_ROOT_PATH}/dag.yml"
     REPORT_FILE_PATH = f"{PATTERN_ROOT_PATH}/final_report.json"
 
@@ -30,17 +33,17 @@ async def pipeline() -> None:
         logger.info("Initializing the Coordinator agent with the DAG file.")
         coordinator = CoordinatorAgent(name="CoordinatorAgent", dag_file=Config.DAG_FILE_PATH)
 
-        main_task = "Process docs to generate summaries and extract key information."
-        message = Message(content=main_task, sender="User", recipient="CoordinatorAgent")
+        # The main task is to orchestrate the DAG, hence no specific content is needed for the message.
+        message = Message(content='', sender="User", recipient="CoordinatorAgent")
 
         logger.info("Sending the main task message to the Coordinator for processing.")
         response = await coordinator.process(message)
 
         final_output = response.content
         save_final_report(final_output)
-        
+
         logger.info("Task completed successfully. The final report has been saved.")
-    
+
     except Exception as e:
         logger.error(f"An error occurred during the pipeline execution: {e}")
         raise
@@ -60,7 +63,7 @@ def save_final_report(report_data: Any) -> None:
         with open(Config.REPORT_FILE_PATH, 'w') as output_file:
             json.dump(report_data, output_file, indent=2)
         logger.info(f"Final report saved successfully at {Config.REPORT_FILE_PATH}.")
-    
+
     except (OSError, json.JSONDecodeError) as save_error:
         logger.error(f"Failed to save the final report: {save_error}")
         raise

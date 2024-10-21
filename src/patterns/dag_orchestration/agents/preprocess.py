@@ -1,4 +1,4 @@
-from src.patterns.task_orchestration.agent import Agent
+from src.patterns.dag_orchestration.agent import Agent
 from src.llm.generate import ResponseGenerator
 from src.commons.message import Message
 from src.config.logging import logger
@@ -7,9 +7,9 @@ import os
 
 
 class PreprocessAgent(Agent):
-    ROOT_PATTERN_PATH = './data/patterns/task_orchestration'
-    INPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'doc_collection_schema.json')
-    OUTPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'preprocessed_docs_schema.json')
+    ROOT_PATTERN_PATH = './data/patterns/dag_orchestration'
+    INPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'collect.json')
+    OUTPUT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'preprocess.json')
     MODEL_NAME = 'gemini-1.5-flash-001'
 
     async def process(self, message: Message) -> Message:

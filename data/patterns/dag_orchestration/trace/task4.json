@@ -1,16 +1,16 @@
 {
   "summaries": [
     {
-      "doc_id": "doc1",
-      "summary": "Amelia, raised in a remote village, inherits her lighthouse keeper father's duty when he falls ill, overcoming villagers' doubts and a stormy night to become a beacon of hope and fulfill her purpose."
+      "id": "doc1",
+      "summary": "Amelia, a lighthouse keeper's daughter, inherits her father's duty after his illness, battling both skepticism and a raging storm to save a distressed fishing boat, ultimately realizing her own purpose as a beacon of hope for her community."
     },
     {
-      "doc_id": "doc2",
-      "summary": "A once-celebrated artist, haunted by a tragic accident, rediscovers his purpose through painting, finding redemption by creating a piece that brings joy to a dying friend and inspires hope in himself."
+      "id": "doc2",
+      "summary": "Haunted by a past accident, a once celebrated artist, Marcus, is forced to confront his guilt and rediscover his passion through a final painting commissioned by a dying friend. The act of creation becomes a journey of self-forgiveness and a rediscovery of art's power to heal and connect."
     },
     {
-      "doc_id": "doc3",
-      "summary": "Professor Elena Reyes, obsessed with deciphering a lost civilization's text, finds herself drawn into their world, blurring the line between past and present until she disappears, leaving behind a legacy as the keeper of forgotten wisdom."
+      "id": "doc3",
+      "summary": "Professor Elena Reyes discovers an ancient manuscript that reveals the secrets of a lost civilization, leading to strange occurrences and her eventual disappearance, leaving behind a mystery that is solved years later when her image is found depicted as a high priestess in the city ruins."
     }
   ]
 }

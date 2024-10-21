@@ -1,7 +1,7 @@
 {
     "type": "object",
     "properties": {
-      "preprocessed_books": {
+      "preprocessed_docs": {
         "type": "array",
         "items": {
           "type": "object",

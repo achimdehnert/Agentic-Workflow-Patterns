@@ -6,10 +6,10 @@
         "items": {
           "type": "object",
           "properties": {
-            "book_id": { "type": "string" },
+            "id": { "type": "string" },
             "summary": { "type": "string" }
           },
-          "required": ["doc_id", "summary"]
+          "required": ["id", "summary"]
         }
       }
     },

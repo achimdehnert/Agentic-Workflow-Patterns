@@ -1,4 +1,4 @@
-from src.patterns.task_orchestration.agent import Agent
+from src.patterns.dag_orchestration.agent import Agent
 from src.llm.generate import ResponseGenerator
 from src.commons.message import Message
 from src.config.logging import logger
@@ -7,10 +7,10 @@ import os
 
 
 class CompileAgent(Agent):
-    ROOT_PATTERN_PATH = './data/patterns/task_orchestration'
-    KEY_INFO_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'key_info_schema.json')
-    SUMMARIES_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'summaries_schema.json')
-    FINAL_REPORT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'final_report_schema.json')
+    ROOT_PATTERN_PATH = './data/patterns/dag_orchestration'
+    KEY_INFO_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'extract.json')
+    SUMMARIES_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'summarize.json')
+    FINAL_REPORT_SCHEMA_PATH = os.path.join(ROOT_PATTERN_PATH, 'schemas', 'compile.json')
     MODEL_NAME = 'gemini-1.5-flash-001'
 
     async def process(self, message: Message) -> Message:
@@ -32,12 +32,12 @@ class CompileAgent(Agent):
         # Validate the input data for key information and summaries
         self._validate_input_data(input_data)
 
-        key_info_data = input_data['task3']
-        summaries_data = input_data['task4']
+        key_info_data = input_data['task3']["extracted_items"]
+        summaries_data = input_data['task4']["summaries"]
         response_generator = ResponseGenerator()
         report_sections = []
 
-        for key_info_entry in key_info_data["key_info"]:
+        for key_info_entry in key_info_data:
             try:
                 report_section = await self._compile_report_section(
                     response_generator, key_info_entry, summaries_data
@@ -45,8 +45,8 @@ class CompileAgent(Agent):
                 if report_section:
                     report_sections.append(report_section)
             except Exception as e:
-                logger.error(f"Failed to compile report section for document ID '{key_info_entry['doc_id']}': {e}")
-                raise RuntimeError(f"Error compiling report section for document '{key_info_entry['doc_id']}'") from e
+                logger.error(f"Failed to compile report section for document ID '{key_info_entry['id']}': {e}")
+                raise RuntimeError(f"Error compiling report section for document '{key_info_entry['id']}'") from e
 
         report = {"report": "\n\n".join(report_sections)}
 
@@ -56,14 +56,14 @@ class CompileAgent(Agent):
         logger.info(f"{self.name} successfully compiled and validated the final report.")
         return Message(content=report, sender=self.name, recipient=message.sender)
 
-    async def _compile_report_section(self, response_generator: ResponseGenerator, key_info_entry: dict, summaries_data: dict) -> str:
+    async def _compile_report_section(self, response_generator: ResponseGenerator, key_info_entry: dict, summaries_data: list) -> str:
         """
         Compiles a report section based on key information and summary using an LLM.
 
         Args:
             response_generator (ResponseGenerator): The LLM response generator instance.
             key_info_entry (dict): The key information entry for a document.
-            summaries_data (dict): The summaries data for all documents.
+            summaries_data (list): The summaries data for all documents.
 
         Returns:
             str: The compiled report section.
@@ -71,9 +71,9 @@ class CompileAgent(Agent):
         Raises:
             RuntimeError: If the LLM fails to generate a response.
         """
-        doc_id = key_info_entry["doc_id"]
+        doc_id = key_info_entry["id"]
         summary_entry = next(
-            (s for s in summaries_data["summaries"] if s["doc_id"] == doc_id), None
+            (s for s in summaries_data if s["id"] == doc_id), None
         )
 
         if not summary_entry:
@@ -89,11 +89,11 @@ class CompileAgent(Agent):
             f"- Major themes.\n"
             f"- Important plot points.\n\n"
             f"Provide the report section in a clear and structured format.\n\n"
-            f"Document Title: {summary_entry['doc_id']}\n"
+            f"Document ID: {doc_id}\n"
             f"Summary:\n{summary_entry['summary']}\n\n"
-            f"Characters:\n{key_info_entry['characters']}\n\n"
-            f"Themes:\n{key_info_entry['themes']}\n\n"
-            f"Plot Points:\n{key_info_entry['plot_points']}"
+            f"Characters:\n{key_info_entry['key_info']['characters']}\n\n"
+            f"Themes:\n{key_info_entry['key_info']['themes']}\n\n"
+            f"Plot Points:\n{key_info_entry['key_info']['plot_points']}"
         )
 
         logger.info(f"Compiling report section for document ID '{doc_id}' using LLM.")
