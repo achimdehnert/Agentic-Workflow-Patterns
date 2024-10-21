@@ -2,5 +2,5 @@
 
 
 <p align="center">
-    <img src="../../../img/framework/parallel_delegation.png.png" alt="Parallel Delegation" width="500"/>
+    <img src="../../../img/framework/parallel_delegation.png" alt="Parallel Delegation" width="500"/>
 </p>
