@@ -5,7 +5,8 @@ from src.commons.message import Message
 from src.config.logging import logger
 import asyncio
 import os
-
+import json
+import re
 
 class SummarizeAgent(Agent):
     ROOT_PATTERN_PATH = './data/patterns/dag_orchestration'
@@ -74,9 +75,11 @@ class SummarizeAgent(Agent):
         llm_input = (
             "You are a professional document summarizer. Given the text of a document, provide a concise summary "
             "that captures the main plot, characters, and themes. The summary should be short and limited to only two sentences.\n\n"
-            "Provide the summary in valid JSON format with the key 'summary'. "
-            "Do not include any explanations or additional text.\n"
-            "Wrap the JSON output within <JSON>{{...}}</JSON> tags.\n\n"
+            "IMPORTANT: Provide the summary in valid JSON format with the key 'summary'. "
+            "Ensure your response is a single, properly formatted JSON object. "
+            "Do not include any explanations or additional text outside the JSON.\n"
+            "Example of correct format:\n"
+            '{"summary": "This is a sample summary. It captures the essence of the document in two sentences."}\n\n'
             f"Document Title: {doc_title}\n"
             f"Document Text:\n{doc_content}"    
         )
@@ -86,14 +89,14 @@ class SummarizeAgent(Agent):
             def blocking_call():
                 return response_generator.generate_response(
                     model_name=self.MODEL_NAME,
-                    system_instruction='',
+                    system_instruction='You are an AI trained to summarize documents and output perfect JSON.',
                     contents=[llm_input]
                 ).text.strip()
 
             summary_result = await asyncio.to_thread(blocking_call)
-            logger.debug(f"LLM Response for document '{doc_title}': {summary_result}")
+            logger.info(f"LLM Response for document '{doc_title}': {summary_result}")
 
-            extracted_data = extract_json_from_response(summary_result)
+            extracted_data = self.clean_and_parse_json(summary_result)
             if not extracted_data or 'summary' not in extracted_data:
                 logger.error(f"Failed to extract summary for document '{doc_title}'.")
                 raise ValueError(f"Invalid summary extraction for document '{doc_title}'")
@@ -134,3 +137,30 @@ class SummarizeAgent(Agent):
         except Exception as e:
             logger.error(f"Validation failed for generated summaries: {e}")
             raise RuntimeError(f"Validation failed for generated summaries") from e
+
+    @staticmethod
+    def clean_and_parse_json(json_string: str) -> dict:
+        """
+        Cleans and parses a JSON string, handling potential formatting issues.
+
+        Args:
+            json_string (str): The JSON string to clean and parse.
+
+        Returns:
+            dict: The parsed JSON data.
+
+        Raises:
+            ValueError: If the JSON cannot be parsed after cleaning.
+        """
+        # Remove any text before the first '{' and after the last '}'
+        json_string = re.sub(r'^[^{]*', '', json_string)
+        json_string = re.sub(r'[^}]*$', '', json_string)
+        
+        # Remove any extra sets of curly braces
+        while json_string.startswith('{{') and json_string.endswith('}}'):
+            json_string = json_string[1:-1]
+        
+        try:
+            return json.loads(json_string)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Failed to parse JSON after cleanup: {e}")

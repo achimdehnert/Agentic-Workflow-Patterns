@@ -4,7 +4,8 @@ from src.commons.message import Message
 from src.config.logging import logger
 import asyncio
 import os
-
+import json
+import re
 
 class CompileAgent(Agent):
     ROOT_PATTERN_PATH = './data/patterns/dag_orchestration'
@@ -79,21 +80,22 @@ class CompileAgent(Agent):
         if not summary_entry:
             logger.warning(f"No summary found for document ID '{doc_id}'. Skipping.")
             return None
-
+    
         llm_input = (
             f"You are a report compiler. Given the summary and key information of a document, "
             f"compile a well-formatted report section for this document. The report should include:\n"
-            f"- Title of the document.\n"
+            f"- Title of the document (use the document ID as the title).\n"
             f"- Summary.\n"
-            f"- List of main characters with descriptions.\n"
-            f"- Major themes.\n"
-            f"- Important plot points.\n\n"
-            f"Provide the report section in a clear and structured format.\n\n"
+            f"- List of main characters with brief descriptions.\n"
+            f"- Major themes with brief explanations.\n"
+            f"- Important plot points in a narrative format.\n\n"
+            f"IMPORTANT: Provide the report section in a clear, structured format. Use markdown formatting for headers and lists. "
+            f"Ensure the content is coherent and well-organized.\n\n"
             f"Document ID: {doc_id}\n"
             f"Summary:\n{summary_entry['summary']}\n\n"
-            f"Characters:\n{key_info_entry['key_info']['characters']}\n\n"
-            f"Themes:\n{key_info_entry['key_info']['themes']}\n\n"
-            f"Plot Points:\n{key_info_entry['key_info']['plot_points']}"
+            f"Characters:\n{', '.join(key_info_entry['key_info'][0]['characters'])}\n\n"
+            f"Themes:\n{', '.join(key_info_entry['key_info'][0]['themes'])}\n\n"
+            f"Plot Points:\n- {' '.join(key_info_entry['key_info'][0]['plot_points'])}"
         )
 
         logger.info(f"Compiling report section for document ID '{doc_id}' using LLM.")
@@ -102,12 +104,12 @@ class CompileAgent(Agent):
             def blocking_call():
                 return response_generator.generate_response(
                     model_name=self.MODEL_NAME,
-                    system_instruction='',
+                    system_instruction='You are an AI trained to compile clear, well-structured reports based on provided information.',
                     contents=[llm_input]
                 ).text.strip()
 
             report_section = await asyncio.to_thread(blocking_call)
-            return report_section
+            return self.clean_and_format_report_section(report_section)
         except Exception as e:
             logger.error(f"Failed to compile report section for document ID '{doc_id}': {e}")
             raise RuntimeError(f"Error compiling report section for document '{doc_id}'") from e
@@ -144,3 +146,28 @@ class CompileAgent(Agent):
         except Exception as e:
             logger.error(f"Validation failed for compiled report: {e}")
             raise RuntimeError(f"Validation failed for compiled report") from e
+
+    @staticmethod
+    def clean_and_format_report_section(report_section: str) -> str:
+        """
+        Cleans and formats the report section, ensuring proper markdown formatting.
+
+        Args:
+            report_section (str): The raw report section to clean and format.
+
+        Returns:
+            str: The cleaned and formatted report section.
+        """
+        # Remove any leading/trailing whitespace
+        report_section = report_section.strip()
+
+        # Ensure proper markdown formatting for headers
+        report_section = re.sub(r'^(#+)\s*(.+)$', r'\1 \2', report_section, flags=re.MULTILINE)
+
+        # Ensure proper markdown formatting for lists
+        report_section = re.sub(r'^(\s*)-\s(.+)$', r'\1- \2', report_section, flags=re.MULTILINE)
+
+        # Add an extra newline before headers for better readability
+        report_section = re.sub(r'\n(#+\s.+)', r'\n\n\1', report_section)
+
+        return report_section

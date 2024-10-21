@@ -1,7 +1,7 @@
 {
     "type": "object",
     "properties": {
-      "books": {
+      "docs": {
         "type": "array",
         "items": {
           "type": "object",
@@ -17,5 +17,4 @@
     },
     "required": ["docs"]
   }
-  
   

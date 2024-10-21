@@ -1,12 +1,12 @@
 from src.patterns.dag_orchestration.agent import Agent
-from src.utils.io import extract_json_from_response
 from src.llm.generate import ResponseGenerator
 from src.commons.message import Message
 from src.config.logging import logger
 from typing import Dict, List, Any
 import asyncio
 import os
-
+import json
+import re
 
 class ExtractAgent(Agent):
     ROOT_PATTERN_PATH = './data/patterns/dag_orchestration'
@@ -40,14 +40,16 @@ class ExtractAgent(Agent):
                 self._validate_themes(doc["title"], extracted_data.get("themes", []))
                 self._validate_plot_points(doc["title"], extracted_data.get("plot_points", []))
 
-                # Create the extracted item following the schema
+                # Create the extracted item following the updated schema
                 extracted_items.append({
                     "id": doc["id"],
-                    "key_info": {
-                        "characters": extracted_data.get("characters", []),
-                        "themes": extracted_data.get("themes", []),
-                        "plot_points": extracted_data.get("plot_points", [])
-                    }
+                    "key_info": [
+                        {
+                            "characters": extracted_data.get("characters", []),
+                            "themes": extracted_data.get("themes", []),
+                            "plot_points": extracted_data.get("plot_points", [])
+                        }
+                    ]
                 })
             except Exception as e:
                 logger.error(f"Failed to extract key information from document '{doc['title']}' with ID '{doc['id']}': {e}")
@@ -80,10 +82,12 @@ class ExtractAgent(Agent):
             "and extract key information. Specifically, identify the following:\n"
             "- A list of main characters (only names).\n"
             "- The major themes discussed or explored within the document.\n"
-            "- Important plot points that are crucial to understanding the document’s storyline.\n\n"
-            "Provide the output as a structured JSON object with keys 'characters', 'themes', and 'plot_points'. "
-            "Ensure that 'characters' is an array of strings representing character names only. Do not include descriptions or additional text.\n"
-            "Wrap the JSON output within <JSON>{{...}}</JSON> tags for clarity.\n\n"
+            "- Important plot points that are crucial to understanding the document's storyline.\n\n"
+            "IMPORTANT: Provide the output as a single, properly formatted JSON object with keys 'characters', 'themes', and 'plot_points'. "
+            "Ensure that 'characters' is an array of strings representing character names only. "
+            "Do not include any explanations or additional text outside the JSON.\n"
+            "Example of correct format:\n"
+            '{"characters": ["Name1", "Name2"], "themes": ["Theme1", "Theme2"], "plot_points": ["Point1", "Point2"]}\n\n'
             f"Document ID: {doc_id}\n"
             f"Document Title: {doc_title}\n"
             f"Document Text:\n{doc_content}"
@@ -95,14 +99,14 @@ class ExtractAgent(Agent):
             def blocking_call():
                 return response_generator.generate_response(
                     model_name=self.MODEL_NAME,
-                    system_instruction='',
+                    system_instruction='You are an AI trained to extract key information from documents and output perfect JSON.',
                     contents=[llm_input]
                 ).text.strip()
 
             extraction_result = await asyncio.to_thread(blocking_call)
-            logger.debug(f"LLM Response for document '{doc_title}': {extraction_result}")
+            logger.info(f"LLM Response for document '{doc_title}': {extraction_result}")
 
-            extracted_data = extract_json_from_response(extraction_result)
+            extracted_data = self.clean_and_parse_json(extraction_result)
             if not extracted_data:
                 logger.error(f"Failed to extract valid JSON for document '{doc_title}'.")
                 raise ValueError(f"Invalid JSON extraction for document '{doc_title}'")
@@ -188,3 +192,30 @@ class ExtractAgent(Agent):
         if not isinstance(plot_points, list) or not all(isinstance(p, str) for p in plot_points):
             logger.error(f"Invalid plot points format for document '{doc_title}'.")
             raise ValueError(f"Invalid plot points format for document '{doc_title}'")
+
+    @staticmethod
+    def clean_and_parse_json(json_string: str) -> dict:
+        """
+        Cleans and parses a JSON string, handling potential formatting issues.
+
+        Args:
+            json_string (str): The JSON string to clean and parse.
+
+        Returns:
+            dict: The parsed JSON data.
+
+        Raises:
+            ValueError: If the JSON cannot be parsed after cleaning.
+        """
+        # Remove any text before the first '{' and after the last '}'
+        json_string = re.sub(r'^[^{]*', '', json_string)
+        json_string = re.sub(r'[^}]*$', '', json_string)
+        
+        # Remove any extra sets of curly braces
+        while json_string.startswith('{{') and json_string.endswith('}}'):
+            json_string = json_string[1:-1]
+        
+        try:
+            return json.loads(json_string)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Failed to parse JSON after cleanup: {e}")

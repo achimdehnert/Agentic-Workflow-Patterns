@@ -2,79 +2,76 @@
   "extracted_items": [
     {
       "id": "doc1",
-      "key_info": {
-        "characters": [
-          "Amelia",
-          "Amelia's father",
-          "Amelia's mother",
-          "village elders",
-          "fishermen"
-        ],
-        "themes": [
-          "Resilience",
-          "Legacy",
-          "Courage",
-          "Loss and Grief",
-          "Duty",
-          "Hope",
-          "Isolation",
-          "Community"
-        ],
-        "plot_points": [
-          "Amelia grows up in a lighthouse with her father.",
-          "Amelia's mother is absent.",
-          "Amelia's father falls ill, leaving her in charge of the lighthouse.",
-          "Amelia takes up her father's mantle and keeps the light burning.",
-          "A fishing boat is lost at sea during a storm.",
-          "Amelia guides the boat to safety with the lighthouse light.",
-          "The villagers recognize Amelia's strength and bravery.",
-          "Amelia understands that the lighthouse is her legacy and her purpose."
-        ]
-      }
+      "key_info": [
+        {
+          "characters": [
+            "Amelia"
+          ],
+          "themes": [
+            "Loss and Resilience",
+            "Inheritance and Purpose",
+            "Courage and Determination",
+            "The Power of Light"
+          ],
+          "plot_points": [
+            "Amelia's upbringing in the shadow of the lighthouse and her mother's absence",
+            "Her father's illness and her taking over his duties",
+            "The villagers' doubts and her unwavering resolve",
+            "The stormy night and the rescue of the fishing boat",
+            "Amelia's realization of her own purpose and legacy"
+          ]
+        }
+      ]
     },
     {
       "id": "doc2",
-      "key_info": {
-        "characters": [
-          "Marcus"
-        ],
-        "themes": [
-          "Redemption",
-          "Guilt and Forgiveness",
-          "The Power of Art",
-          "Loss and Healing"
-        ],
-        "plot_points": [
-          "Marcus is a recluse haunted by a past accident.",
-          "He receives a letter from a dying friend who wants to see one of his paintings.",
-          "He begins to paint, pouring his emotions into the canvas.",
-          "He realizes the painting is for himself as well as his friend.",
-          "He delivers the painting and witnesses its effect on his friend.",
-          "The art world recognizes his return, but he prioritizes personal healing over fame."
-        ]
-      }
+      "key_info": [
+        {
+          "characters": [
+            "Marcus"
+          ],
+          "themes": [
+            "Redemption",
+            "Guilt and Forgiveness",
+            "Art as Therapy",
+            "The Power of Human Connection",
+            "Finding Purpose"
+          ],
+          "plot_points": [
+            "Marcus is a reclusive artist haunted by a past accident.",
+            "He receives a letter from a dying friend requesting a painting.",
+            "He reluctantly begins to paint, pouring his emotions into the canvas.",
+            "He realizes the painting is a bridge to his own redemption.",
+            "He delivers the painting and witnesses its impact on his friend.",
+            "He rediscovers his passion for art and its true purpose."
+          ]
+        }
+      ]
     },
     {
       "id": "doc3",
-      "key_info": {
-        "characters": [
-          "Elena Reyes"
-        ],
-        "themes": [
-          "Lost civilizations",
-          "The power of knowledge",
-          "The blurring of past and present",
-          "Identity and transformation",
-          "The allure and danger of the unknown"
-        ],
-        "plot_points": [
-          "Elena Reyes discovers an ancient manuscript.",
-          "Elena experiences strange occurrences while translating the manuscript.",
-          "Elena's colleagues urge her to stop, but she continues.",
-          "Elena vanishes after translating the final passage.",
-          "An archaeological dig reveals a mural depicting Elena as a high priestess."
-        ]
-      }
+      "key_info": [
+        {
+          "characters": [
+            "Elena Reyes"
+          ],
+          "themes": [
+            "Lost Civilizations",
+            "Identity",
+            "Time and Memory",
+            "The Supernatural",
+            "The Power of Knowledge"
+          ],
+          "plot_points": [
+            "Elena discovers an ancient manuscript",
+            "Elena experiences strange occurrences and dreams",
+            "Elena feels her identity shifting",
+            "Elena vanishes after translating the final passage",
+            "Elena's disappearance leads to an archaeological discovery",
+            "Elena is depicted as a priestess in a mural"
+          ]
+        }
+      ]
     }
   ]
 }

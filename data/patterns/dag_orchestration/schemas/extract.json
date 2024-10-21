@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "items": {
+    "extracted_items": {
       "type": "array",
       "items": {
         "type": "object",
