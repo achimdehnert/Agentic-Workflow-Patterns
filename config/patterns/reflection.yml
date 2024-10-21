@@ -1,18 +1,18 @@
 actor:
   draft:
-    system_instructions: './data/patterns/actor_critic/actor/draft/system_instructions.txt'
-    user_instructions: './data/patterns/actor_critic/actor/draft/user_instructions.txt'
-    response_schema: './data/patterns/actor_critic/actor/draft/response_schema.json'
+    system_instructions: './data/patterns/reflection/actor/draft/system_instructions.txt'
+    user_instructions: './data/patterns/reflection/actor/draft/user_instructions.txt'
+    response_schema: './data/patterns/reflection/actor/draft/response_schema.json'
   revise:
-    system_instructions: './data/patterns/actor_critic/actor/revise/system_instructions.txt'
-    user_instructions: './data/patterns/actor_critic/actor/revise/user_instructions.txt'
-    response_schema: './data/patterns/actor_critic/actor/revise/response_schema.json'
+    system_instructions: './data/patterns/reflection/actor/revise/system_instructions.txt'
+    user_instructions: './data/patterns/reflection/actor/revise/user_instructions.txt'
+    response_schema: './data/patterns/reflection/actor/revise/response_schema.json'
 critic:
   review:
-    system_instructions: './data/patterns/actor_critic/critic/review/system_instructions.txt'
-    user_instructions: './data/patterns/actor_critic/critic/review/user_instructions.txt'
-    response_schema: './data/patterns/actor_critic/critic/review/response_schema.json'
+    system_instructions: './data/patterns/reflection/critic/review/system_instructions.txt'
+    user_instructions: './data/patterns/reflection/critic/review/user_instructions.txt'
+    response_schema: './data/patterns/reflection/critic/review/response_schema.json'
   revise:
-    system_instructions: './data/patterns/actor_critic/critic/revise/system_instructions.txt'
-    user_instructions: './data/patterns/actor_critic/critic/revise/user_instructions.txt'
-    response_schema: './data/patterns/actor_critic/critic/revise/response_schema.json'
+    system_instructions: './data/patterns/reflection/critic/revise/system_instructions.txt'
+    user_instructions: './data/patterns/reflection/critic/revise/user_instructions.txt'
+    response_schema: './data/patterns/reflection/critic/revise/response_schema.json'
