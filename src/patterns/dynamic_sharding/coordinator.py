@@ -1,6 +1,6 @@
-from patterns.dynamic_sharding.delegates import Delegate
-from src.patterns.dynamic_sharding.message import Message
+from src.patterns.dynamic_sharding.delegates import Delegate
 from src.patterns.dynamic_sharding.agent import Agent
+from src.commons.message import Message
 from src.config.logging import logger
 from typing import List
 import asyncio

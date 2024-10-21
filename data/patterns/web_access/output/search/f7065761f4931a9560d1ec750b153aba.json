@@ -2,15 +2,15 @@
     "Top Results": [
         {
             "Position": 1,
-            "Title": "Denzel Washington",
-            "Link": "https://en.wikipedia.org/wiki/Denzel_Washington",
-            "Snippet": "Denzel Hayes Washington Jr. (born December 28, 1954) is an American actor, producer, and director. Known for his work spanning over four decades of screen ..."
-        },
-        {
-            "Position": 2,
             "Title": "Denzel Washington | Biography, Movies, Macbeth, Oscar ...",
             "Link": "https://www.britannica.com/biography/Denzel-Washington",
             "Snippet": "Denzel Washington (born December 28, 1954, Mount Vernon, New York, U.S.) is an American actor celebrated for his engaging and powerful ..."
+        },
+        {
+            "Position": 2,
+            "Title": "Denzel Washington",
+            "Link": "https://en.wikipedia.org/wiki/Denzel_Washington",
+            "Snippet": "Denzel Hayes Washington Jr. (born December 28, 1954) is an American actor, producer, and director. Known for his work spanning over four decades of screen ..."
         },
         {
             "Position": 3,

@@ -1,6 +1,6 @@
 
 from src.patterns.dynamic_sharding.coordinator import Coordinator
-from src.patterns.dynamic_sharding.message import Message
+from src.commons.message import Message
 from src.config.logging import logger
 import asyncio
 
@@ -38,6 +38,7 @@ async def pipeline() -> None:
         file.write(response.content)
 
     logger.info(f"Entity information has been saved to {OUTPUT_FILE}")
+
 
 if __name__ == "__main__":
     # Execute the pipeline within an asynchronous event loop

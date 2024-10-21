@@ -1,6 +1,6 @@
-from src.patterns.dynamic_sharding.message import Message
 from src.patterns.dynamic_sharding.agent import Agent
-from src.patterns.web_search.pipeline import run  
+from src.patterns.web_access.pipeline import run 
+from src.commons.message import Message 
 from src.config.logging import logger
 from typing import List
 import asyncio
@@ -9,7 +9,7 @@ import asyncio
 class Delegate(Agent):
     """
     An agent that processes a shard of entities by fetching information
-    using web search.
+    using web research.
 
     Attributes:
         name (str): The name of the shard processing agent.

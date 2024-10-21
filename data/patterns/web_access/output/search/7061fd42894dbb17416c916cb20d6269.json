@@ -2,15 +2,15 @@
     "Top Results": [
         {
             "Position": 1,
-            "Title": "Brad Pitt | Biography, Movies, & Facts",
-            "Link": "https://www.britannica.com/biography/Brad-Pitt",
-            "Snippet": "Brad Pitt (born December 18, 1963, Shawnee, Oklahoma, U.S.) is an American actor known for his portrayal of unconventional characters."
-        },
-        {
-            "Position": 2,
             "Title": "Brad Pitt",
             "Link": "https://en.wikipedia.org/wiki/Brad_Pitt",
             "Snippet": "William Bradley Pitt (born December 18, 1963) is an American actor and film producer. He is the recipient of various accolades, including two Academy Awards ..."
+        },
+        {
+            "Position": 2,
+            "Title": "Brad Pitt | Biography, Movies, & Facts",
+            "Link": "https://www.britannica.com/biography/Brad-Pitt",
+            "Snippet": "Brad Pitt (born December 18, 1963, Shawnee, Oklahoma, U.S.) is an American actor known for his portrayal of unconventional characters."
         },
         {
             "Position": 3,
