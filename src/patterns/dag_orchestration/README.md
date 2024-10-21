@@ -4,6 +4,8 @@
 
 The DAG (Directed Acyclic Graph) Orchestration Pattern is an advanced design pattern for managing complex workflows in a flexible and efficient manner. This pattern allows for the execution of multiple tasks in a specified order, with support for both parallel and serial task execution. The pattern uses a YAML-defined DAG to structure the workflow and a CoordinatorAgent to manage the execution.
 
+![DAG Orchestration](./img/frameworks/dag_orchestration.png)
+
 ## Key Components
 
 1. **CoordinatorAgent**: Manages the execution of the entire DAG, creating and running sub-agents as needed.
