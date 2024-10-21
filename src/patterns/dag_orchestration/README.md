@@ -15,11 +15,35 @@ The DAG (Directed Acyclic Graph) Orchestration Pattern is an advanced design pat
 
 ## Process Flow
 
-1. The CoordinatorAgent loads the DAG definition from a YAML file.
-2. The CoordinatorAgent executes tasks in the DAG based on their dependencies:
-   a. It identifies executable tasks (those with satisfied dependencies).
-   b. It creates the appropriate sub-agents for each executable task.
-   c. It runs the tasks in parallel when possible.
-   d. It collects and stores the results of each task.
-3. The CoordinatorAgent continues this process until all tasks in the DAG are completed.
-4. The final output is returned based on the last task in the DAG.
+1. **DAG Definition Loading**:
+   - The CoordinatorAgent reads and parses the YAML file containing the DAG definition.
+   - The DAG structure, including tasks, their dependencies, and associated agents, is loaded into memory.
+
+2. **Task Execution Preparation**:
+   - The CoordinatorAgent initializes the task states and prepares a list of pending tasks.
+
+3. **Iterative Task Execution**:
+   - The CoordinatorAgent enters a loop that continues until all tasks are completed:
+     a. **Identify Executable Tasks**:
+        - The coordinator scans the pending tasks to find those with all dependencies satisfied.
+     b. **Parallel Task Execution**:
+        - For each executable task:
+          - The appropriate sub-agent is dynamically created based on the task definition.
+          - Input data is collected from the results of dependent tasks.
+          - The task is submitted for asynchronous execution.
+     c. **Wait for Task Completion**:
+        - The coordinator waits for all submitted tasks to complete.
+     d. **Result Collection and State Update**:
+        - As tasks complete, their results are stored and task states are updated.
+     e. **Error Handling**:
+        - Any task failures are logged, and the overall process can continue if non-critical.
+
+4. **Final Output Generation**:
+   - Once all tasks are completed, the coordinator identifies the final task in the DAG.
+   - The result of this final task is prepared as the output of the entire workflow.
+
+5. **Cleanup and Reporting**:
+   - The coordinator performs any necessary cleanup operations.
+   - A final report or summary of the workflow execution may be generated.
+
+Throughout this process, the CoordinatorAgent manages the flow of data between tasks, ensures proper sequencing based on the DAG structure, and handles any errors or exceptions that occur during execution.
