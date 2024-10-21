@@ -8,17 +8,23 @@
             "Amelia"
           ],
           "themes": [
-            "Loss and Resilience",
-            "Inheritance and Purpose",
-            "Courage and Determination",
-            "The Power of Light"
+            "Legacy",
+            "Resilience",
+            "Duty",
+            "Hope",
+            "Courage",
+            "Loss",
+            "Family",
+            "Isolation"
           ],
           "plot_points": [
-            "Amelia's upbringing in the shadow of the lighthouse and her mother's absence",
-            "Her father's illness and her taking over his duties",
-            "The villagers' doubts and her unwavering resolve",
-            "The stormy night and the rescue of the fishing boat",
-            "Amelia's realization of her own purpose and legacy"
+            "Amelia grows up in a coastal village with her father, the lighthouse keeper.",
+            "Amelia's mother is absent, shaping her resilience.",
+            "Amelia's father falls ill, threatening to leave the lighthouse dark.",
+            "Amelia takes over her father's role, keeping the light burning.",
+            "Amelia guides a lost fishing boat to safety during a storm.",
+            "The villagers recognize Amelia's strength and courage.",
+            "Amelia realizes the lighthouse is her inheritance and purpose."
           ]
         }
       ]
@@ -33,17 +39,17 @@
           "themes": [
             "Redemption",
             "Guilt and Forgiveness",
-            "Art as Therapy",
-            "The Power of Human Connection",
-            "Finding Purpose"
+            "The Healing Power of Art",
+            "Finding Purpose",
+            "Legacy"
           ],
           "plot_points": [
-            "Marcus is a reclusive artist haunted by a past accident.",
-            "He receives a letter from a dying friend requesting a painting.",
-            "He reluctantly begins to paint, pouring his emotions into the canvas.",
-            "He realizes the painting is a bridge to his own redemption.",
-            "He delivers the painting and witnesses its impact on his friend.",
-            "He rediscovers his passion for art and its true purpose."
+            "Marcus, a renowned artist, becomes a recluse after a tragic accident caused by his recklessness.",
+            "He receives a letter from a dying friend who requests a painting from him.",
+            "Marcus reluctantly starts painting, using art as a cathartic process to deal with his guilt and regret.",
+            "He realizes the painting is not just for his friend but also for his own redemption and a bridge to his future.",
+            "Marcus delivers the painting and witnesses the joy it brings to his friend.",
+            "His return to art is met with anticipation, but he no longer seeks fame, understanding the true power of art lies in healing, connection, and human spirit."
           ]
         }
       ]
@@ -57,18 +63,16 @@
           ],
           "themes": [
             "Lost Civilizations",
-            "Identity",
             "Time and Memory",
-            "The Supernatural",
+            "Identity and Transformation",
             "The Power of Knowledge"
           ],
           "plot_points": [
             "Elena discovers an ancient manuscript",
-            "Elena experiences strange occurrences and dreams",
-            "Elena feels her identity shifting",
+            "Strange occurrences begin to plague Elena",
+            "Elena's colleagues urge her to stop",
             "Elena vanishes after translating the final passage",
-            "Elena's disappearance leads to an archaeological discovery",
-            "Elena is depicted as a priestess in a mural"
+            "A mural depicting Elena as a high priestess is discovered"
           ]
         }
       ]
