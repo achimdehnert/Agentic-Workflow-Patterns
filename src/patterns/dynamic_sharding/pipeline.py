@@ -1,4 +1,3 @@
-
 from src.patterns.dynamic_sharding.coordinator import Coordinator
 from src.commons.message import Message
 from src.config.logging import logger

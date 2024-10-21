@@ -1,4 +1,4 @@
-from src.patterns.task_orchestration.coordinator import CoordinatorAgent
+from src.patterns.dag_orchestration.coordinator import CoordinatorAgent
 from src.commons.message import Message
 from src.config.logging import logger
 from typing import Any
