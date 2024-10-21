@@ -1,4 +1,4 @@
-from src.patterns.task_orchestration.message import Message
+from src.commons.message import Message
 from jsonschema import ValidationError
 from src.config.logging import logger
 from json import JSONDecodeError

@@ -1,5 +1,5 @@
 from src.patterns.task_orchestration.coordinator import CoordinatorAgent
-from src.patterns.task_orchestration.message import Message
+from src.commons.message import Message
 from src.config.logging import logger
 from typing import Any
 import asyncio
