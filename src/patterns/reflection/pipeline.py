@@ -4,8 +4,8 @@ from src.memory.manage import StateManager
 from src.config.logging import logger
 
 # Static configuration variables
-CONFIG_PATH: str = './config/patterns/actor_critic.yml'
-OUTPUT_DIR: str = './data/patterns/actor_critic/output'
+CONFIG_PATH: str = './config/patterns/reflection.yml'
+OUTPUT_DIR: str = './data/patterns/reflection/output'
 
 
 class Runner:
