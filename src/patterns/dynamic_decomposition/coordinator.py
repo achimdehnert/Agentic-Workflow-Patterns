@@ -1,9 +1,10 @@
-from src.patterns.dynamic_task_decomposition.delegates import SubTaskAgent
+from src.patterns.dynamic_decomposition.delegates import SubTaskAgent
+from src.patterns.dynamic_decomposition.agent import Agent
 from src.llm.generate import ResponseGenerator
 from src.commons.message import Message
 from src.config.logging import logger
-from src.commons.agent import Agent
-from typing import List, Any
+from typing import List
+from typing import Any 
 import asyncio
 import json
 

@@ -1,7 +1,7 @@
+from src.patterns.dynamic_decomposition.agent import Agent
 from src.llm.generate import ResponseGenerator
 from src.commons.message import Message
 from src.config.logging import logger
-from src.commons.agent import Agent
 import asyncio
 
 
