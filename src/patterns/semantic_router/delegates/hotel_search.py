@@ -1,6 +1,6 @@
-from src.patterns.web_search.pipeline import run as web_search
-from src.patterns.coordinator_delegate.message import Message
-from src.patterns.coordinator_delegate.agent import Agent
+from src.patterns.web_access.pipeline import run as web_search
+from src.patterns.semantic_router.agent import Agent
+from src.commons.message import Message
 from src.config.logging import logger
 from typing import Optional
 import json
