@@ -5,7 +5,7 @@ tasks:
     dependencies: []
     agent: CollectAgent
     input_schema: null
-    output_schema: doc_collection_schema.json
+    output_schema: collect.json
 
   - id: task2
     name: PreprocessAgent
@@ -13,8 +13,8 @@ tasks:
     dependencies:
       - task1
     agent: PreprocessAgent
-    input_schema: doc_collection_schema.json
-    output_schema: preprocessed_docs_schema.json
+    input_schema: collect.json
+    output_schema: preprocess.json
 
   - id: task3
     name: ExtractAgent
@@ -22,8 +22,8 @@ tasks:
     dependencies:
       - task2
     agent: ExtractAgent
-    input_schema: preprocessed_docs_schema.json
-    output_schema: key_info_schema.json
+    input_schema: preprocess.json
+    output_schema: extract.json
 
   - id: task4
     name: SummarizeAgent
@@ -31,8 +31,8 @@ tasks:
     dependencies:
       - task2
     agent: SummarizeAgent
-    input_schema: preprocessed_docs_schema.json
-    output_schema: summaries_schema.json
+    input_schema: preprocess.json
+    output_schema: summarize.json
 
   - id: task5
     name: CompileAgent
@@ -42,6 +42,6 @@ tasks:
       - task4
     agent: CompileAgent
     input_schema:
-      - key_info_schema.json
-      - summaries_schema.json
+      - extract.json
+      - summarize.json
     output_schema: final_report_schema.json
