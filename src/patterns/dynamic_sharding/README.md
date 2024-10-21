@@ -6,6 +6,10 @@ The **Dynamic Sharding Pattern** is an architectural approach designed to effici
 
 This project demonstrates the Dynamic Sharding Pattern by fetching biographies of a list of celebrities using web search. The coordinator agent dynamically shards the list of celebrity names and processes each shard concurrently through dynamically created sub-agents.
 
+<p align="center">
+    <img src="../../../img/framework/dynamic_sharding.png" alt="Dynamic Sharding" width="500"/>
+</p>
+
 ## Architecture Pattern Explained
 
 ### Key Components
