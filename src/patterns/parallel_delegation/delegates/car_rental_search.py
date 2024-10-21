@@ -1,10 +1,11 @@
-from src.patterns.coordinator_delegate.message import Message
-from src.patterns.coordinator_delegate.agent import Agent
-from src.patterns.web_search.pipeline import run
+from src.patterns.parallel_delegation.agent import Agent
+from src.patterns.web_access.pipeline import run
+from src.commons.message import Message
 from src.config.logging import logger
-from typing import Dict, Any
+from typing import Dict
+from typing import Any 
+import asyncio 
 import json
-import asyncio  # Import asyncio for asynchronous functionalities
 
 
 class CarRentalSearchAgent(Agent):

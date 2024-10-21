@@ -1,5 +1,5 @@
-from src.patterns.parallel_delegates.message import Message
-from src.patterns.parallel_delegates.agent import Agent
+from src.patterns.parallel_delegation.agent import Agent
+from src.commons.message import Message
 from src.config.logging import logger
 from typing import List
 from typing import Dict 

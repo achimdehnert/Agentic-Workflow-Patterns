@@ -2,7 +2,8 @@ from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
 from src.commons.message import Message
 from src.config.logging import logger
-from abc import abstractmethod, ABC
+from abc import abstractmethod
+from abc import ABC
 
 
 class Agent(ABC):
@@ -12,6 +13,8 @@ class Agent(ABC):
     Shared resources like TemplateManager and ResponseGenerator are initialized here for all agents.
     """
 
+    TEMPLATE_PATH = './config/patterns/parallel_delegation.yml'
+
     def __init__(self, name: str) -> None:
         """
         Initializes the Agent with a name, TemplateManager, and ResponseGenerator.
@@ -19,7 +22,7 @@ class Agent(ABC):
         :param name: Name of the agent.
         """
         self.name = name
-        self.template_manager = TemplateManager('./config/patterns/parallel_delegates.yml')
+        self.template_manager = TemplateManager(self.TEMPLATE_PATH)
         self.response_generator = ResponseGenerator()
         logger.info(f"Agent {self.name} initialized with shared resources.")
 

@@ -1,8 +1,8 @@
-from src.patterns.parallel_delegates.delegates.car_rental_search import CarRentalSearchAgent
-from src.patterns.parallel_delegates.delegates.flight_search import FlightSearchAgent
-from src.patterns.parallel_delegates.delegates.hotel_search import HotelSearchAgent
-from src.patterns.parallel_delegates.coordinator import TravelPlannerAgent
-from src.patterns.parallel_delegates.message import Message
+from src.patterns.parallel_delegation.delegates.car_rental_search import CarRentalSearchAgent
+from src.patterns.parallel_delegation.delegates.flight_search import FlightSearchAgent
+from src.patterns.parallel_delegation.delegates.hotel_search import HotelSearchAgent
+from src.patterns.parallel_delegation.coordinator import TravelPlannerAgent
+from src.commons.message import Message
 from src.config.logging import logger
 from typing import Optional
 import asyncio
