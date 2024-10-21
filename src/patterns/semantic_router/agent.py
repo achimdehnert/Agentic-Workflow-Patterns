@@ -13,6 +13,8 @@ class Agent(ABC):
     Shared resources like TemplateManager and ResponseGenerator are initialized here for all agents.
     """
 
+    TEMPLATE_PATH = './config/patterns/semantic_router.yml'
+
     def __init__(self, name: str) -> None:
         """
         Initializes the Agent with a name, TemplateManager, and ResponseGenerator.
@@ -20,7 +22,7 @@ class Agent(ABC):
         :param name: Name of the agent.
         """
         self.name = name
-        self.template_manager = TemplateManager('./config/patterns/coordinator_delegate.yml')
+        self.template_manager = TemplateManager(self.TEMPLATE_PATH)
         self.response_generator = ResponseGenerator()
         logger.info(f"Agent {self.name} initialized with shared resources.")
 
