@@ -1,6 +1,6 @@
 from coordinator import CoordinatorAgent
+from src.commons.message import Message
 from src.config.logging import logger
-from message import Message
 import asyncio
 
 

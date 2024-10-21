@@ -1,6 +1,6 @@
-from src.patterns.task_decomposition.message import Message
 from src.patterns.task_decomposition.agent import Agent
 from src.llm.generate import ResponseGenerator
+from src.commons.message import Message
 from src.config.logging import logger
 import asyncio
 
