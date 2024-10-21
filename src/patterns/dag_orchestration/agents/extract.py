@@ -100,7 +100,7 @@ class ExtractAgent(Agent):
                 ).text.strip()
 
             extraction_result = await asyncio.to_thread(blocking_call)
-            logger.info(f"LLM Response for document '{doc_title}': {extraction_result}")
+            logger.debug(f"LLM Response for document '{doc_title}': {extraction_result}")
 
             extracted_data = extract_json_from_response(extraction_result)
             if not extracted_data:
