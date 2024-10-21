@@ -6,7 +6,7 @@ The DAG (Directed Acyclic Graph) Orchestration Pattern is an advanced design pat
 
 ![DAG Orchestration](../../../img/framework/dag_orchestration.png)
 
-<img src="../../../img/framework/dag_orchestration.png" alt="DAG Orchestration" width="300"/>
+<img src="../../../img/framework/dag_orchestration.png" alt="DAG Orchestration" width="500"/>
 
 ## Key Components
 
