@@ -1,30 +1,35 @@
-from src.patterns.task_decomposition.message import Message
+from src.commons.message import Message
+from abc import abstractmethod 
+from abc import ABC
 
-class Agent:
+
+class Agent(ABC):
     """
-    A base class for agents in the system.
-
-    Attributes:
-        name (str): The name of the agent.
+    A base class representing an agent responsible for processing messages 
+    and validating input and output data based on given JSON schemas.
     """
 
     def __init__(self, name: str) -> None:
         """
-        Initializes the Agent.
-
+        Initializes the agent with a given name.
+        
         Args:
             name (str): The name of the agent.
         """
         self.name = name
 
+    @abstractmethod
     async def process(self, message: 'Message') -> 'Message':
         """
-        Processes a message.
-
+        Abstract method to process the message.
+        
         Args:
-            message (Message): The message to process.
-
+            message (Message): A message object containing relevant data.
+        
         Returns:
-            Message: The response message.
+            Message: Processed message.
+        
+        Raises:
+            NotImplementedError: If not overridden by a subclass.
         """
         raise NotImplementedError("This method should be implemented by subclasses.")
