@@ -1,1 +1,1 @@
-This pattern captures the idea of a central controller (coordinator) delegating tasks to specialized agents (subordinates).
+# Semantic Router
