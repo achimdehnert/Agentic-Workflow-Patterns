@@ -1,4 +1,4 @@
-# Dynamic Sharding Pattern 
+# Pattern 5 - Dynamic Sharding Pattern 
 
 ## Overview
 

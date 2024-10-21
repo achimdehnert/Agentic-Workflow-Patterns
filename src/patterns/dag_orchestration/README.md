@@ -1,4 +1,4 @@
-# DAG Orchestration Pattern
+# Pattern 8 - DAG Orchestration Pattern
 
 ## Overview
 
