@@ -19,8 +19,8 @@ class CollectAgent(Agent):
 
     async def process(self, message: Message) -> Message:
         """
-        Preprocesses collected documents by cleaning the content using an LLM. This is especially useful if the collected
-        content is read using OCR or scraped from the web.
+        Preprocesses collected documents by cleaning the content using an LLM. This is particularly useful if the collected
+        content is obtained via OCR or web scraping, which often requires further processing.
 
         Args:
             message (Message): The input message containing collected documents.
@@ -32,21 +32,22 @@ class CollectAgent(Agent):
             RuntimeError: If document preprocessing or validation fails.
         """
         logger.info(f"{self.name} started collecting documents.")
-        input_data = message.content
+        # Uncomment and use the following line if the message content needs to be processed or accessed 
+        # before orchestrating subtasks.
+        # input_data = message.content  
 
         try:
-            # Await the collection of documents
+            # Asynchronously collect documents from the specified folder
             docs = await self._collect_documents(self.DOCS_FOLDER)
             
-            # Validate the collected documents against the schema
+            # Validate the collected documents against the defined schema for consistency
             self.validate_output(docs, self.SCHEMA_PATH)
         except Exception as e:
             logger.error(f"Validation failed for collected documents: {e}")
-            raise RuntimeError(f"Validation failed for collected documents") from e
+            raise RuntimeError("Validation failed for collected documents") from e
 
         logger.info(f"{self.name} successfully collected and validated documents.")
         return Message(content=docs, sender=self.name, recipient=message.sender)
-
 
     async def _collect_documents(self, folder_path: str) -> Dict[str, List[Dict[str, Any]]]:
         """
