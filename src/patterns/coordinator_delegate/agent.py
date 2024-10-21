@@ -1,6 +1,6 @@
-from src.patterns.coordinator_delegate.message import Message
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
+from src.commons.message import Message
 from src.config.logging import logger
 from abc import abstractmethod
 from abc import ABC 
