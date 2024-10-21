@@ -1,7 +1,7 @@
 tools:
   search:
-    system_instructions: './data/patterns/web_search/search/system_instructions.txt'
-    user_instructions: './data/patterns/web_search/search/user_instructions.txt'
+    system_instructions: './data/patterns/web_access/search/system_instructions.txt'
+    user_instructions: './data/patterns/web_access/search/user_instructions.txt'
   summarize:
-    system_instructions: './data/patterns/web_search/summarize/system_instructions.txt'
-    user_instructions: './data/patterns/web_search/summarize/user_instructions.txt'
+    system_instructions: './data/patterns/web_access/summarize/system_instructions.txt'
+    user_instructions: './data/patterns/web_access/summarize/user_instructions.txt'
