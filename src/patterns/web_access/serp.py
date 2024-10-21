@@ -12,7 +12,7 @@ import os
 
 # Static paths
 CREDENTIALS_PATH = './credentials/key.yml'
-SEARCH_RESULTS_OUTPUT_DIR = './data/patterns/web_search/output/search'
+SEARCH_RESULTS_OUTPUT_DIR = './data/patterns/web_access/output/search'
 
 class SerpAPIClient:
     """

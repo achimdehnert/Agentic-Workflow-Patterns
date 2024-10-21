@@ -1,4 +1,4 @@
-from src.patterns.web_search.factory import TaskFactory
+from src.patterns.web_access.factory import TaskFactory
 from src.config.logging import logger
 from typing import Optional
 import shutil
@@ -20,9 +20,9 @@ class Pipeline:
         self._scrape_task = TaskFactory.create_scrape_task()
         self._summarize_task = TaskFactory.create_summarize_task()
         self._output_folders = [
-            './data/patterns/web_search/output/search',
-            './data/patterns/web_search/output/scrape',
-            './data/patterns/web_search/output/summarize'
+            './data/patterns/web_access/output/search',
+            './data/patterns/web_access/output/scrape',
+            './data/patterns/web_access/output/summarize'
         ]
 
     def _flush_output_folders(self):

@@ -1,4 +1,4 @@
-from src.patterns.web_search.tasks import ScrapeTask
+from src.patterns.web_access.tasks import ScrapeTask
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
 from src.utils.io import generate_filename
@@ -25,8 +25,8 @@ class WebScrapeAgent(ScrapeTask):
         OUTPUT_DIR (str): Directory path where scraped content is saved.
         MAX_WORKERS (int): Maximum number of concurrent threads for scraping.
     """
-    INPUT_DIR = "./data/patterns/web_search/output/search"
-    OUTPUT_DIR = "./data/patterns/web_search/output/scrape"
+    INPUT_DIR = "./data/patterns/web_access/output/search"
+    OUTPUT_DIR = "./data/patterns/web_access/output/scrape"
     MAX_WORKERS = 10
 
     @staticmethod

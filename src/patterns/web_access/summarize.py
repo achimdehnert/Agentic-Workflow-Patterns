@@ -1,4 +1,4 @@
-from src.patterns.web_search.tasks import SummarizeTask
+from src.patterns.web_access.tasks import SummarizeTask
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
 from src.utils.io import generate_filename
@@ -17,9 +17,9 @@ class WebContentSummarizeAgent(SummarizeTask):
         OUTPUT_DIR (str): Directory path to save generated summaries.
         TEMPLATE_PATH (str): Path to template configuration file for generating instructions.
     """
-    INPUT_DIR = './data/patterns/web_search/output/scrape'
-    OUTPUT_DIR = './data/patterns/web_search/output/summarize'
-    TEMPLATE_PATH = './config/patterns/web_search.yml'
+    INPUT_DIR = './data/patterns/web_access/output/scrape'
+    OUTPUT_DIR = './data/patterns/web_access/output/summarize'
+    TEMPLATE_PATH = './config/patterns/web_access.yml'
 
     def __init__(self) -> None:
         """

@@ -1,9 +1,9 @@
-from src.patterns.web_search.summarize import WebContentSummarizeAgent
-from src.patterns.web_search.search import WebSearchAgent
-from src.patterns.web_search.scrape import WebScrapeAgent
-from src.patterns.web_search.tasks import SummarizeTask
-from src.patterns.web_search.tasks import SearchTask
-from src.patterns.web_search.tasks import ScrapeTask
+from src.patterns.web_access.summarize import WebContentSummarizeAgent
+from src.patterns.web_access.search import WebSearchAgent
+from src.patterns.web_access.scrape import WebScrapeAgent
+from src.patterns.web_access.tasks import SummarizeTask
+from src.patterns.web_access.tasks import SearchTask
+from src.patterns.web_access.tasks import ScrapeTask
 from src.config.logging import logger
 
 

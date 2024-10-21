@@ -1,7 +1,7 @@
 from vertexai.preview.generative_models import FunctionDeclaration
 from vertexai.preview.generative_models import GenerationResponse
-from src.patterns.web_search.serp import run as google_search
-from src.patterns.web_search.tasks import SearchTask
+from src.patterns.web_access.serp import run as google_search
+from src.patterns.web_access.tasks import SearchTask
 from vertexai.preview.generative_models import Tool
 from src.llm.generate import ResponseGenerator
 from src.prompt.manage import TemplateManager
@@ -21,7 +21,7 @@ class WebSearchAgent(SearchTask):
         response_generator (ResponseGenerator): Instance to generate responses from the language model.
         template_manager (TemplateManager): Manages and fills templates for search instructions.
     """
-    TEMPLATE_PATH = './config/patterns/web_search.yml'
+    TEMPLATE_PATH = './config/patterns/web_access.yml'
 
     def __init__(self) -> None:
         """
