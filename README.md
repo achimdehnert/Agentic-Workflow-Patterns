@@ -32,7 +32,7 @@ The pattern follows an iterative workflow where the Actor generates content, the
 The **Web Access** pattern implements an agentic workflow for retrieving, processing, and summarizing web content. This pattern orchestrates a pipeline of specialized agents that handle different aspects of web content acquisition and processing through search, scrape, and summarize operations. It leverages the SERP API for web searches and language models for generating queries and summaries.
 
 <p align="center">
-    <img src="./img/framework/web_access.png" alt="Web Access" width="375"/>
+    <img src="./img/framework/web_access.png" alt="Web Access" width="350"/>
 </p>
 
 ### Pattern 3 - Semantic Routing
@@ -50,7 +50,7 @@ The **Parallel Delegation** pattern implements an agentic workflow that processe
 The pattern leverages asynchronous processing and parallel execution to optimize performance while maintaining a coordinated workflow through a central coordinator agent.
 
 <p align="center">
-    <img src="./img/framework/parallel_delegation.png" alt="Parallel Delegation" width="800"/>
+    <img src="./img/framework/parallel_delegation.png" alt="Parallel Delegation" width="700"/>
 </p>
 
 ### Pattern 5 - Dynamic Sharding
@@ -82,7 +82,7 @@ The **Dynamic Decomposition** is an advanced design pattern where a *Coordinator
 The **DAG (Directed Acyclic Graph) Orchestration Pattern** is an advanced design pattern for managing complex workflows in a flexible and efficient manner. This pattern allows for the execution of multiple tasks in a specified order, with support for both parallel and serial task execution. The pattern uses a YAML-defined DAG to structure the workflow and a Coordinator Agent to manage the execution.
 
 <p align="center">
-    <img src="./img/framework/dag_orchestration.png" alt="DAG Orchestration" width="650"/>
+    <img src="./img/framework/dag_orchestration.png" alt="DAG Orchestration" width="600"/>
 </p>
 
 ## Getting Started
