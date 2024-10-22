@@ -1,7 +1,3 @@
-Here’s the modified version, incorporating your individual pattern descriptions and figures before the "Getting Started" section:
-
----
-
 # Agentic Workflow Patterns
 
 **Agentic Workflow Patterns** is a repository showcasing best practices and design patterns for building agentic workflows in Python. This repository emphasizes modular, scalable, and reusable design techniques, aiming to facilitate intelligent automation and robust workflow management.
