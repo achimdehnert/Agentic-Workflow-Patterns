@@ -5,7 +5,7 @@
 The **Web Access** pattern implements an agentic workflow for retrieving, processing, and summarizing web content. This pattern orchestrates a pipeline of specialized agents that handle different aspects of web content acquisition and processing through search, scrape, and summarize operations. It leverages the SERP API for web searches and language models for generating queries and summaries.
 
 <p align="center">
-    <img src="../../../img/framework/web_access.png" alt="Web Access" width="500"/>
+    <img src="../../../img/framework/web_access.png" alt="Web Access" width="400"/>
 </p>
 
 ## Key Components
