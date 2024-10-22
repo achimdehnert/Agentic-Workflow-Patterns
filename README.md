@@ -50,7 +50,7 @@ The **Parallel Delegation** pattern implements an agentic workflow that processe
 The pattern leverages asynchronous processing and parallel execution to optimize performance while maintaining a coordinated workflow through a central coordinator agent.
 
 <p align="center">
-    <img src="./img/framework/parallel_delegation.png" alt="Parallel Delegation" width="700"/>
+    <img src="./img/framework/parallel_delegation.png" alt="Parallel Delegation" width="600"/>
 </p>
 
 ### Pattern 5 - Dynamic Sharding
