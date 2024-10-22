@@ -7,7 +7,7 @@ The **Semantic Routing** pattern implements an agentic workflow for intelligentl
 The pattern leverages language models for intent detection and query processing, ensuring that each request is handled by the most appropriate specialized agent.
 
 <p align="center">
-    <img src="../../../img/framework/semantic_router.png" alt="Semantic Router" width="500"/>
+    <img src="../../../img/framework/semantic_router.png" alt="Semantic Router" width="1000"/>
 </p>
 
 ## Key Components
