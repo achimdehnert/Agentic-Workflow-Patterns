@@ -25,14 +25,14 @@ The **Reflection** pattern implements an iterative content generation and refine
 The pattern follows an iterative workflow where the Actor generates content, the Critic reviews it, and then both components revise their work based on the accumulated state history. This process continues for a specified number of cycles, leading to progressively refined content.
 
 <p align="center">
-    <img src="../../../img/framework/reflection.png" alt="Reflection" width="475"/>
+    <img src="./img/framework/reflection.png" alt="Reflection" width="475"/>
 </p>
 
 ### Pattern 2 - Web Access
 The **Web Access** pattern implements an agentic workflow for retrieving, processing, and summarizing web content. This pattern orchestrates a pipeline of specialized agents that handle different aspects of web content acquisition and processing through search, scrape, and summarize operations. It leverages the SERP API for web searches and language models for generating queries and summaries.
 
 <p align="center">
-    <img src="../../../img/framework/web_access.png" alt="Web Access" width="375"/>
+    <img src="./img/framework/web_access.png" alt="Web Access" width="375"/>
 </p>
 
 ### Pattern 3 - Semantic Routing
@@ -41,7 +41,7 @@ The **Semantic Routing** pattern implements an agentic workflow for intelligentl
 The pattern leverages language models for intent detection and query processing, ensuring that each request is handled by the most appropriate specialized agent.
 
 <p align="center">
-    <img src="../../../img/framework/semantic_router.png" alt="Semantic Router" width="1000"/>
+    <img src="./img/framework/semantic_router.png" alt="Semantic Router" width="1000"/>
 </p>
 
 ### Pattern 4 - Parallel Delegation
@@ -68,21 +68,21 @@ The **Task Decomposition** pattern is a design pattern where a *Coordinator Agen
 This pattern is beneficial for enhancing efficiency and scalability, especially for tasks that can be divided into smaller, independently executable units.
 
 <p align="center">
-    <img src="../../../img/framework/task_decomposition.png" alt="Task Decomposition" width="775"/>
+    <img src="./img/framework/task_decomposition.png" alt="Task Decomposition" width="775"/>
 </p>
 
 ### Pattern 7 - Dynamic Decomposition
 The **Dynamic Decomposition** is an advanced design pattern where a *Coordinator Agent* autonomously decomposes a complex task into multiple subtasks without predefined structures. The coordinator uses a Language Model (LLM) to generate subtasks, which are then processed by separate *Sub-Task Agents* in parallel. After all subtasks are completed, the coordinator gathers and combines the results to produce a structured summary.
 
 <p align="center">
-    <img src="../../../img/framework/dynamic_decomposition.png" alt="Dynamic Decomposition" width="800"/>
+    <img src="./img/framework/dynamic_decomposition.png" alt="Dynamic Decomposition" width="800"/>
 </p>
 
 ### Pattern 8 - DAG Orchestration
 The **DAG (Directed Acyclic Graph) Orchestration Pattern** is an advanced design pattern for managing complex workflows in a flexible and efficient manner. This pattern allows for the execution of multiple tasks in a specified order, with support for both parallel and serial task execution. The pattern uses a YAML-defined DAG to structure the workflow and a Coordinator Agent to manage the execution.
 
 <p align="center">
-    <img src="../../../img/framework/dag_orchestration.png" alt="DAG Orchestration" width="650"/>
+    <img src="./img/framework/dag_orchestration.png" alt="DAG Orchestration" width="650"/>
 </p>
 
 ## Getting Started
