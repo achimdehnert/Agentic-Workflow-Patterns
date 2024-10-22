@@ -21,11 +21,6 @@ The Actor is responsible for content generation and revision:
 - Revises drafts based on the Critic's feedback and previous versions
 - Maintains version history of drafts
 
-Key classes:
-- `Actor`: Main agent class for content generation
-- `DraftGenerator`: Generates initial drafts
-- `RevisionGenerator`: Produces revised versions of drafts
-
 ### Critic
 
 The Critic provides feedback and analysis:
