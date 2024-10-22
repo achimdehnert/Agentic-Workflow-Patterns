@@ -4,7 +4,7 @@
 The **Dynamic Decomposition** is an advanced design pattern where a *Coordinator Agent* autonomously decomposes a complex task into multiple subtasks without predefined structures. The coordinator uses a Language Model (LLM) to generate subtasks, which are then processed by separate *Sub-Task Agents* in parallel. After all subtasks are completed, the coordinator gathers and combines the results to produce a structured summary.
 
 <p align="center">
-    <img src="../../../img/framework/dynamic_decomposition.png" alt="Dynamic Decomposition" width="600"/>
+    <img src="../../../img/framework/dynamic_decomposition.png" alt="Dynamic Decomposition" width="800"/>
 </p>
 
 ## Key Components
