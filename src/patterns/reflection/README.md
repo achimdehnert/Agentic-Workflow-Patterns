@@ -2,9 +2,9 @@
 
 ## Overview
 
-The **Reflection** pattern implements an iterative content generation and refinement system using an Actor-Critic framework. This pattern enables self-improving content generation through continuous feedback loops between an Actor (content generator) and a Critic (content reviewer).
+The **Reflection pattern** implements an iterative content generation and refinement system using an Actor-Critic framework. This pattern enables self-improving content generation through continuous feedback loops between an Actor (content generator) and a Critic (content reviewer).
 
-The pattern follows an iterative workflow where the Actor generates content, the Critic reviews it, and then both components revise their work based on the accumulated state history. This process continues for a specified number of cycles, leading to progressively refined content.
+The pattern follows an iterative workflow where the Actor generates content (which can include text, code, or any LLM output), the Critic reviews it, and then both components revise their work based on the accumulated state history. This process continues for a specified number of cycles, leading to progressively refined content.
 
 <p align="center">
     <img src="../../../img/framework/reflection.png" alt="Reflection" width="475"/>
