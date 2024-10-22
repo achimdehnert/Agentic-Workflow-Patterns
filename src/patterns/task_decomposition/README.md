@@ -7,7 +7,7 @@ The **Task Decomposition** is a design pattern where a *Coordinator Agent* manag
 This pattern is beneficial for enhancing efficiency and scalability, especially for tasks that can be divided into smaller, independently executable units.
 
 <p align="center">
-    <img src="../../../img/framework/task_decomposition.png" alt="Task Decomposition" width="675"/>
+    <img src="../../../img/framework/task_decomposition.png" alt="Task Decomposition" width="775"/>
 </p>
 
 ## Key Components
