@@ -57,7 +57,7 @@ The **Parallel Delegation** pattern processes complex queries by identifying dis
 </p>
 
 ### Pattern 5 - Dynamic Sharding 
-The **Dynamic Sharding Pattern** efficiently processes large datasets by dynamically dividing the workload into smaller, manageable shards and processing them in parallel. This pattern is demonstrated by fetching biographies of celebrities using web search.
+The **Dynamic Sharding Pattern** efficiently processes large datasets by dynamically dividing the workload into smaller, manageable shards and processing them in parallel. This pattern is demonstrated by fetching biographies of celebrities using web search (discussed in Pattern 2).
 
 🔗 **All code for this pattern can be found [here](https://github.com/arunpshankar/Agentic-Workflow-Patterns/tree/main/src/patterns/dynamic_sharding)**.
 
@@ -75,7 +75,7 @@ The **Task Decomposition** pattern divides a complex task into independent subta
 </p>
 
 ### Pattern 7 - Dynamic Decomposition 
-The **Dynamic Decomposition** pattern autonomously decomposes complex tasks into multiple subtasks using a Language Model (LLM) to generate subtasks, processed by separate agents.
+The **Dynamic Decomposition** pattern autonomously decomposes complex tasks into multiple subtasks using a Large Language Model (LLM) to generate subtasks, processed by separate agents.
 
 🔗 **All code for this pattern can be found [here](https://github.com/arunpshankar/Agentic-Workflow-Patterns/tree/main/src/patterns/dynamic_decomposition)**.
 
