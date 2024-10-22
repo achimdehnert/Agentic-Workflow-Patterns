@@ -50,7 +50,7 @@ The **Parallel Delegation** pattern implements an agentic workflow that processe
 The pattern leverages asynchronous processing and parallel execution to optimize performance while maintaining a coordinated workflow through a central coordinator agent.
 
 <p align="center">
-    <img src="../../../img/framework/parallel_delegation.png" alt="Parallel Delegation" width="800"/>
+    <img src="./img/framework/parallel_delegation.png" alt="Parallel Delegation" width="800"/>
 </p>
 
 ### Pattern 5 - Dynamic Sharding
@@ -59,7 +59,7 @@ The **Dynamic Sharding Pattern** is an architectural approach designed to effici
 This project demonstrates the Dynamic Sharding Pattern by fetching biographies of a list of celebrities using web search. The coordinator agent dynamically shards the list of celebrity names and processes each shard concurrently through dynamically created sub-agents.
 
 <p align="center">
-    <img src="../../../img/framework/dynamic_sharding.png" alt="Dynamic Sharding" width="800"/>
+    <img src="./img/framework/dynamic_sharding.png" alt="Dynamic Sharding" width="800"/>
 </p>
 
 ### Pattern 6 - Task Decomposition
