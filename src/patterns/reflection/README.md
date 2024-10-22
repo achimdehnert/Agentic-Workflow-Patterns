@@ -7,7 +7,7 @@ The **Reflection** pattern implements an iterative content generation and refine
 The pattern follows an iterative workflow where the Actor generates content, the Critic reviews it, and then both components revise their work based on the accumulated state history. This process continues for a specified number of cycles, leading to progressively refined content.
 
 <p align="center">
-    <img src="../../../img/framework/reflection.png" alt="Reflection" width="500"/>
+    <img src="../../../img/framework/reflection.png" alt="Reflection" width="475"/>
 </p>
 
 ## Key Components
