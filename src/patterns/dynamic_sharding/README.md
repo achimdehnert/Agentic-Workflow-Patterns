@@ -2,9 +2,11 @@
 
 ## Overview
 
-The **Dynamic Sharding Pattern** is an architectural approach designed to efficiently process large datasets by dynamically dividing the workload into smaller, manageable shards and processing them in parallel. This pattern enhances scalability, optimizes resource utilization, and improves the overall performance of systems handling extensive data or requests.
+The Dynamic Sharding Pattern is an architectural approach designed to efficiently process large datasets by dynamically dividing the workload into smaller, manageable shards and processing them in parallel. This pattern enhances scalability, optimizes resource utilization, and improves the overall performance of systems handling extensive data or requests.
+This pattern can be demonstrated through a practical example of fetching biographies of celebrities using web search. The coordinator agent dynamically shards the list of celebrity names and processes each shard concurrently through dynamically created sub-agents.
+The coordinator agent in this example represents a basic implementation where it is used to spawn (create) the sub-agents based on the shard size and the size of the items to be processed. 
 
-This project demonstrates the Dynamic Sharding Pattern by fetching biographies of a list of celebrities using web search. The coordinator agent dynamically shards the list of celebrity names and processes each shard concurrently through dynamically created sub-agents.
+💡 In a more advanced implementation, this agent can leverage an LLM to deduce patterns and allocate sub-agents by identified classes or groups of shards of varying sizes.
 
 <p align="center">
     <img src="../../../img/framework/dynamic_sharding.png" alt="Dynamic Sharding" width="800"/>
@@ -17,7 +19,7 @@ This project demonstrates the Dynamic Sharding Pattern by fetching biographies o
 1. **Coordinator Agent**:
    - **Role**: Orchestrates the entire data processing workflow.
    - **Responsibilities**:
-     - Receives the complete list of items to process (e.g., celebrity names) along with the desired shard size.
+     - Receives the complete list of items to process (e.g., celebrity names in our example implementation) along with the desired shard size.
      - Dynamically divides the list into smaller shards based on the shard size.
      - Creates sub-agents dynamically for each shard.
      - Initiates parallel processing by assigning shards to sub-agents.
@@ -61,7 +63,7 @@ This project demonstrates the Dynamic Sharding Pattern by fetching biographies o
 5. **Concurrent Item Processing**:
    - Within each shard processing agent:
      - Each item (celebrity name) is processed concurrently using asynchronous tasks.
-     - For example, fetching the biography of each celebrity using web search.
+     - For example, fetching the biography of each celebrity using our previously created web access pipeline (**Pattern 2**).
 
 6. **Result Collection**:
    - Shard processing agents collect the results of processing each item in their shard.
