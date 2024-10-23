@@ -2,9 +2,10 @@
 
 ## Overview
 
-The Dynamic Decomposition is an advanced design pattern where a Coordinator Agent autonomously decomposes a complex task into multiple subtasks without predefined structures. The coordinator uses an LLM to generate subtasks, which are then processed by separate Sub-Task Agents in parallel. After all subtasks are completed, the coordinator gathers and combines the results to produce a structured summary.
+The Dynamic Decomposition is an advanced design pattern where a Coordinator Agent autonomously decomposes a complex task into multiple subtasks without predefined structures. The coordinator uses a Large Language Model (LLM) to generate subtasks, which are then processed by separate Sub-Task Agents in parallel. After all subtasks are completed, the coordinator gathers and combines the results to produce a structured summary.
 This is a natural variant of the previous pattern 6 task decomposition what we covered where the subtasks were handed to the coordinator agent by human user. This is an effective pattern when the given task in hand is not clearly defined out (can be strictly broken into a list of subtasks in the right order).
-Let's say we don't have this information in hand or maybe the number of subtasks and the order of execution is long - we can let the coordinator handle this and spawn and delegate subtasks accordingly. This also ties back to the previous article on designing a ReAct agent from scratch where we saw how to design agents that can handle breaking a main task into subtasks and execute them successfully.
+
+Let's say we don't have this information in hand or maybe the number of subtasks and the order of execution is long - we can let the coordinator handle this and spawn and delegate subtasks accordingly. This also ties back to the previous article on designing a ReAct agent from scratch (https://medium.com/google-cloud/building-react-agents-from-scratch-a-hands-on-guide-using-gemini-ffe4621d90ae) where we saw how to design agents that can handle breaking a main task into subtasks and execute them successfully.
 
 <p align="center">
     <img src="../../../img/framework/dynamic_decomposition.png" alt="Dynamic Decomposition" width="800"/>
