@@ -2,9 +2,13 @@
 
 ## Overview
 
-The **Semantic Routing** pattern implements an agentic workflow for intelligently routing user queries to specialized agents based on semantic intent. This pattern uses a coordinator-delegate architecture where a main TravelPlannerAgent determines the user's intent and routes requests to specialized sub-agents for specific travel-related tasks like flight booking, hotel searches, and car rentals.
+The **Semantic Routing** pattern implements an intelligent workflow for directing user queries to specialized agents based on intent analysis. At its core, this pattern employs a coordinator-delegate architecture, where a primary TravelPlannerAgent acts as the central orchestrator.
 
-The pattern leverages language models for intent detection and query processing, ensuring that each request is handled by the most appropriate specialized agent.
+The key idea lies in how the coordinator leverages LLMs (Gemini Pro as per this example) to derive user intent and make precise routing decisions. Rather than activating multiple sub-agents, the coordinator selects and fires only the most appropriate specialized agent for each task. In the travel domain, these specialized agents handle specific functions like flight booking, hotel searches, and car rentals.
+
+The routing agent performs two crucial functions: First, it conducts intent classification to determine the nature of the user's request. Then, after the selected sub-agent completes its task, the routing agent consolidates the output into a coherent final response. Both the coordinator and the specialized sub-agents are powered by Gemini Pro, ensuring consistent natural language understanding and generation throughout the workflow.
+
+This architecture ensures that each user request is handled with precision by the most qualified specialized agent, creating an efficient and focused processing pipeline. Instead of engaging multiple agents simultaneously, the system maintains simplicity and efficiency by activating only the most relevant agent for each specific task.
 
 <p align="center">
     <img src="../../../img/framework/semantic_router.png" alt="Semantic Router" width="1000"/>
