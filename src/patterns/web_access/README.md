@@ -2,10 +2,6 @@
 
 ## Overview
 
-# Pattern 2 - Web Access 
-
-## Overview
-
 The **Web Access** pattern implements an agentic workflow for retrieving, processing, and summarizing web content. This pattern establishes a serial pipeline where scrape depends on the output of search and summarize depends on the output of scrape. The pattern orchestrates three specialized agents (one per step) that handle different aspects of web content acquisition and processing through search, scrape, and summarize operations, passing the query along for every step. It leverages Gemini Flash with Function Calling for search, and Gemini is also used to clean up the scraped HTML content from the scraped webpages and finally to coalesce a summary - so used at all 3 steps. The pattern leverages the SERP API for web searches and language models for generating queries and summaries. You can change model to any model of your choice - Gemini Pro 1.5 and Flash are supported with the modules currently.
 
 <p align="center">
