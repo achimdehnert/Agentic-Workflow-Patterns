@@ -58,9 +58,10 @@ The **Web Access** pattern implements an agentic workflow for retrieving, proces
    - Final summary is saved and returned
    - Pipeline completes execution
 
-The entire process can be executed with a single function call:
+Effectively, this pattern shows tool use by agents - later other patterns can leverage this pipeline for web access. The entire process can be executed with a single function call:
 ```python
 from src.patterns.web_access.pipeline import run
 
+# Executes the complete pipeline: search -> scrape -> summarize
 summary = run("search query", model_name="gemini-1.5-flash-001")
 ```
