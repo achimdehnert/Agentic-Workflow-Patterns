@@ -45,7 +45,7 @@ class FlightSearchAgent(Agent):
                 )
 
             web_search_query: Optional[str] = out_dict.get('web_search_query')
-            save_response('./data/patterns/semantic_router/output', 'delegate', 'flight_search', web_search_query, 'json')
+            save_response('./data/patterns/semantic_router/output', 'delegate', 'flight_search', out_dict, 'json')
             if not web_search_query:
                 logger.warning("Web search query missing from the response.")
                 return Message(
