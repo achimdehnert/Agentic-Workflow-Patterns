@@ -127,44 +127,44 @@ def ensure_directory_exists(path: str) -> None:
 
 
 def save_response(base_dir: str, category: str, response_type: str, content: Union[dict, list, str], file_type: str) -> None:
-    """
-    Save responses as JSON or text files.
-
-    :param base_dir: The base directory where responses will be saved.
-    :param category: Either 'coordinator' or 'delegate'.
-    :param response_type: The type of response (e.g., 'route', 'consolidate', or delegate name).
-    :param content: The response content to save, either JSON serializable (dict or list) or text (str).
-    :param file_type: The type of file to save ('json' or 'txt').
-    """
-    try:
-        if category not in ['coordinator', 'delegate']:
-            logger.error(f"Invalid category provided: {category}")
-            raise ValueError("Invalid category. Must be 'coordinator' or 'delegate'")
-        if file_type not in ['json', 'txt']:
-            logger.error(f"Invalid file_type provided: {file_type}")
-            raise ValueError("Invalid file_type. Must be 'json' or 'txt'")
-        
-        # Construct directory path
-        dir_path = os.path.join(base_dir, category, response_type if category == 'coordinator' else "")
-        ensure_directory_exists(dir_path)
-
-        # Generate filename and file path
-        filename = generate_filename(response_type, file_type)
-        file_path = os.path.join(dir_path, filename)
-
-        # Save content based on file type
-        if file_type == 'json':
-            with open(file_path, 'w') as f:
-                json.dump(content, f, indent=2)
-        elif file_type == 'txt':
-            with open(file_path, 'w') as f:
-                f.write(content)
-        
-        logger.info(f"Saved {category} {response_type} response as {file_type.upper()} to {file_path}")
-
-    except (OSError, ValueError, TypeError) as e:
-        logger.error(f"Failed to save response: {str(e)}")
-        raise
+   """
+   Save responses as JSON or text files.
+   
+   :param base_dir: The base directory where responses will be saved.
+   :param category: Either 'coordinator' or 'delegate'.
+   :param response_type: The type of response (e.g., 'route', 'consolidate', or delegate name).
+   :param content: The response content to save, either JSON serializable (dict or list) or text (str).
+   :param file_type: The type of file to save ('json' or 'txt').
+   """
+   try:
+       if category not in ['coordinator', 'delegate']:
+           logger.error(f"Invalid category provided: {category}")
+           raise ValueError("Invalid category. Must be 'coordinator' or 'delegate'")
+       if file_type not in ['json', 'txt']:
+           logger.error(f"Invalid file_type provided: {file_type}")
+           raise ValueError("Invalid file_type. Must be 'json' or 'txt'")
+       
+       # Construct directory path with subfolder for both categories
+       dir_path = os.path.join(base_dir, category, response_type)
+       ensure_directory_exists(dir_path)
+       
+       # Generate simple filename
+       filename = f"{response_type}.{file_type}"
+       file_path = os.path.join(dir_path, filename)
+       
+       # Save content based on file type
+       if file_type == 'json':
+           with open(file_path, 'w') as f:
+               json.dump(content, f, indent=2)
+       elif file_type == 'txt':
+           with open(file_path, 'w') as f:
+               f.write(content)
+       
+       logger.info(f"Saved {category} {response_type} response as {file_type.upper()} to {file_path}")
+   
+   except (OSError, ValueError, TypeError) as e:
+       logger.error(f"Failed to save response: {str(e)}")
+       raise
 
 
 def extract_json_from_response(response_text: str) -> Optional[Dict[str, Any]]:
