@@ -27,9 +27,9 @@ The Critic provides feedback and analysis:
 - Revises its reviews based on the evolution of content
 - Maintains version history of reviews
 
-### Runner (Pipeline)
+### Pipeline
 
-The Runner orchestrates the entire workflow:
+The Pipeline (Runner) orchestrates the entire workflow:
 - Manages the interaction between Actor and Critic
 - Maintains state across multiple revision cycles
 - Coordinates the generation-review-revision loop
