@@ -2,8 +2,9 @@ from src.patterns.semantic_router.agent import Agent
 from src.commons.message import Message
 from src.utils.io import save_response
 from src.config.logging import logger
+from typing import Optional
+from typing import List
 from enum import Enum
-from typing import Optional, List
 
 
 class Intent(Enum):
@@ -50,7 +51,7 @@ class TravelPlannerAgent(Agent):
             logger.info(f"Generating response to determine intent for query: '{query}'")
             response = self.response_generator.generate_response('gemini-1.5-flash-001', system_instructions, contents, response_schema)
             out_dict = eval(response.text.strip())  # Ensure safe eval usage
-            save_response('./data/patterns/coordinator_delegate/output', 'coordinator', 'route', out_dict, 'json')
+            save_response('./data/patterns/semantic_router/output', 'coordinator', 'route', out_dict, 'json')
             intent_str = out_dict.get('intent', 'UNKNOWN').upper()
             logger.info(f"Determined intent: {intent_str}")
             return Intent[intent_str]
@@ -121,7 +122,7 @@ class TravelPlannerAgent(Agent):
             logger.info("Generating final response for the user.")
             final_response = self.response_generator.generate_response('gemini-1.5-flash-001', system_instructions, contents)
             final_response_text = final_response.text.strip()
-            save_response('./data/patterns/coordinator_delegate/output', 'coordinator', 'consolidate', final_response_text, 'txt')
+            save_response('./data/patterns/semantic_router/output', 'coordinator', 'consolidate', final_response_text, 'txt')
             return Message(content=final_response_text, sender=self.name, recipient="User")
 
         except ValueError as e:

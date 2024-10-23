@@ -1,6 +1,7 @@
 from src.patterns.web_access.pipeline import run as web_search
 from src.patterns.semantic_router.agent import Agent
 from src.commons.message import Message
+from src.utils.io import save_response
 from src.config.logging import logger
 from typing import Optional
 import json
@@ -44,6 +45,7 @@ class FlightSearchAgent(Agent):
                 )
 
             web_search_query: Optional[str] = out_dict.get('web_search_query')
+            save_response('./data/patterns/semantic_router/output', 'delegate', 'flight_search', web_search_query, 'json')
             if not web_search_query:
                 logger.warning("Web search query missing from the response.")
                 return Message(
@@ -54,6 +56,7 @@ class FlightSearchAgent(Agent):
 
             logger.info(f"Running web search for query: '{web_search_query}'")
             web_search_results_summary = web_search(web_search_query)
+            save_response('./data/patterns/semantic_router/output', 'delegate', 'flight_search', web_search_results_summary, 'txt')
             return Message(content=web_search_results_summary, sender=self.name, recipient="TravelPlannerAgent")
 
         except Exception as e:
