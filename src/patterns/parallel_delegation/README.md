@@ -2,9 +2,7 @@
 
 ## Overview
 
-The **Parallel Delegation** pattern implements an agentic workflow that processes complex queries by first identifying distinct entities through Named Entity Recognition (NER), then delegating these entities to specialized agents for parallel processing. This pattern is particularly effective for scenarios where multiple independent sub-tasks can be executed concurrently, such as travel planning where flight, hotel, and car rental searches can be performed simultaneously.
-
-The pattern leverages asynchronous processing and parallel execution to optimize performance while maintaining a coordinated workflow through a central coordinator agent.
+The **Parallel Delegation** pattern implements an agentic workflow that processes complex queries by first identifying distinct entities through Named Entity Recognition (NER), then delegating these entities to specialized agents for parallel processing. This pattern is particularly effective for scenarios where multiple independent sub-tasks can be executed concurrently, such as travel planning where flight, hotel, and car rental searches can be performed simultaneously. This is a natural variant of Pattern 3, where we reuse the same use case except the functionality of the coordinator is different - instead of routing based on identified intent, the identified pieces of information after initial query analysis are directly passed on to all subagents that the coordinator controls directly. Similar to Pattern 3, all subagents use the web access pipeline covered in Pattern 2. The pattern leverages asynchronous processing and parallel execution to optimize performance while maintaining a coordinated workflow through a central coordinator agent.
 
 <p align="center">
     <img src="../../../img/framework/parallel_delegation.png" alt="Parallel Delegation" width="800"/>
@@ -38,6 +36,8 @@ The pattern leverages asynchronous processing and parallel execution to optimize
   - Manages car rental entities asynchronously
   - Processes vehicle rental requests
   - Returns car rental options independently
+  
+
 
 ### Asynchronous Pipeline
 - Orchestrates the parallel workflow
