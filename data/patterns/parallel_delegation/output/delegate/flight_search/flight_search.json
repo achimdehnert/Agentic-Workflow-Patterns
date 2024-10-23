@@ -1,0 +1,4 @@
+{
+  "user_query": "FLIGHT: {'destination': 'Dallas', 'origin': 'New York'}",
+  "web_search_query": "Flights from New York to Dallas"
+}

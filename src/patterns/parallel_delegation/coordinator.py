@@ -1,5 +1,6 @@
 from src.patterns.parallel_delegation.agent import Agent
 from src.commons.message import Message
+from src.utils.io import save_response
 from src.config.logging import logger
 from typing import List
 from typing import Dict 
@@ -53,7 +54,7 @@ class TravelPlannerAgent(Agent):
 
             entities = eval(response.text.strip())  # Caution: Ensure safe eval usage
             entities = entities['entities']
-
+            save_response('./data/patterns/parallel_delegation/output', 'coordinator', 'ner', entities, 'json')
             return {EntityType[k.upper()]: v for k, v in entities.items() if v}
         except Exception as e:
             logger.error(f"Error during NER: {e}")
@@ -109,7 +110,9 @@ class TravelPlannerAgent(Agent):
             system_instructions,
             contents
         )
-        return final_response.text.strip()
+        summary = final_response.text.strip()
+        save_response('./data/patterns/parallel_delegation/output', 'coordinator', 'consolidate', summary, 'txt')
+        return summary
 
     async def process(self, message: Message) -> Message:
         """

@@ -1,6 +1,7 @@
 from src.patterns.parallel_delegation.agent import Agent
 from src.patterns.web_access.pipeline import run
 from src.commons.message import Message
+from src.utils.io import save_response
 from src.config.logging import logger
 from typing import Dict
 from typing import Any 
@@ -54,6 +55,7 @@ class CarRentalSearchAgent(Agent):
             
             # Parse the response for a web search query
             out_dict: Dict[str, Any] = json.loads(response.text.strip())
+            save_response('./data/patterns/parallel_delegation/output', 'delegate', 'car_rental_search', out_dict, 'json')
             web_search_query: str = out_dict.get('web_search_query', '')
             if not web_search_query:
                 raise ValueError("Web search query missing from the response.")
@@ -61,6 +63,7 @@ class CarRentalSearchAgent(Agent):
             # Run the web search based on the extracted query
             logger.info(f"Running web search for query: {web_search_query}")
             web_search_results_summary: str = await asyncio.to_thread(run, web_search_query)
+            save_response('./data/patterns/parallel_delegation/output', 'delegate', 'car_rental_search', web_search_results_summary, 'txt')
             return Message(
                 content=web_search_results_summary,
                 sender=self.name, 

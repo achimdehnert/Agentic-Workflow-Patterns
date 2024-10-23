@@ -1,0 +1,14 @@
+{
+  "CAR_RENTAL": {
+    "date": "next week",
+    "pickup_location": "Dallas"
+  },
+  "FLIGHT": {
+    "destination": "Dallas",
+    "origin": "New York"
+  },
+  "HOTEL": {
+    "date": "next week",
+    "destination": "downtown Dallas"
+  }
+}
