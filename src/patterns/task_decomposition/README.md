@@ -36,7 +36,6 @@ This pattern is beneficial for enhancing efficiency and scalability, especially 
 4. The coordinator creates tasks for all SubTaskAgents to process their subtasks concurrently.
 5. Each SubTaskAgent:
    - Extracts the document and task from the received message.
-   - Prepares the input for the Language Model (LLM).
    - Calls the LLM to process the subtask.
    - Returns the extraction result as a message.
 6. The coordinator waits for all SubTaskAgents to complete their tasks.
