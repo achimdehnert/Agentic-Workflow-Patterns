@@ -2,11 +2,9 @@
 
 ## Overview
 
-The **Reflection** pattern implements an iterative content generation and refinement system using an Actor-Critic framework. This pattern enables self-improving content generation through continuous feedback loops between an Actor (content generator) and a Critic (content reviewer).
+The **Reflection** pattern implements an iterative content generation and refinement system using an Actor-Critic framework. This pattern enables self-improving content generation through continuous feedback loops between an Actor (content generator) and a Critic (content reviewer).  The pattern follows an iterative workflow where the Actor generates content (which can include text, code, or any LLM output), the Critic reviews it, and then both components revise their work based on the accumulated state history. This process continues for a specified number of cycles, leading to progressively refined content.
 
-The pattern follows an iterative workflow where the Actor generates content (which can include text, code, or any LLM output), the Critic reviews it, and then both components revise their work based on the accumulated state history. This process continues for a specified number of cycles, leading to progressively refined content.
-
-**Side Note:** Reflection can also be implemented in a single-agent setting. However, the example covered here is a multi-agent setup involving two LLMs: the Actor, an agent that generates the content using Gemini 1.5 Flash, and the Critic, a larger and more capable model that reviews the content and provides feedback using Gemini 1.5 Pro.
+**Side Note:** While Reflection can also be implemented in a single-agent setting (as we covered more extensively in our [Medium article on architectural patterns for Text-to-SQL generation](https://medium.com/google-cloud/architectural-patterns-for-text-to-sql-leveraging-llms-for-enhanced-bigquery-interactions-59756a749e15)), this repository focuses on a multi-agent setup involving two LLMs: the Actor, an agent that generates the content using Gemini 1.5 Flash, and the Critic, a larger and more capable model that reviews the content and provides feedback using Gemini 1.5 Pro.
 
 <p align="center">
     <img src="../../../img/framework/reflection.png" alt="Reflection" width="475"/>
