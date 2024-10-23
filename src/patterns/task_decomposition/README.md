@@ -26,14 +26,6 @@ This pattern is beneficial for enhancing efficiency and scalability, especially 
 - Processes the subtask independently
 - Returns the result to the coordinator
 
-### Agent Base Class
-
-- Provides a common interface for all agents
-
-### Message Class
-
-- Represents messages exchanged between agents
-
 ## Process Flow
 
 1. The CoordinatorAgent receives an input message containing the document content.
