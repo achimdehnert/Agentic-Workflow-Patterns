@@ -50,6 +50,8 @@ class Coordinator(Agent):
             shards = [entities[i:i + shard_size] for i in range(0, len(entities), shard_size)]
             logger.info(f"Sharded list into {len(shards)} shards.")
 
+            # Note: You could also incorporate pre-processing logic here that uses Gemini or any LLM as a coordinating task. 
+
             # Create sub-agents dynamically and process shards in parallel
             tasks = []
             for idx, shard in enumerate(shards):
@@ -63,6 +65,9 @@ class Coordinator(Agent):
 
             # Consolidate the results
             entity_info = [response.content for response in sub_responses if response.content]
+
+            # Note: The coordinator doesn't use an LLM to post-process or consolidate responses from sub-agents (delegates). However, this feature could be implemented if desired.
+
             final_response = "\n\n".join(entity_info)
 
             return Message(content=final_response, sender=self.name, recipient=message.sender)

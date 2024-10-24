@@ -62,7 +62,7 @@ class Pipeline:
         """
         try:
             # logger.info(f"Starting pipeline execution for query: '{query}' with model: '{model_name}' and location: '{location}'.")
-            # self._flush_output_folders()
+            self._flush_output_folders()
 
             logger.info("Executing search task.")
             self._search_task.run(model_name, query, location)
