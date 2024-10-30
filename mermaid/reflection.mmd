@@ -19,9 +19,9 @@ flowchart TB
     classDef llm fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px,rx:5,ry:5;
 
     LLM["🧠 Large Language Model"]:::llm
-    A["👤 Actor Agent"]:::actor
-    C["🔍 Critic Agent"]:::critic
-    G["📝 Generate<br>Response"]:::process
+    A["👤 Akteur Agent"]:::actor
+    C["🔍 Kritiker Agent"]:::critic
+    G["📝 Erstelle<br>Response"]:::process
     R["📊 Review<br>Response"]:::process
     F["💬 Provide<br>Feedback"]:::process
     I["🔄 Improve<br>Response"]:::process
@@ -30,13 +30,13 @@ flowchart TB
     A -->|1| G -->|2| R -->|3| C
     C -->|4| F -->|5| I -->|6| A
 
-    subgraph Actor ["Actor Cycle"]
+    subgraph Actor ["Akteur Zyklus"]
         A
         G
         I
     end
 
-    subgraph Critic ["Critic Cycle"]
+    subgraph Kritiker ["Kritiker Zyklus"]
         C
         R
         F
