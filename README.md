@@ -1,4 +1,4 @@
-# Agentic Workflow Patterns 🤖
+# My Agentic Workflow Patterns 🤖
 
 *Agentic Workflow Patterns* is a repository showcasing best practices and design patterns for building multi-agent and agentic workflows in Python. This repository emphasizes modular, scalable, and reusable design techniques, aiming to facilitate intelligent automation and robust workflow management through both single-agent and collaborative multi-agent architectures. This repository is accompanied by a Medium article that deep dives into the patterns in depth more: [Designing Cognitive Architectures: Agentic Workflow Patterns from Scratch](https://medium.com/google-cloud/designing-cognitive-architectures-agentic-workflow-patterns-from-scratch-63baa74c54bc)
 
